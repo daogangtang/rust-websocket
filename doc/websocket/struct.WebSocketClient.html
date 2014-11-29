@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='handshake/index.html'>handshake</a><a class='mod ' href='headers/index.html'>headers</a><a class='mod ' href='message/index.html'>message</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.WebSocketAcceptor.html'>WebSocketAcceptor</a><a class='struct current' href='struct.WebSocketClient.html'>WebSocketClient</a><a class='struct ' href='struct.WebSocketServer.html'>WebSocketServer</a></div>
+        <p class='location'><a href='index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='handshake/index.html'>handshake</a><a class='mod ' href='headers/index.html'>headers</a><a class='mod ' href='message/index.html'>message</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.WebSocketClient.html'>WebSocketClient</a></div>
     </section>
 
     <nav class="sub">
@@ -44,10 +44,33 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>websocket</a>::<wbr><a class='struct' href=''>WebSocketClient</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-9807' href='../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/client.rs.html#12-17'>[src]</a></span></h1>
+        </span><a id='src-9651' href='../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/client.rs.html#35-38'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketClient {
     // some fields omitted
-}</pre><div class='docblock'><p>Represents a WebSocket client.</p>
+}</pre><div class='docblock'><p>Represents a WebSocket client.
+To use WebSocketClient, you must create one using either WebSocketClient::connect(),
+which is used for writing clients, or WebSocketClient::from_stream(), which creates
+a WebSocketClient from a TcpStream (typically used in a server).</p>
+
+<p>An example client application:</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketClient</span>;
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketRequest</span>;
+ 
+<span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>WebSocketRequest</span>::<span class='ident'>new</span>(<span class='string'>&quot;ws://127.0.0.1:1234&quot;</span>, <span class='string'>&quot;myProtocol&quot;</span>);
+<span class='kw'>let</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>connect</span>(<span class='ident'>request</span>);
+<span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>receive_handshake_response</span>().<span class='ident'>unwrap</span>();
+ 
+<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>response</span>.<span class='ident'>is_successful</span> {
+    <span class='comment'>// Handshake failed!</span>
+}
+ 
+<span class='comment'>//Now we can send and receive messages</span>
+<span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receiver</span>();
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>sender</span>();
+ 
+<span class='comment'>// ...</span>
+</pre>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-methods'><h4 id='method.connect' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>(request: <a class='struct' href='../websocket/handshake/struct.WebSocketRequest.html' title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a>&gt;</code></h4>
 <div class='docblock'><p>Connect to the WebSocket server using the given request. Use WebSocketRequest::new() to create a request for use
 with this function.</p>
@@ -55,11 +78,13 @@ with this function.</p>
 <div class='docblock'><p>Creates a new WebSocketClient from a given TcpStream.
 The mask parameter determines whether or not messages send to the remote endpoint will be masked.
 If the client is connecting to a remote endpoint, set mask to true. If the client is the remote
-endpoint (and therefore, the server is the local endpoint), set mask to false.
-Typically, WebSocketClient::create() will be used instead of this function.</p>
+endpoint (and therefore, the server is the local endpoint), set mask to false.</p>
 </div><h4 id='method.receive_handshake_request' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.receive_handshake_request' class='fnname'>receive_handshake_request</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/handshake/struct.WebSocketRequest.html' title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a>&gt;</code></h4>
 <div class='docblock'><p>Reads a request from this client. Only to be used if the server is the local endpoint and
 the client is the remote endpoint.</p>
+</div><h4 id='method.receive_handshake_response' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.receive_handshake_response' class='fnname'>receive_handshake_response</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a>&gt;</code></h4>
+<div class='docblock'><p>Reads a response that was sent to this client. Only to be used if the server is the remote
+endpoint and the client is the local endpoint.</p>
 </div><h4 id='method.send_handshake_response' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.send_handshake_response' class='fnname'>send_handshake_response</a>(&amp;mut self, response: <a class='struct' href='../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
 <div class='docblock'><p>Sends the specified WebSocketResponse to this client. Only to be used if the server is
 the local endpoint and the client is the remote endpoint.</p>
@@ -76,11 +101,13 @@ with this function.</p>
 <div class='docblock'><p>Creates a new WebSocketClient from a given TcpStream.
 The mask parameter determines whether or not messages send to the remote endpoint will be masked.
 If the client is connecting to a remote endpoint, set mask to true. If the client is the remote
-endpoint (and therefore, the server is the local endpoint), set mask to false.
-Typically, WebSocketClient::create() will be used instead of this function.</p>
+endpoint (and therefore, the server is the local endpoint), set mask to false.</p>
 </div><h4 id='method.receive_handshake_request' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.receive_handshake_request' class='fnname'>receive_handshake_request</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/handshake/struct.WebSocketRequest.html' title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a>&gt;</code></h4>
 <div class='docblock'><p>Reads a request from this client. Only to be used if the server is the local endpoint and
 the client is the remote endpoint.</p>
+</div><h4 id='method.receive_handshake_response' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.receive_handshake_response' class='fnname'>receive_handshake_response</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a>&gt;</code></h4>
+<div class='docblock'><p>Reads a response that was sent to this client. Only to be used if the server is the remote
+endpoint and the client is the local endpoint.</p>
 </div><h4 id='method.send_handshake_response' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.send_handshake_response' class='fnname'>send_handshake_response</a>(&amp;mut self, response: <a class='struct' href='../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
 <div class='docblock'><p>Sends the specified WebSocketResponse to this client. Only to be used if the server is
 the local endpoint and the client is the remote endpoint.</p>

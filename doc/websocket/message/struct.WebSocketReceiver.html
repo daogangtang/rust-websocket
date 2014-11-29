@@ -44,10 +44,40 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>message</a>::<wbr><a class='struct' href=''>WebSocketReceiver</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1473' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/receive.rs.html#11-15'>[src]</a></span></h1>
+        </span><a id='src-1469' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/receive.rs.html#42-46'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketReceiver {
     // some fields omitted
-}</pre><div class='docblock'><p>Represents a WebSocket receiver which can receive data from the remote endpoint.</p>
+}</pre><div class='docblock'><p>Represents a WebSocket receiver which can receive data from the remote endpoint.
+All methods are task blocking (but not stream blocking, so you can send and receive concurrently).
+A WebSocketReceiver can be captured into another task for concurrency</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketMessage</span>;
+ 
+<span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receiver</span>();
+ 
+<span class='ident'>spawn</span>(<span class='kw'>proc</span>() {
+    <span class='comment'>// Will continuously try to receive messages</span>
+    <span class='kw'>for</span> <span class='ident'>message</span> <span class='kw'>in</span> <span class='ident'>receiver</span>.<span class='ident'>incoming</span>() {
+        <span class='kw'>match</span> <span class='ident'>message</span> {
+            <span class='comment'>//Match the result</span>
+            <span class='prelude-val'>Ok</span>(<span class='ident'>message</span>) <span class='op'>=&gt;</span> {
+                <span class='comment'>// Match the type of message</span>
+                <span class='kw'>match</span> <span class='ident'>message</span> {
+                    <span class='ident'>WebSocketMessage</span>::<span class='ident'>Text</span>(<span class='ident'>data</span>) <span class='op'>=&gt;</span> {
+                        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>data</span>);
+                    }
+                    <span class='ident'>WebSocketMessage</span>::<span class='ident'>Binary</span>(<span class='ident'>data</span>) <span class='op'>=&gt;</span> {
+                        <span class='comment'>// ...</span>
+                    }
+                    <span class='comment'>// ...</span>
+                    _ <span class='op'>=&gt;</span> { }
+                }
+            }
+            <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> { <span class='comment'>/* Could not receive the message */</span> }
+        }
+    }
+});
+</pre>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../websocket/message/struct.WebSocketReceiver.html' title='websocket::message::WebSocketReceiver'>WebSocketReceiver</a></code></h3><div class='impl-methods'><h4 id='method.receive_message' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.receive_message' class='fnname'>receive_message</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='enum' href='../../websocket/message/enum.WebSocketMessage.html' title='websocket::message::WebSocketMessage'>WebSocketMessage</a>&gt;</code></h4>
 <div class='docblock'><p>Wait for and accept a message (subjected to the underlying stream timeout).
 If the received message is fragmented, this function will not return

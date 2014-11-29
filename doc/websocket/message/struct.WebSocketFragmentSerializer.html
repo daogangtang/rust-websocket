@@ -44,10 +44,34 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>message</a>::<wbr><a class='struct' href=''>WebSocketFragmentSerializer</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1235' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/send.rs.html#66-69'>[src]</a></span></h1>
+        </span><a id='src-1231' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/send.rs.html#100-103'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketFragmentSerializer&lt;'a&gt; {
     // some fields omitted
-}</pre><div class='docblock'><p>Allows for the serialization of message fragments, to be sent to the remote endpoint.</p>
+}</pre><div class='docblock'><p>Allows for the serialization of message fragments, to be sent to the remote endpoint.
+```no_run
+ use websocket::WebSocketMessage;</p>
+
+<p>// Get a WebSocketFragmentSerializer
+ let mut fragment = sender.fragment();</p>
+
+<p>let message1 = WebSocketMessage::Text(&quot;This &quot;.to_string());
+ let message2 = WebSocketMessage::Text(&quot;is &quot;.to_string());
+ let message3 = WebSocketMessage::Text(&quot;a &quot;.to_string());
+ let message4 = WebSocketMessage::Text(&quot;fragmented &quot;.to_string());
+ let message5 = WebSocketMessage::Text(&quot;message.&quot;.to_string());</p>
+
+<p>// Send our fragments
+ fragment.send_fragment(&amp;message1);
+ fragment.send_fragment(&amp;message2);
+ fragment.send_fragment(&amp;message3);
+ fragment.send_fragment(&amp;message4);</p>
+
+<p>// Have to tell everyone we&#39;re done
+ fragment.finish(&amp;message1);</p>
+
+<p>// Drop this WebSocketFragmentSerializer
+ drop(fragment);
+```</p>
 </div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;'a&gt; <a class='struct' href='../../websocket/message/struct.WebSocketFragmentSerializer.html' title='websocket::message::WebSocketFragmentSerializer'>WebSocketFragmentSerializer</a>&lt;'a&gt;</code></h3><div class='impl-methods'><h4 id='method.send_fragment' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.send_fragment' class='fnname'>send_fragment</a>(&amp;mut self, message: &amp;<a class='enum' href='../../websocket/message/enum.WebSocketMessage.html' title='websocket::message::WebSocketMessage'>WebSocketMessage</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
 <div class='docblock'><p>Send a fragment of a message - if the message is finished, use the WebSocketFragmentSerializer::finish() function.
 Can only be used with a Text or Binary message.</p>

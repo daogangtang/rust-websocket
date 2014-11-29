@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../handshake/index.html'>handshake</a><a class='mod ' href='../headers/index.html'>headers</a><a class='mod current' href='../message/index.html'>message</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.WebSocketAcceptor.html'>WebSocketAcceptor</a><a class='struct ' href='../struct.WebSocketClient.html'>WebSocketClient</a><a class='struct ' href='../struct.WebSocketServer.html'>WebSocketServer</a></div>
+        <p class='location'><a href='../index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../handshake/index.html'>handshake</a><a class='mod ' href='../headers/index.html'>headers</a><a class='mod current' href='../message/index.html'>message</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.WebSocketClient.html'>WebSocketClient</a></div>
     </section>
 
     <nav class="sub">
@@ -44,28 +44,54 @@
 <h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>websocket</a>::<wbr><a class='mod' href=''>message</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-19' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/lib.rs.html#23-27'>[src]</a></span></h1>
+        </span><a id='src-16' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/lib.rs.html#74-78'>[src]</a></span></h1>
 <div class='docblock'><p>Structs for WebSocket messages and the transmission of messages</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.IncomingMessages.html'
                                title='websocket::message::IncomingMessages'>IncomingMessages</a></td>
-                        <td class='docblock short'><p>An iterator over incoming messages</p>
+                        <td class='docblock short'><p>An iterator over incoming messages. Blocks the task and always returns Some.</p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketFragmentSerializer.html'
                                title='websocket::message::WebSocketFragmentSerializer'>WebSocketFragmentSerializer</a></td>
-                        <td class='docblock short'><p>Allows for the serialization of message fragments, to be sent to the remote endpoint.</p>
+                        <td class='docblock short'><p>Allows for the serialization of message fragments, to be sent to the remote endpoint.
+```no_run
+ use websocket::WebSocketMessage;</p>
+
+<p>// Get a WebSocketFragmentSerializer
+ let mut fragment = sender.fragment();</p>
+
+<p>let message1 = WebSocketMessage::Text(&quot;This &quot;.to_string());
+ let message2 = WebSocketMessage::Text(&quot;is &quot;.to_string());
+ let message3 = WebSocketMessage::Text(&quot;a &quot;.to_string());
+ let message4 = WebSocketMessage::Text(&quot;fragmented &quot;.to_string());
+ let message5 = WebSocketMessage::Text(&quot;message.&quot;.to_string());</p>
+
+<p>// Send our fragments
+ fragment.send_fragment(&amp;message1);
+ fragment.send_fragment(&amp;message2);
+ fragment.send_fragment(&amp;message3);
+ fragment.send_fragment(&amp;message4);</p>
+
+<p>// Have to tell everyone we&#39;re done
+ fragment.finish(&amp;message1);</p>
+
+<p>// Drop this WebSocketFragmentSerializer
+ drop(fragment);
+```</p>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketReceiver.html'
                                title='websocket::message::WebSocketReceiver'>WebSocketReceiver</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket receiver which can receive data from the remote endpoint.</p>
+                        <td class='docblock short'><p>Represents a WebSocket receiver which can receive data from the remote endpoint.
+All methods are task blocking (but not stream blocking, so you can send and receive concurrently).
+A WebSocketReceiver can be captured into another task for concurrency</p>
 </td>
                     </tr>
                 
@@ -73,6 +99,15 @@
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketSender.html'
                                title='websocket::message::WebSocketSender'>WebSocketSender</a></td>
                         <td class='docblock short'><p>Represents a WebSocket sender, capable of transmitting data to the remote endpoint.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketMessage</span>;
+ 
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>sender</span>(); <span class='comment'>// Get a sender</span>
+<span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='string'>&quot;My fancy message&quot;</span>.<span class='ident'>to_string</span>();
+<span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>WebSocketMessage</span>::<span class='ident'>Text</span>(<span class='ident'>data</span>.<span class='ident'>to_string</span>());
+ 
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>sender</span>.<span class='ident'>send_message</span>(<span class='kw-2'>&amp;</span><span class='ident'>message</span>); <span class='comment'>// Send the message</span>
+</pre>
 </td>
                     </tr>
                 </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>

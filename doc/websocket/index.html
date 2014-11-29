@@ -44,8 +44,59 @@
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>websocket</a><wbr></span><span class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-0' href='../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/lib.rs.html#1-30'>[src]</a></span></h1>
-<h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+        </span><a id='src-0' href='../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/lib.rs.html#1-81'>[src]</a></span></h1>
+<div class='docblock'><p>Rust-WebSocket is a WebSocket (RFC6455) library written in Rust.
+Rust-WebSocket attempts to provide a framework for WebSocket connections (both clients and servers).
+The library is currently in an experimental state, but can work as a simple WebSocket server or client,
+with the capability to send and receive fragmented messages.</p>
+
+<p>Rust-WebSocket does not provide a &#39;listener&#39; object, since the WebSocket protocol utilises a TcpStream.
+To implement a WebSocket server, use a normal TcpListener, and the WebSocketClient::from_stream() function
+on an accepted stream. You will then need to read the handshake from the client and send a response.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>TcpListener</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Listener</span>, <span class='ident'>Acceptor</span>};
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketClient</span>;
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>message</span>::{<span class='ident'>WebSocketSender</span>, <span class='ident'>WebSocketMessage</span>};
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketResponse</span>;
+ 
+<span class='kw'>let</span> <span class='ident'>listener</span> <span class='op'>=</span> <span class='ident'>TcpListener</span>::<span class='ident'>bind</span>(<span class='string'>&quot;127.0.0.1:1234&quot;</span>);
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>acceptor</span> <span class='op'>=</span> <span class='ident'>listener</span>.<span class='ident'>listen</span>();
+ 
+<span class='kw'>for</span> <span class='ident'>stream</span> <span class='kw'>in</span> <span class='ident'>acceptor</span>.<span class='ident'>incoming</span>() {
+    <span class='kw'>match</span> <span class='ident'>stream</span> {
+        <span class='prelude-val'>Ok</span>(<span class='ident'>stream</span>) <span class='op'>=&gt;</span> {
+            <span class='comment'>// Spawn a new task for each connection to run in parallel</span>
+            <span class='ident'>spawn</span>(<span class='kw'>proc</span>() {
+                <span class='comment'>// Get a WebSocketClient from this stream</span>
+                <span class='comment'>// The mask argument is false as messages sent by the server are always unmasked</span>
+                <span class='kw'>let</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>from_stream</span>(<span class='ident'>stream</span>, <span class='boolval'>false</span>); 
+                
+                <span class='comment'>// Read the handshake from the client</span>
+                <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receive_handshake_request</span>().<span class='ident'>unwrap</span>();
+                
+                <span class='comment'>//Get the headers we need to respond</span>
+                <span class='kw'>let</span> <span class='ident'>key</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Key&quot;</span>).<span class='ident'>unwrap</span>();
+                <span class='kw'>let</span> <span class='ident'>protocol</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Protocol&quot;</span>);
+                
+                <span class='comment'>//Form a response from the key</span>
+                <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>WebSocketResponse</span>::<span class='ident'>new</span>(<span class='ident'>key</span>.<span class='ident'>as_slice</span>(), <span class='ident'>protocol</span>);
+                
+                <span class='comment'>//Send the response to the client</span>
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>send_handshake_response</span>(<span class='ident'>response</span>);
+                
+                <span class='comment'>//Now we can send and receive messages</span>
+                <span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receiver</span>();
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>sender</span>();
+                
+                <span class='comment'>// ...</span>
+                });
+                }
+        _ <span class='op'>=&gt;</span> { <span class='comment'>/* A connection error occurred */</span> }
+    }
+}
+</pre>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='mod' href='handshake/index.html'
@@ -70,23 +121,12 @@
                 </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketAcceptor.html'
-                               title='websocket::WebSocketAcceptor'>WebSocketAcceptor</a></td>
-                        <td class='docblock short'><p>Represents an Acceptor, capable of accepting WebSocketConnections.</p>
-</td>
-                    </tr>
-                
-                    <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketClient.html'
                                title='websocket::WebSocketClient'>WebSocketClient</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket client.</p>
-</td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketServer.html'
-                               title='websocket::WebSocketServer'>WebSocketServer</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket server</p>
+                        <td class='docblock short'><p>Represents a WebSocket client.
+To use WebSocketClient, you must create one using either WebSocketClient::connect(),
+which is used for writing clients, or WebSocketClient::from_stream(), which creates
+a WebSocketClient from a TcpStream (typically used in a server).</p>
 </td>
                     </tr>
                 </table></section>
