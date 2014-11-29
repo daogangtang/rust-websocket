@@ -58,8 +58,8 @@ a WebSocketClient from a TcpStream (typically used in a server).</p>
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketRequest</span>;
  
 <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>WebSocketRequest</span>::<span class='ident'>new</span>(<span class='string'>&quot;ws://127.0.0.1:1234&quot;</span>, <span class='string'>&quot;myProtocol&quot;</span>);
-<span class='kw'>let</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>connect</span>(<span class='ident'>request</span>);
-<span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>receive_handshake_response</span>().<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>connect</span>(<span class='ident'>request</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receive_handshake_response</span>().<span class='ident'>unwrap</span>();
  
 <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>response</span>.<span class='ident'>is_successful</span> {
     <span class='comment'>// Handshake failed!</span>
