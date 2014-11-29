@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Rust-WebSocket</title>
+		<link rel="stylesheet" href="style.css">
+		<link href="http://fonts.googleapis.com/css?family=Noto+Sans%7CDroid+Sans+Mono" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<header class="centered">
+				<h1 id="title">Rust-WebSocket <span id="version">(0.1.0 experimental)</span></h1>
+				<nav id="navigation">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="doc/websocket">Documentation</a></li>
+					</ul>
+				</nav>
+				<div class="clearfix"></div>
+			</header>
+			<div id="main" class="centered">
+				<div id="bar">
+					<p><strong>Warning:</strong> This project is currently in an experimental state. Its API may change unpredictably and incompatibly.</p>
+				</div>
+				<h2>About Rust-WebSocket</h2>
+				<p>Rust-WebSocket is a WebSocket (<a href="http://datatracker.ietf.org/doc/rfc6455/">RFC6455</a>) library written in Rust.</p>
+				<p>Rust-WebSocket attempts to provide a framework for WebSocket connections (both clients and servers). The library is currently in an experimental state, but can work as a simple WebSocket server or client, with more functionality to come. There is some documentation, but no testing code at the moment, however that is being worked on.</p>
+				<p>The project can be found on <a href="https://www.github.com/cyderize/rust-websocket">GitHub</a> and on <a href="https://crates.io/crates/websocket">crates.io</a>.</p>
+				<h2>Licence</h2>
+				<p>Rust-WebSocket is provided under the <a href="http://opensource.org/licenses/MIT">MIT</a> licence.</p>
+				<h2>Installation</h2>
+				<p>To add a library release version from crates.io to a Cargo project, add this to your Cargo.toml:
+					<pre><code>websocket = "~0.1.0"</code></pre></p>
+				<p>To add the library's Git repository to a Cargo project, add this to your Cargo.toml:
+					<pre><code>[dependencies.websocket]
+
+git = "https://github.com/cyderize/rust-websocket.git"</code></pre></p>
+				<p>And add the line<pre><code>extern crate websocket;</code></pre> to your main.rs or lib.rs.</p>
+				<h2>Documentation</h2>
+				<p>API Documentation for the library can be found <a href="doc/websocket">here</a>. Example usage can be found within the documentation.</p>
+				<p>If you have additional enquiries regarding the library or myself, contact me <a href="mailto:admin@cyderize.org">here</a>.
+			</div>
+			<footer>
+				<div class="centered">
+					<p>&copy; 2014 Cyderize from <a href="http://www.cyderize.org">Cyderize.org</a>.</p>
+					<p>This project is hosted on <a href="https://www.github.com/cyderize/rust-websocket">GitHub</a>. Crate available at <a href="https://crates.io/crates/websocket">crates.io</a>.<br>
+					Fonts <a href="http://www.google.com/fonts/specimen/Noto+Sans">Noto Sans</a> and <a href="http://www.google.com/fonts/specimen/Droid+Sans+Mono">Droid Sans Mono</a> provided by <a href="http://fonts.google.com">Google Fonts</a>.</p>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>
