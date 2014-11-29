@@ -19,8 +19,8 @@ header {
 }
 
 footer {
-	background-color:#DDD;
-	border-top:solid 2px #EEE;
+	background-color:#EEE;
+	border-top:solid 1px #DDD;
 	color:#444;
 	font-size:10pt;
 	position:absolute;
