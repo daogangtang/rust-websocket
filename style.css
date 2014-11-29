@@ -37,6 +37,16 @@ a:hover {
 	color:#0022AA;
 }
 
+.c1 {
+	color:#A71D5D;
+}
+.c2 {
+	color:#DF5000;
+}
+.c3 {
+	color:#795DA3;
+}
+
 #wrapper {
 	min-height:100%;
 	position:relative;
