@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `handshake` mod in crate `websocket`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, handshake">
+    <meta name="description" content="API documentation for the Rust `ParseResult` type in crate `websocket`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ParseResult">
 
-    <title>websocket::handshake - Rust</title>
+    <title>websocket::headers::ParseResult - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod current' href='../handshake/index.html'>handshake</a><a class='mod ' href='../headers/index.html'>headers</a><a class='mod ' href='../message/index.html'>message</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.WebSocketClient.html'>WebSocketClient</a></div>
+        <p class='location'><a href='../index.html'>websocket</a>::<wbr><a href='index.html'>headers</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.HeaderCollection.html'>HeaderCollection</a><a class='struct ' href='struct.Headers.html'>Headers</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='enum.ParseError.html'>ParseError</a></div>
     </section>
 
     <nav class="sub">
@@ -40,29 +40,12 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>websocket</a>::<wbr><a class='mod' href=''>handshake</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content type">
+<h1 class='fqn'><span class='in-band'><a href='../index.html'>websocket</a>::<wbr><a href='index.html'>headers</a>::<wbr><a class='type' href=''>ParseResult</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-15' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/lib.rs.html#71-74'>[src]</a></span></h1>
-<div class='docblock'><p>Structs for WebSocket handshake requests and responses</p>
-</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
-<table>
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketRequest.html'
-                               title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket handshake request, which is sent from the client to the server.
-Use the new() function to create a new request.</p>
-</td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketResponse.html'
-                               title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket response from a server</p>
-</td>
-                    </tr>
-                </table></section>
+        </span></span></h1>
+<pre class='rust typedef'>type ParseResult&lt;T&gt; = <a class='enum' href='http://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;T, <a class='enum' href='../../websocket/headers/enum.ParseError.html' title='websocket::headers::ParseError'>ParseError</a>&gt;;</pre></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

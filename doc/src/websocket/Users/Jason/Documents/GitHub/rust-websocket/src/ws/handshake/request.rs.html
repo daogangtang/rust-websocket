@@ -163,13 +163,33 @@
 <span id='121'>121</span>
 <span id='122'>122</span>
 <span id='123'>123</span>
+<span id='124'>124</span>
+<span id='125'>125</span>
+<span id='126'>126</span>
+<span id='127'>127</span>
+<span id='128'>128</span>
+<span id='129'>129</span>
+<span id='130'>130</span>
+<span id='131'>131</span>
+<span id='132'>132</span>
+<span id='133'>133</span>
+<span id='134'>134</span>
+<span id='135'>135</span>
+<span id='136'>136</span>
+<span id='137'>137</span>
+<span id='138'>138</span>
+<span id='139'>139</span>
+<span id='140'>140</span>
+<span id='141'>141</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>phase</span>(<span class='ident'>plugin</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>regex_macros</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>regex</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>url</span>;
 
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>util</span>::{<span class='ident'>ReadUntilStr</span>, <span class='ident'>HeaderCollection</span>, <span class='ident'>ReadHttpHeaders</span>, <span class='ident'>WriteHttpHeaders</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>check</span>::<span class='ident'>CheckWebSocketHeader</span>;
+<span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Url</span>, <span class='ident'>ParseResult</span>, <span class='ident'>ParseError</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rand</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Reader</span>, <span class='ident'>Writer</span>, <span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
 <span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>base64</span>::{<span class='ident'>ToBase64</span>, <span class='ident'>STANDARD</span>};
@@ -186,19 +206,35 @@
 
 <span class='kw'>impl</span> <span class='ident'>WebSocketRequest</span> {
 	<span class='doccomment'>/// Creates a new WebSocket handshake request for use with WebSocketClient::connect().</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>uri</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>protocol</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketRequest</span> {
-		<span class='comment'>// TODO: Deal with secure WebSocket connections</span>
-		<span class='kw'>let</span> <span class='ident'>re</span> <span class='op'>=</span> <span class='macro'>regex</span><span class='macro'>!</span>(<span class='string'>r&quot;ws://([^:^/]+(?::\d+))?(.*)&quot;</span>);
-		<span class='kw'>let</span> <span class='ident'>captures</span> <span class='op'>=</span> <span class='ident'>re</span>.<span class='ident'>captures</span>(<span class='ident'>uri</span>).<span class='ident'>unwrap</span>();
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>uri</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>protocol</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>ParseResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketRequest</span><span class='op'>&gt;</span> {
+		<span class='kw'>let</span> <span class='ident'>ws_uri</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='ident'>uri</span>) {
+			<span class='prelude-val'>Ok</span>(<span class='ident'>uri</span>) <span class='op'>=&gt;</span> { <span class='ident'>uri</span> }
+			<span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>e</span>); }
+		};
 		
-		<span class='kw'>let</span> <span class='ident'>host</span> <span class='op'>=</span> <span class='ident'>captures</span>.<span class='ident'>at</span>(<span class='number'>1</span>);
-		<span class='kw'>let</span> <span class='ident'>resource_name</span> <span class='op'>=</span>
-			<span class='kw'>if</span> <span class='ident'>captures</span>.<span class='ident'>at</span>(<span class='number'>2</span>) <span class='op'>==</span> <span class='string'>&quot;&quot;</span> {
-				<span class='string'>&quot;/&quot;</span>.<span class='ident'>to_string</span>()
+		<span class='kw'>match</span> <span class='ident'>ws_uri</span>.<span class='ident'>scheme</span>.<span class='ident'>as_slice</span>() {
+			<span class='string'>&quot;ws&quot;</span> <span class='op'>=&gt;</span> {
+				
 			}
-			<span class='kw'>else</span> {
-				<span class='ident'>captures</span>.<span class='ident'>at</span>(<span class='number'>2</span>).<span class='ident'>to_string</span>()
-			};
+			<span class='string'>&quot;wss&quot;</span> <span class='op'>=&gt;</span> {
+				
+			}
+			_ <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseError</span>::<span class='ident'>InvalidScheme</span>); }
+		}
+		
+		<span class='kw'>let</span> <span class='ident'>host</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>ws_uri</span>.<span class='ident'>serialize_host</span>() {
+			<span class='prelude-val'>Some</span>(<span class='ident'>host</span>) <span class='op'>=&gt;</span> {
+				<span class='ident'>host</span>
+			}
+			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseError</span>::<span class='ident'>InvalidCharacter</span>); }
+		};
+
+		<span class='kw'>let</span> <span class='ident'>resource_name</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>ws_uri</span>.<span class='ident'>serialize_path</span>() {
+			<span class='prelude-val'>Some</span>(<span class='ident'>resource_name</span>) <span class='op'>=&gt;</span> {
+				<span class='ident'>resource_name</span>
+			}
+			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseError</span>::<span class='ident'>InvalidCharacter</span>); }
+		};
 		
 		<span class='comment'>//Generate random key</span>
 		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>raw_key</span> <span class='op'>=</span> [<span class='number'>0u8</span>, ..<span class='number'>16</span>];
@@ -218,10 +254,10 @@
 		<span class='ident'>headers</span>.<span class='ident'>insert</span>(<span class='string'>&quot;Sec-WebSocket-Version&quot;</span>, <span class='string'>&quot;13&quot;</span>);
 		<span class='ident'>headers</span>.<span class='ident'>insert</span>(<span class='string'>&quot;Sec-WebSocket-Protocol&quot;</span>, <span class='ident'>protocol</span>);
 		
-		<span class='ident'>WebSocketRequest</span> {
+		<span class='prelude-val'>Ok</span>(<span class='ident'>WebSocketRequest</span> {
 			<span class='ident'>resource_name</span>: <span class='ident'>resource_name</span>,
 			<span class='ident'>headers</span>: <span class='ident'>headers</span>,
-		}
+		})
 	}
 }
 

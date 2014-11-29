@@ -121,6 +121,9 @@
 <span id='79'>79</span>
 <span id='80'>80</span>
 <span id='81'>81</span>
+<span id='82'>82</span>
+<span id='83'>83</span>
+<span id='84'>84</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_name</span> <span class='op'>=</span> <span class='string'>&quot;websocket&quot;</span>]</span>
@@ -180,12 +183,15 @@
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>phase</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>regex</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>url</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ws</span>::<span class='ident'>client</span>::<span class='ident'>WebSocketClient</span>;
 
 <span class='doccomment'>/// Structs for manipulation of HTTP headers</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>headers</span> {
 	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>header</span>::{<span class='ident'>HeaderCollection</span>, <span class='ident'>Headers</span>};
+	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>ParseResult</span>;
+	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>ParseError</span>;
 }
 
 <span class='doccomment'>/// Structs for WebSocket handshake requests and responses</span>
