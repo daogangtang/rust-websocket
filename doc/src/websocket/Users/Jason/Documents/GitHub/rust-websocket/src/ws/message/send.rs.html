@@ -216,6 +216,7 @@
 <span id='174'>174</span>
 <span id='175'>175</span>
 <span id='176'>176</span>
+<span id='177'>177</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>dataframe</span>::{<span class='ident'>WebSocketOpcode</span>, <span class='ident'>WebSocketDataFrame</span>, <span class='ident'>WebSocketDataFrameLength</span>, <span class='ident'>WriteWebSocketDataFrame</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>mask</span>::<span class='ident'>mask_data</span>;
@@ -300,7 +301,8 @@
 }
 
 <span class='doccomment'>/// Allows for the serialization of message fragments, to be sent to the remote endpoint.</span>
-<span class='doccomment'>///```no_run</span>
+<span class='doccomment'>/// </span>
+<span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use websocket::WebSocketMessage;</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// // Get a WebSocketFragmentSerializer</span>
@@ -323,7 +325,7 @@
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// // Drop this WebSocketFragmentSerializer</span>
 <span class='doccomment'>/// drop(fragment);</span>
-<span class='doccomment'>///```</span>
+<span class='doccomment'>/// ```</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketFragmentSerializer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 	<span class='ident'>inc</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>WebSocketSender</span>,
 	<span class='ident'>started</span>: <span class='ident'>bool</span>,

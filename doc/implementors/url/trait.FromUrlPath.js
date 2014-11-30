@@ -1,4 +1,5 @@
 (function() {var implementors = {};
+implementors['url'] = [];
 implementors['websocket'] = [];
 
             if (window.register_implementors) {
