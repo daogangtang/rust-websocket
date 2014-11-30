@@ -144,6 +144,15 @@
 <span id='102'>102</span>
 <span id='103'>103</span>
 <span id='104'>104</span>
+<span id='105'>105</span>
+<span id='106'>106</span>
+<span id='107'>107</span>
+<span id='108'>108</span>
+<span id='109'>109</span>
+<span id='110'>110</span>
+<span id='111'>111</span>
+<span id='112'>112</span>
+<span id='113'>113</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>phase</span>(<span class='ident'>plugin</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>regex_macros</span>;
@@ -151,8 +160,9 @@
 
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>util</span>::{<span class='ident'>sha1</span>, <span class='ident'>ReadUntilStr</span>, <span class='ident'>HeaderCollection</span>, <span class='ident'>ReadHttpHeaders</span>, <span class='ident'>WriteHttpHeaders</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>check</span>::<span class='ident'>CheckWebSocketHeader</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Reader</span>, <span class='ident'>Writer</span>, <span class='ident'>IoResult</span>};
 <span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>base64</span>::{<span class='ident'>ToBase64</span>, <span class='ident'>STANDARD</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Reader</span>, <span class='ident'>Writer</span>, <span class='ident'>IoResult</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>string</span>::<span class='ident'>ToString</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>clone</span>::<span class='ident'>Clone</span>;
 
 <span class='kw'>static</span> <span class='ident'>MAGIC_GUID</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;258EAFA5-E914-47DA-95CA-C5AB0DC85B11&quot;</span>;
@@ -170,9 +180,7 @@
 <span class='kw'>impl</span> <span class='ident'>WebSocketResponse</span> {
 	<span class='doccomment'>/// Create a new WebSocket response based on the base-64 encoded key from a client.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>key</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>protocol</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResponse</span> {
-		<span class='kw'>let</span> <span class='ident'>concat_key</span> <span class='op'>=</span> <span class='ident'>key</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='ident'>MAGIC_GUID</span>.<span class='ident'>to_string</span>();
-		<span class='kw'>let</span> <span class='ident'>digested</span> <span class='op'>=</span> <span class='ident'>sha1</span>(<span class='ident'>concat_key</span>.<span class='ident'>into_bytes</span>().<span class='ident'>as_slice</span>());
-		<span class='kw'>let</span> <span class='ident'>accept</span> <span class='op'>=</span> <span class='ident'>digested</span>.<span class='ident'>to_base64</span>(<span class='ident'>STANDARD</span>);
+		<span class='kw'>let</span> <span class='ident'>accept</span> <span class='op'>=</span> <span class='ident'>WebSocketResponse</span>::<span class='ident'>gen_accept</span>(<span class='ident'>key</span>.<span class='ident'>to_string</span>());
 		
 		<span class='kw'>let</span> <span class='ident'>status_code</span> <span class='op'>=</span> <span class='number'>101</span>;
 		<span class='kw'>let</span> <span class='ident'>reason_phrase</span> <span class='op'>=</span> <span class='string'>&quot;Switching Protocols&quot;</span>.<span class='ident'>to_string</span>();
@@ -194,9 +202,19 @@
 		}
 	}
 	
+	<span class='doccomment'>/// Generates the handshake Sec-WebSocket-Accept value from</span>
+	<span class='doccomment'>/// the given Sec-WebSocket-Key.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>gen_accept</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>ToString</span><span class='op'>&gt;</span>(<span class='ident'>key</span>: <span class='ident'>A</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span> {
+		<span class='kw'>let</span> <span class='ident'>concat_key</span> <span class='op'>=</span> <span class='ident'>key</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='ident'>MAGIC_GUID</span>.<span class='ident'>to_string</span>();
+		<span class='kw'>let</span> <span class='ident'>digested</span> <span class='op'>=</span> <span class='ident'>sha1</span>(<span class='ident'>concat_key</span>.<span class='ident'>into_bytes</span>().<span class='ident'>as_slice</span>());
+		<span class='ident'>digested</span>.<span class='ident'>to_base64</span>(<span class='ident'>STANDARD</span>)
+	}
+	
 	<span class='doccomment'>/// Returns true if this response indicates a successful handshake</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_successful</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
-		<span class='self'>self</span>.<span class='ident'>status_code</span> <span class='op'>==</span> <span class='number'>101</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>check_response</span>()
+	<span class='doccomment'>/// This function will check that the Sec-WebSocket-Accept header of</span>
+	<span class='doccomment'>/// the response matches up with the expected value from the given key.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>is_successful</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>key</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+		<span class='self'>self</span>.<span class='ident'>status_code</span> <span class='op'>==</span> <span class='number'>101</span> <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>check_response</span>() <span class='op'>&amp;&amp;</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Accept&quot;</span>).<span class='ident'>unwrap</span>() <span class='op'>==</span> <span class='ident'>WebSocketResponse</span>::<span class='ident'>gen_accept</span>(<span class='ident'>key</span>.<span class='ident'>to_string</span>())
 	}
 }
 
