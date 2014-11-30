@@ -44,12 +44,16 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>message</a>::<wbr><a class='struct' href=''>WebSocketSender</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1037' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/send.rs.html#19-22'>[src]</a></span></h1>
+        </span><a id='src-1031' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/send.rs.html#30-33'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketSender {
     // some fields omitted
-}</pre><div class='docblock'><p>Represents a WebSocket sender, capable of transmitting data to the remote endpoint.</p>
+}</pre><div class='docblock'><p>Represents a WebSocket sender, capable of transmitting data to the remote endpoint.
+Use the send_message() method to send a single, whole message. If you need to send
+a series of message fragments (e.g. if you need to send a message of unknown length),
+use the fragment() method to obtain a WebSocketFragmentSerializer, which can be
+used to do so.</p>
 <pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketMessage</span>;
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>message</span>::<span class='ident'>WebSocketMessage</span>;
  
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>sender</span>(); <span class='comment'>// Get a sender</span>
 <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='string'>&quot;My fancy message&quot;</span>.<span class='ident'>to_string</span>();

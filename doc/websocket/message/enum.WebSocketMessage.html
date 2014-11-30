@@ -44,19 +44,26 @@
 <h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>message</a>::<wbr><a class='enum' href=''>WebSocketMessage</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1817' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/mod.rs.html#16-27'>[src]</a></span></h1>
+        </span><a id='src-1811' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/mod.rs.html#17-31'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum WebSocketMessage {
     Text(<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>),
     Binary(<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;),
     Close(<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;),
     Ping(<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;),
     Pong(<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;),
-}</pre><div class='docblock'><p>Represents a WebSocket message</p>
+}</pre><div class='docblock'><p>Represents a WebSocket message. When receiving messages, the resulting
+messages are always entire messages (never fragments). You are able to, 
+however, send messages as fragments using a WebSocketFragmentSerializer. 
+These messages will be sent to the remote endpoint and reassembled into
+a single message.</p>
 </div><h2 class='variants'>Variants</h2>
 <table><tr><td id='variant.Text'><a class='stability Unmarked' title='No stability level'></a><code>Text</code></td><td><div class='docblock'><p>A message containing UTF-8 text data</p>
 </div></td></tr><tr><td id='variant.Binary'><a class='stability Unmarked' title='No stability level'></a><code>Binary</code></td><td><div class='docblock'><p>A message containing binary data</p>
-</div></td></tr><tr><td id='variant.Close'><a class='stability Unmarked' title='No stability level'></a><code>Close</code></td><td><div class='docblock'><p>A message which indicates closure of the WebSocket connection</p>
-</div></td></tr><tr><td id='variant.Ping'><a class='stability Unmarked' title='No stability level'></a><code>Ping</code></td><td><div class='docblock'><p>A ping message - should be responded to with a pong message</p>
+</div></td></tr><tr><td id='variant.Close'><a class='stability Unmarked' title='No stability level'></a><code>Close</code></td><td><div class='docblock'><p>A message which indicates closure of the WebSocket connection.
+This message may or may not contain data</p>
+</div></td></tr><tr><td id='variant.Ping'><a class='stability Unmarked' title='No stability level'></a><code>Ping</code></td><td><div class='docblock'><p>A ping message - should be responded to with a pong message.
+Usually the pong message will be sent with the same data as the
+received ping message.</p>
 </div></td></tr><tr><td id='variant.Pong'><a class='stability Unmarked' title='No stability level'></a><code>Pong</code></td><td><div class='docblock'><p>A pong message</p>
 </div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Show.html' title='core::fmt::Show'>Show</a> for <a class='enum' href='../../websocket/message/enum.WebSocketMessage.html' title='websocket::message::WebSocketMessage'>WebSocketMessage</a></code></h3><div class='impl-methods'><h4 id='method.fmt' class='method'><a class='stability Unstable' title='Unstable: I/O and core have yet to be reconciled'></a><code>fn <a href='#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='http://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
 </div></section>

@@ -89,13 +89,14 @@
 <span id='47'>47</span>
 <span id='48'>48</span>
 <span id='49'>49</span>
+<span id='50'>50</span>
+<span id='51'>51</span>
+<span id='52'>52</span>
+<span id='53'>53</span>
 </pre><pre class='rust '>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>util</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>handshake</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>client</span>;
-
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>send</span>::{<span class='ident'>WebSocketSender</span>, <span class='ident'>WebSocketFragmentSerializer</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>receive</span>::{<span class='ident'>WebSocketReceiver</span>, <span class='ident'>IncomingMessages</span>};
 
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::{<span class='ident'>Formatter</span>, <span class='prelude-ty'>Result</span>, <span class='ident'>Show</span>};
 
@@ -104,15 +105,22 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>send</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>receive</span>;
 
-<span class='doccomment'>/// Represents a WebSocket message</span>
+<span class='doccomment'>/// Represents a WebSocket message. When receiving messages, the resulting</span>
+<span class='doccomment'>/// messages are always entire messages (never fragments). You are able to, </span>
+<span class='doccomment'>/// however, send messages as fragments using a WebSocketFragmentSerializer. </span>
+<span class='doccomment'>/// These messages will be sent to the remote endpoint and reassembled into</span>
+<span class='doccomment'>/// a single message.</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>WebSocketMessage</span> {
 	<span class='doccomment'>/// A message containing UTF-8 text data</span>
 	<span class='ident'>Text</span>(<span class='ident'>String</span>),
 	<span class='doccomment'>/// A message containing binary data</span>
 	<span class='ident'>Binary</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
-	<span class='doccomment'>/// A message which indicates closure of the WebSocket connection</span>
+	<span class='doccomment'>/// A message which indicates closure of the WebSocket connection.</span>
+	<span class='doccomment'>/// This message may or may not contain data</span>
 	<span class='ident'>Close</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
-	<span class='doccomment'>/// A ping message - should be responded to with a pong message</span>
+	<span class='doccomment'>/// A ping message - should be responded to with a pong message.</span>
+	<span class='doccomment'>/// Usually the pong message will be sent with the same data as the</span>
+	<span class='doccomment'>/// received ping message.</span>
 	<span class='ident'>Ping</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
 	<span class='doccomment'>/// A pong message</span>
 	<span class='ident'>Pong</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),

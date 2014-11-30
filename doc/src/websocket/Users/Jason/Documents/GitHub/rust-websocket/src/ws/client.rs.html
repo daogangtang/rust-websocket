@@ -152,13 +152,46 @@
 <span id='110'>110</span>
 <span id='111'>111</span>
 <span id='112'>112</span>
+<span id='113'>113</span>
+<span id='114'>114</span>
+<span id='115'>115</span>
+<span id='116'>116</span>
+<span id='117'>117</span>
+<span id='118'>118</span>
+<span id='119'>119</span>
+<span id='120'>120</span>
+<span id='121'>121</span>
+<span id='122'>122</span>
+<span id='123'>123</span>
+<span id='124'>124</span>
+<span id='125'>125</span>
+<span id='126'>126</span>
+<span id='127'>127</span>
+<span id='128'>128</span>
+<span id='129'>129</span>
+<span id='130'>130</span>
+<span id='131'>131</span>
+<span id='132'>132</span>
+<span id='133'>133</span>
+<span id='134'>134</span>
+<span id='135'>135</span>
+<span id='136'>136</span>
+<span id='137'>137</span>
+<span id='138'>138</span>
+<span id='139'>139</span>
+<span id='140'>140</span>
+<span id='141'>141</span>
+<span id='142'>142</span>
+<span id='143'>143</span>
+<span id='144'>144</span>
+<span id='145'>145</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>handshake</span>::<span class='ident'>request</span>::{<span class='ident'>WebSocketRequest</span>, <span class='ident'>ReadWebSocketRequest</span>, <span class='ident'>WriteWebSocketRequest</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>handshake</span>::<span class='ident'>response</span>::{<span class='ident'>WebSocketResponse</span>, <span class='ident'>ReadWebSocketResponse</span>, <span class='ident'>WriteWebSocketResponse</span>};
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>message</span>::<span class='ident'>send</span>::<span class='ident'>new_sender</span>;
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>message</span>::<span class='ident'>receive</span>::<span class='ident'>new_receiver</span>;
-<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>message</span>::{<span class='ident'>WebSocketSender</span>, <span class='ident'>WebSocketReceiver</span>};
+<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>message</span>::<span class='ident'>send</span>::{<span class='ident'>WebSocketSender</span>, <span class='ident'>new_sender</span>};
+<span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>message</span>::<span class='ident'>receive</span>::{<span class='ident'>WebSocketReceiver</span>, <span class='ident'>new_receiver</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>net</span>::<span class='ident'>tcp</span>::<span class='ident'>TcpStream</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>net</span>::<span class='ident'>ip</span>::<span class='ident'>SocketAddr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>clone</span>::<span class='ident'>Clone</span>;
 
@@ -173,8 +206,8 @@
 <span class='doccomment'>/// use websocket::WebSocketClient;</span>
 <span class='doccomment'>/// use websocket::handshake::WebSocketRequest;</span>
 <span class='doccomment'>/// </span>
-<span class='doccomment'>/// let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, &quot;myProtocol&quot;);</span>
-<span class='doccomment'>/// let key = request.headers.get(&quot;Sec-WebSocket-Key&quot;).unwrap();</span>
+<span class='doccomment'>/// let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, &quot;myProtocol&quot;).unwrap();</span>
+<span class='doccomment'>/// let key = request.key().unwrap();</span>
 <span class='doccomment'>/// let mut client = WebSocketClient::connect(&amp;request).unwrap();</span>
 <span class='doccomment'>/// let response = client.receive_handshake_response().unwrap();</span>
 <span class='doccomment'>/// </span>
@@ -226,6 +259,21 @@
 		}
 	}
 	
+	<span class='doccomment'>/// Returns a copy of the underlying TcpStream for this WebSocketClient.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>stream</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>TcpStream</span> {
+		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>clone</span>()
+	}
+	
+	<span class='doccomment'>/// Returns the socket address of the remote peer of this TCP connection.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>peer_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>SocketAddr</span><span class='op'>&gt;</span> {
+		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>peer_name</span>()
+	}
+
+	<span class='doccomment'>/// Returns the socket address of the local half of this TCP connection.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>socket_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>SocketAddr</span><span class='op'>&gt;</span> {
+		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>socket_name</span>()
+	}
+	
 	<span class='doccomment'>/// Reads a request from this client. Only to be used if the server is the local endpoint and</span>
 	<span class='doccomment'>/// the client is the remote endpoint.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>receive_handshake_request</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketRequest</span><span class='op'>&gt;</span> {
@@ -250,10 +298,28 @@
 		<span class='ident'>new_sender</span>(<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>clone</span>(), <span class='self'>self</span>.<span class='ident'>mask</span>)
 	}
 	
+	<span class='doccomment'>/// Closes the sender for this WebSocketClient.</span>
+	<span class='doccomment'>/// This method will close the message sending portion of this client, causing all pending and future sends to immediately return with an error.</span>
+	<span class='doccomment'>/// This affects all WebSocketSenders for the client, and any copies of the underlying stream will be unable to write.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// Note that you should send a WebSocketMessage:Close message to the remote endpoint before calling this method.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>close_send</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>close_write</span>()
+	}
+	
 	<span class='doccomment'>/// Returns a WebSocketReceiver from this client. Used to receive data from the remote endpoint,</span>
 	<span class='doccomment'>/// that is, from the server if WebSocketClient::connect() has been used, or from this client otherwise.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>receiver</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketReceiver</span> {
 		<span class='ident'>new_receiver</span>(<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>clone</span>())
+	}
+	
+	<span class='doccomment'>/// Closes the receiver for this WebSocketClient.</span>
+	<span class='doccomment'>/// This method will close the message receiving portion of this client, causing all pending and future receives to immediately return with an error.</span>
+	<span class='doccomment'>/// This affects all WebSocketReceivers for the client, and any copies of the underlying stream will be unable to read.</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// Note that you should send a WebSocketMessage:Close message to the remote endpoint before calling this method.</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>close_receive</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>close_read</span>()
 	}
 }
 

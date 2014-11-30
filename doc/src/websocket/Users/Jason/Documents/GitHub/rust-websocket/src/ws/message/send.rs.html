@@ -217,6 +217,31 @@
 <span id='175'>175</span>
 <span id='176'>176</span>
 <span id='177'>177</span>
+<span id='178'>178</span>
+<span id='179'>179</span>
+<span id='180'>180</span>
+<span id='181'>181</span>
+<span id='182'>182</span>
+<span id='183'>183</span>
+<span id='184'>184</span>
+<span id='185'>185</span>
+<span id='186'>186</span>
+<span id='187'>187</span>
+<span id='188'>188</span>
+<span id='189'>189</span>
+<span id='190'>190</span>
+<span id='191'>191</span>
+<span id='192'>192</span>
+<span id='193'>193</span>
+<span id='194'>194</span>
+<span id='195'>195</span>
+<span id='196'>196</span>
+<span id='197'>197</span>
+<span id='198'>198</span>
+<span id='199'>199</span>
+<span id='200'>200</span>
+<span id='201'>201</span>
+<span id='202'>202</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>dataframe</span>::{<span class='ident'>WebSocketOpcode</span>, <span class='ident'>WebSocketDataFrame</span>, <span class='ident'>WebSocketDataFrameLength</span>, <span class='ident'>WriteWebSocketDataFrame</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>mask</span>::<span class='ident'>mask_data</span>;
@@ -226,15 +251,26 @@
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rand</span>;
 
 <span class='doccomment'>/// Represents a WebSocket sender, capable of transmitting data to the remote endpoint.</span>
+<span class='doccomment'>/// Use the send_message() method to send a single, whole message. If you need to send</span>
+<span class='doccomment'>/// a series of message fragments (e.g. if you need to send a message of unknown length),</span>
+<span class='doccomment'>/// use the fragment() method to obtain a WebSocketFragmentSerializer, which can be</span>
+<span class='doccomment'>/// used to do so.</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// ```no_run</span>
-<span class='doccomment'>/// use websocket::WebSocketMessage;</span>
+<span class='doccomment'>/// use websocket::message::WebSocketMessage;</span>
+<span class='doccomment'>/// # use websocket::WebSocketClient;</span>
+<span class='doccomment'>/// # use websocket::handshake::WebSocketRequest;</span>
+<span class='doccomment'>/// # #[allow(unused_must_use)]</span>
+<span class='doccomment'>/// # fn foo() {</span>
+<span class='doccomment'>/// # let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, &quot;None&quot;).unwrap();</span>
+<span class='doccomment'>/// # let mut client = WebSocketClient::connect(&amp;request).unwrap();</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// let mut sender = client.sender(); // Get a sender</span>
 <span class='doccomment'>/// let data = &quot;My fancy message&quot;.to_string();</span>
 <span class='doccomment'>/// let message = WebSocketMessage::Text(data.to_string());</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// let _ = sender.send_message(&amp;message); // Send the message</span>
+<span class='doccomment'>/// # }</span>
 <span class='doccomment'>/// ```</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketSender</span> {
 	<span class='ident'>stream</span>: <span class='ident'>TcpStream</span>,
@@ -301,10 +337,21 @@
 }
 
 <span class='doccomment'>/// Allows for the serialization of message fragments, to be sent to the remote endpoint.</span>
+<span class='doccomment'>/// Any number of messages can be sent (but only text or binary messages, as control</span>
+<span class='doccomment'>/// messages can never be fragmented) using the send_fragment() method, and when the final</span>
+<span class='doccomment'>/// fragment is to be sent, use the finish() method. After calling the finish method, the</span>
+<span class='doccomment'>/// remote endpoint will assemble all of the received message fragments into a single</span>
+<span class='doccomment'>/// message containing all of the fragment data concatenated together.</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// ```no_run</span>
-<span class='doccomment'>/// use websocket::WebSocketMessage;</span>
-<span class='doccomment'>/// </span>
+<span class='doccomment'>/// use websocket::message::WebSocketMessage;</span>
+<span class='doccomment'>/// # use websocket::WebSocketClient;</span>
+<span class='doccomment'>/// # use websocket::handshake::WebSocketRequest;</span>
+<span class='doccomment'>/// # #[allow(unused_must_use)]</span>
+<span class='doccomment'>/// # fn foo() {</span>
+<span class='doccomment'>/// # let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, &quot;None&quot;).unwrap();</span>
+<span class='doccomment'>/// # let mut client = WebSocketClient::connect(&amp;request).unwrap();</span>
+<span class='doccomment'>/// # let mut sender = client.sender();</span>
 <span class='doccomment'>/// // Get a WebSocketFragmentSerializer</span>
 <span class='doccomment'>/// let mut fragment = sender.fragment();</span>
 <span class='doccomment'>/// </span>
@@ -315,16 +362,17 @@
 <span class='doccomment'>/// let message5 = WebSocketMessage::Text(&quot;message.&quot;.to_string());</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// // Send our fragments</span>
-<span class='doccomment'>/// fragment.send_fragment(&amp;message1);</span>
+<span class='doccomment'>/// fragment.send_fragment(&amp;message1); // Each one is sent immediately</span>
 <span class='doccomment'>/// fragment.send_fragment(&amp;message2);</span>
 <span class='doccomment'>/// fragment.send_fragment(&amp;message3);</span>
 <span class='doccomment'>/// fragment.send_fragment(&amp;message4);</span>
 <span class='doccomment'>/// </span>
-<span class='doccomment'>/// // Have to tell everyone we&#39;re done</span>
-<span class='doccomment'>/// fragment.finish(&amp;message1);</span>
+<span class='doccomment'>/// // Now tell them we&#39;re done</span>
+<span class='doccomment'>/// fragment.finish(&amp;message1); // Now they&#39;ll assemble the fragments into a single message</span>
 <span class='doccomment'>/// </span>
-<span class='doccomment'>/// // Drop this WebSocketFragmentSerializer</span>
+<span class='doccomment'>/// // Drop this WebSocketFragmentSerializer, or let it go out of scope</span>
 <span class='doccomment'>/// drop(fragment);</span>
+<span class='doccomment'>/// # }</span>
 <span class='doccomment'>/// ```</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketFragmentSerializer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 	<span class='ident'>inc</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>WebSocketSender</span>,
@@ -361,6 +409,8 @@
 	
 	<span class='doccomment'>/// Send the final message and tell the remote endpoint the message is complete. Can be used with an empty message if necessary.</span>
 	<span class='doccomment'>/// Can only be used with a Text or Binary message.</span>
+	<span class='doccomment'>/// </span>
+	<span class='doccomment'>/// Once this has been called, you can send a new fragmented message using the send_fragment() method.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>finish</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='kw-2'>&amp;</span><span class='ident'>WebSocketMessage</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>dataframe</span> <span class='op'>=</span> <span class='ident'>message_to_dataframe</span>(<span class='ident'>message</span>, <span class='self'>self</span>.<span class='ident'>inc</span>.<span class='ident'>mask</span>, <span class='boolval'>true</span>);
 		

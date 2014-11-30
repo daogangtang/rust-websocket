@@ -141,7 +141,6 @@
 <span class='doccomment'>//! use std::io::TcpListener;</span>
 <span class='doccomment'>//! use std::io::{Listener, Acceptor};</span>
 <span class='doccomment'>//! use websocket::WebSocketClient;</span>
-<span class='doccomment'>//! use websocket::message::{WebSocketSender, WebSocketMessage};</span>
 <span class='doccomment'>//! use websocket::handshake::WebSocketResponse;</span>
 <span class='doccomment'>//! </span>
 <span class='doccomment'>//! let listener = TcpListener::bind(&quot;127.0.0.1:1234&quot;);</span>
@@ -154,22 +153,22 @@
 <span class='doccomment'>//! 			spawn(proc() {</span>
 <span class='doccomment'>//! 				// Get a WebSocketClient from this stream</span>
 <span class='doccomment'>//! 				// The mask argument is false as messages sent by the server are always unmasked</span>
-<span class='doccomment'>//! 				let client = WebSocketClient::from_stream(stream, false); </span>
+<span class='doccomment'>//! 				let mut client = WebSocketClient::from_stream(stream, false); </span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Read the handshake from the client</span>
 <span class='doccomment'>//! 				let request = client.receive_handshake_request().unwrap();</span>
 <span class='doccomment'>//! 				</span>
-<span class='doccomment'>//! 				//Get the headers we need to respond</span>
-<span class='doccomment'>//! 				let key = request.headers.get(&quot;Sec-WebSocket-Key&quot;).unwrap();</span>
-<span class='doccomment'>//! 				let protocol = request.headers.get(&quot;Sec-WebSocket-Protocol&quot;);</span>
+<span class='doccomment'>//! 				// Get the headers we need to respond</span>
+<span class='doccomment'>//! 				let key = request.key().unwrap();</span>
 <span class='doccomment'>//! 				</span>
-<span class='doccomment'>//! 				//Form a response from the key</span>
-<span class='doccomment'>//! 				let response = WebSocketResponse::new(key.as_slice(), protocol);</span>
+<span class='doccomment'>//! 				// Form a response from the key</span>
+<span class='doccomment'>//!					// In this example, we don&#39;t deal with the requested protocol</span>
+<span class='doccomment'>//! 				let response = WebSocketResponse::new(key.as_slice(), None);</span>
 <span class='doccomment'>//! 				</span>
-<span class='doccomment'>//! 				//Send the response to the client</span>
+<span class='doccomment'>//! 				// Send the response to the client</span>
 <span class='doccomment'>//! 				let _ = client.send_handshake_response(response);</span>
 <span class='doccomment'>//! 				</span>
-<span class='doccomment'>//! 				//Now we can send and receive messages</span>
+<span class='doccomment'>//! 				// Now we can send and receive messages</span>
 <span class='doccomment'>//! 				let receiver = client.receiver();</span>
 <span class='doccomment'>//! 				let mut sender = client.sender();</span>
 <span class='doccomment'>//! 				</span>
@@ -181,9 +180,10 @@
 <span class='doccomment'>//! }</span>
 <span class='doccomment'>//! ```</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>phase</span>)]</span>
-<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>regex</span>;
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>url</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>sha1</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>serialize</span>;
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ws</span>::<span class='ident'>client</span>::<span class='ident'>WebSocketClient</span>;
 
@@ -202,9 +202,9 @@
 
 <span class='doccomment'>/// Structs for WebSocket messages and the transmission of messages</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>message</span> {
-	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>message</span>::{<span class='ident'>WebSocketMessage</span>};
-	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>message</span>::{<span class='ident'>WebSocketSender</span>, <span class='ident'>WebSocketFragmentSerializer</span>};
-	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>message</span>::{<span class='ident'>WebSocketReceiver</span>, <span class='ident'>IncomingMessages</span>};
+	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>message</span>::<span class='ident'>WebSocketMessage</span>;
+	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>message</span>::<span class='ident'>send</span>::{<span class='ident'>WebSocketSender</span>, <span class='ident'>WebSocketFragmentSerializer</span>};
+	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>ws</span>::<span class='ident'>message</span>::<span class='ident'>receive</span>::{<span class='ident'>WebSocketReceiver</span>, <span class='ident'>IncomingMessages</span>};
 }
 
 <span class='kw'>mod</span> <span class='ident'>ws</span>;
