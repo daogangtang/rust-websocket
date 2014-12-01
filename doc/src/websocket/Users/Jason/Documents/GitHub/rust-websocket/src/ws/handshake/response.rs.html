@@ -245,7 +245,7 @@
 
 <span class='doccomment'>/// Represents a WebSocket response from a server</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketResponse</span> {
-	<span class='comment'>// The HTTP version of this request</span>
+	<span class='doccomment'>/// The HTTP version of this request</span>
 	<span class='kw'>pub</span> <span class='ident'>http_version</span>: <span class='ident'>HttpVersion</span>,
 	<span class='doccomment'>/// The status code of the response (for a successful handshake, this should be 101)</span>
 	<span class='kw'>pub</span> <span class='ident'>status_code</span>: <span class='ident'>uint</span>,
@@ -281,32 +281,32 @@
 		}
 	}
 	
-	<span class='comment'>//Short-cut to get the Upgrade field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Upgrade field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>upgrade</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Upgrade&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Connection field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Connection field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connection</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Connection&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Accept field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Accept field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>accept</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Accept&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Protocol field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Protocol field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>protocol</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Protocol&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Version field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Version field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Version&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Extensions field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Extensions field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>extensions</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Extensions&quot;</span>) {
 			<span class='prelude-val'>Some</span>(<span class='ident'>extensions</span>) <span class='op'>=&gt;</span> {

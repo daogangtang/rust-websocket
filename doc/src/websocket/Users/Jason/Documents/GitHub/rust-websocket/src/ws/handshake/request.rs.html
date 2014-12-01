@@ -281,7 +281,7 @@
 	<span class='doccomment'>/// The resource name of the request. E.g. /path/to/resource for the URI ws://www.example.com/path/to/resource</span>
 	<span class='kw'>pub</span> <span class='ident'>resource_name</span>: <span class='ident'>String</span>,
 	
-	<span class='comment'>// The HTTP version of this request</span>
+	<span class='doccomment'>/// The HTTP version of this request</span>
 	<span class='kw'>pub</span> <span class='ident'>http_version</span>: <span class='ident'>HttpVersion</span>,
 	
 	<span class='doccomment'>/// The collection of headers contained in this request</span>
@@ -344,12 +344,12 @@
 		})
 	}
 	
-	<span class='comment'>//Short-cut to get the Host field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Host field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>host</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Host&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Connection field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Connection field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>connection</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Connection&quot;</span>) {
 			<span class='prelude-val'>Some</span>(<span class='ident'>connection</span>) <span class='op'>=&gt;</span> {
@@ -364,7 +364,7 @@
 		}
 	}
 	
-	<span class='comment'>//Short-cut to get the Upgrade field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Upgrade field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>upgrade</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Upgrade&quot;</span>) {
 			<span class='prelude-val'>Some</span>(<span class='ident'>upgrade</span>) <span class='op'>=&gt;</span> {
@@ -379,17 +379,17 @@
 		}
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Version field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Version field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>version</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Version&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Key field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Key field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>key</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Key&quot;</span>)
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Protocol field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Protocol field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>protocol</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Protocol&quot;</span>) {
 			<span class='prelude-val'>Some</span>(<span class='ident'>protocol</span>) <span class='op'>=&gt;</span> {
@@ -404,7 +404,7 @@
 		}
 	}
 	
-	<span class='comment'>//Short-cut to get the Sec-WebSocket-Extensions field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Sec-WebSocket-Extensions field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>extensions</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;&gt;</span> {
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Sec-WebSocket-Extensions&quot;</span>) {
 			<span class='prelude-val'>Some</span>(<span class='ident'>extensions</span>) <span class='op'>=&gt;</span> {
@@ -419,7 +419,7 @@
 		}
 	}
 	
-	<span class='comment'>//Short-cut to get the Origin field value of this request</span>
+	<span class='doccomment'>/// Short-cut to get the Origin field value of this request</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>origin</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get</span>(<span class='string'>&quot;Origin&quot;</span>)
 	}
