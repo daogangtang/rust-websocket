@@ -44,20 +44,18 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>websocket</a>::<wbr><a class='struct' href=''>WebSocketClient</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-9186' href='../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/client.rs.html#36-39'>[src]</a></span></h1>
+        </span><a id='src-9225' href='../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/client.rs.html#34-37'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketClient {
     // some fields omitted
 }</pre><div class='docblock'><p>Represents a WebSocket client.
 To use WebSocketClient, you must create one using either WebSocketClient::connect(),
 which is used for writing clients, or WebSocketClient::from_stream(), which creates
 a WebSocketClient from a TcpStream (typically used in a server).</p>
-
-<p>An example client application:</p>
 <pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketClient</span>;
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketRequest</span>;
  
-<span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>WebSocketRequest</span>::<span class='ident'>new</span>(<span class='string'>&quot;ws://127.0.0.1:1234&quot;</span>, <span class='string'>&quot;myProtocol&quot;</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>WebSocketRequest</span>::<span class='ident'>new</span>(<span class='string'>&quot;ws://127.0.0.1:1234&quot;</span>, [<span class='string'>&quot;myProtocol&quot;</span>].<span class='ident'>as_slice</span>()).<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='ident'>key</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>key</span>().<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>connect</span>(<span class='kw-2'>&amp;</span><span class='ident'>request</span>).<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receive_handshake_response</span>().<span class='ident'>unwrap</span>();
@@ -72,16 +70,19 @@ a WebSocketClient from a TcpStream (typically used in a server).</p>
  
 <span class='comment'>// ...</span>
 </pre>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-methods'><h4 id='method.connect' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>(request: &amp;<a class='struct' href='../websocket/handshake/struct.WebSocketRequest.html' title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a>&gt;</code></h4>
-<div class='docblock'><p>Connect to the WebSocket server using the given request. Use WebSocketRequest::new() to create a request for use
-with this function.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-items'><h4 id='method.connect' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>(request: &amp;<a class='struct' href='../websocket/handshake/struct.WebSocketRequest.html' title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a>&gt;</code></h4>
+<div class='docblock'><p>Connect to the WebSocket server using the given request.
+Use WebSocketRequest::new() to create a request for use with this function.</p>
 </div><h4 id='method.from_stream' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.from_stream' class='fnname'>from_stream</a>(stream: <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/tcp/struct.TcpStream.html' title='std::io::net::tcp::TcpStream'>TcpStream</a>, mask: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h4>
 <div class='docblock'><p>Creates a new WebSocketClient from a given TcpStream.
 The mask parameter determines whether or not messages send to the remote endpoint will be masked.
 If the client is connecting to a remote endpoint, set mask to true. If the client is the remote
 endpoint (and therefore, the server is the local endpoint), set mask to false.</p>
+
+<p>Nothing is sent to or read from the stream during the conversion.</p>
 </div><h4 id='method.stream' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.stream' class='fnname'>stream</a>(&amp;self) -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/tcp/struct.TcpStream.html' title='std::io::net::tcp::TcpStream'>TcpStream</a></code></h4>
-<div class='docblock'><p>Returns a copy of the underlying TcpStream for this WebSocketClient.</p>
+<div class='docblock'><p>Returns a copy of the underlying TcpStream for this WebSocketClient.
+Note that writing to this stream will likely invalidate the WebSocket data stream.</p>
 </div><h4 id='method.peer_name' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.peer_name' class='fnname'>peer_name</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/ip/struct.SocketAddr.html' title='std::io::net::ip::SocketAddr'>SocketAddr</a>&gt;</code></h4>
 <div class='docblock'><p>Returns the socket address of the remote peer of this TCP connection.</p>
 </div><h4 id='method.socket_name' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.socket_name' class='fnname'>socket_name</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/ip/struct.SocketAddr.html' title='std::io::net::ip::SocketAddr'>SocketAddr</a>&gt;</code></h4>
@@ -113,16 +114,19 @@ This method will close the message receiving portion of this client, causing all
 This affects all WebSocketReceivers for the client, and any copies of the underlying stream will be unable to read.</p>
 
 <p>Note that you should send a WebSocketMessage:Close message to the remote endpoint before calling this method.</p>
-</div></div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-methods'><h4 id='method.connect' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>(request: &amp;<a class='struct' href='../websocket/handshake/struct.WebSocketRequest.html' title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a>&gt;</code></h4>
-<div class='docblock'><p>Connect to the WebSocket server using the given request. Use WebSocketRequest::new() to create a request for use
-with this function.</p>
+</div></div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-items'><h4 id='method.connect' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.connect' class='fnname'>connect</a>(request: &amp;<a class='struct' href='../websocket/handshake/struct.WebSocketRequest.html' title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a>&gt;</code></h4>
+<div class='docblock'><p>Connect to the WebSocket server using the given request.
+Use WebSocketRequest::new() to create a request for use with this function.</p>
 </div><h4 id='method.from_stream' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.from_stream' class='fnname'>from_stream</a>(stream: <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/tcp/struct.TcpStream.html' title='std::io::net::tcp::TcpStream'>TcpStream</a>, mask: <a href='http://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h4>
 <div class='docblock'><p>Creates a new WebSocketClient from a given TcpStream.
 The mask parameter determines whether or not messages send to the remote endpoint will be masked.
 If the client is connecting to a remote endpoint, set mask to true. If the client is the remote
 endpoint (and therefore, the server is the local endpoint), set mask to false.</p>
+
+<p>Nothing is sent to or read from the stream during the conversion.</p>
 </div><h4 id='method.stream' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.stream' class='fnname'>stream</a>(&amp;self) -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/tcp/struct.TcpStream.html' title='std::io::net::tcp::TcpStream'>TcpStream</a></code></h4>
-<div class='docblock'><p>Returns a copy of the underlying TcpStream for this WebSocketClient.</p>
+<div class='docblock'><p>Returns a copy of the underlying TcpStream for this WebSocketClient.
+Note that writing to this stream will likely invalidate the WebSocket data stream.</p>
 </div><h4 id='method.peer_name' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.peer_name' class='fnname'>peer_name</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/ip/struct.SocketAddr.html' title='std::io::net::ip::SocketAddr'>SocketAddr</a>&gt;</code></h4>
 <div class='docblock'><p>Returns the socket address of the remote peer of this TCP connection.</p>
 </div><h4 id='method.socket_name' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.socket_name' class='fnname'>socket_name</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/ip/struct.SocketAddr.html' title='std::io::net::ip::SocketAddr'>SocketAddr</a>&gt;</code></h4>
@@ -154,10 +158,10 @@ This method will close the message receiving portion of this client, causing all
 This affects all WebSocketReceivers for the client, and any copies of the underlying stream will be unable to read.</p>
 
 <p>Note that you should send a WebSocketMessage:Close message to the remote endpoint before calling this method.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-methods'><h4 id='method.clone' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h4>
-<h4 id='method.clone_from' class='method'><a class='stability Experimental' title='Experimental: this function is mostly unused'></a><code>fn <a href='#tymethod.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
-</div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-methods'><h4 id='method.clone' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h4>
-<h4 id='method.clone_from' class='method'><a class='stability Experimental' title='Experimental: this function is mostly unused'></a><code>fn <a href='#tymethod.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h4>
+<h4 id='method.clone_from' class='tymethod'><a class='stability Experimental' title='Experimental: this function is mostly unused'></a><code>fn <a href='#tymethod.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../websocket/struct.WebSocketClient.html' title='websocket::WebSocketClient'>WebSocketClient</a></code></h4>
+<h4 id='method.clone_from' class='tymethod'><a class='stability Experimental' title='Experimental: this function is mostly unused'></a><code>fn <a href='#tymethod.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
 

@@ -124,6 +124,9 @@
 <span id='82'>82</span>
 <span id='83'>83</span>
 <span id='84'>84</span>
+<span id='85'>85</span>
+<span id='86'>86</span>
+<span id='87'>87</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_name</span> <span class='op'>=</span> <span class='string'>&quot;websocket&quot;</span>]</span>
@@ -162,8 +165,10 @@
 <span class='doccomment'>//! 				let key = request.key().unwrap();</span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Form a response from the key</span>
-<span class='doccomment'>//!					// In this example, we don&#39;t deal with the requested protocol</span>
-<span class='doccomment'>//! 				let response = WebSocketResponse::new(key.as_slice(), None);</span>
+<span class='doccomment'>//!					/* In this example, we don&#39;t deal with the requested protocol</span>
+<span class='doccomment'>//!					   Because of this, however, we need to a type annotation,</span>
+<span class='doccomment'>//!					   which would usually not be required. */</span>
+<span class='doccomment'>//! 				let response = WebSocketResponse::new::&lt;String&gt;(key.as_slice(), None);</span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Send the response to the client</span>
 <span class='doccomment'>//! 				let _ = client.send_handshake_response(response);</span>
@@ -187,7 +192,8 @@
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>ws</span>::<span class='ident'>client</span>::<span class='ident'>WebSocketClient</span>;
 
-<span class='doccomment'>/// Structs for manipulation of HTTP headers</span>
+<span class='doccomment'>/// Structs for manipulation of HTTP headers. Used in conjunction with </span>
+<span class='doccomment'>/// WebSocketRequest and WebSocketResponse.</span>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>headers</span> {
 	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>util</span>::<span class='ident'>header</span>::{<span class='ident'>HeaderCollection</span>, <span class='ident'>Headers</span>};
 	<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>url</span>::<span class='ident'>ParseResult</span>;

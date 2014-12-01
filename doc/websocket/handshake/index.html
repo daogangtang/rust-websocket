@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>websocket</a>::<wbr><a class='mod' href=''>handshake</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-16' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/lib.rs.html#71-74'>[src]</a></span></h1>
+        </span><a id='src-16' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/lib.rs.html#74-77'>[src]</a></span></h1>
 <div class='docblock'><p>Structs for WebSocket handshake requests and responses</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -52,14 +52,22 @@
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketRequest.html'
                                title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a></td>
                         <td class='docblock short'><p>Represents a WebSocket handshake request, which is sent from the client to the server.
-Use the new() function to create a new request, and send it with the WebSocketClient::connect() function.</p>
+Use the new() function to create a new request, and send it with the WebSocketClient::connect() function.
+Use the WebSocketClient.receive_handshake_request() method to read a WebSocketRequest from a remote client.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketRequest</span>;
+</pre>
 </td>
                     </tr>
                 
                     <tr>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketResponse.html'
                                title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket response from a server</p>
+                        <td class='docblock short'><p>Represents a WebSocket response which is sent from the server to the client.
+Use the new() function to create a new response, and send it with the WebSocketClient::send_handshake_response() function.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketResponse</span>;
+</pre>
 </td>
                     </tr>
                 </table></section>

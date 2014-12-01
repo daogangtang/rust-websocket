@@ -250,7 +250,7 @@
 <span class='doccomment'>/// # use websocket::handshake::WebSocketRequest;</span>
 <span class='doccomment'>/// # #[allow(unused_must_use)]</span>
 <span class='doccomment'>/// # fn foo() {</span>
-<span class='doccomment'>/// # let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, &quot;None&quot;).unwrap();</span>
+<span class='doccomment'>/// # let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, [&quot;None&quot;].as_slice()).unwrap();</span>
 <span class='doccomment'>/// # let mut client = WebSocketClient::connect(&amp;request).unwrap();</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// let receiver = client.receiver();</span>
