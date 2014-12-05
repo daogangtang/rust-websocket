@@ -7,9 +7,10 @@ html, body {
 body {
 	font-family:'Noto Sans', sans-serif;
 	font-size:12pt;
+	line-height:150%;
 }
 
-pre code {
+code {
 	font-family:'Droid Sans Mono', serif;
 	font-size:10pt;
 }
