@@ -10,6 +10,15 @@ body {
 	line-height:150%;
 }
 
+pre code {
+	background-color:#F9F9F9;
+	border:solid 1px #CCC;
+	border-radius:3px;
+	display:block;
+	padding:5px;
+	line-height:130%;
+}
+
 code {
 	font-family:'Droid Sans Mono', serif;
 	font-size:10pt;
