@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>websocket</a>::<wbr><a href='index.html'>handshake</a></p><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.WebSocketRequest.html'>WebSocketRequest</a><a class='struct ' href='struct.WebSocketResponse.html'>WebSocketResponse</a></div>
+        <p class='location'><a href='../index.html'>websocket</a>::<wbr><a href='index.html'>handshake</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.HttpVersion.html'>HttpVersion</a><a class='struct current' href='struct.WebSocketRequest.html'>WebSocketRequest</a><a class='struct ' href='struct.WebSocketResponse.html'>WebSocketResponse</a></div>
     </section>
 
     <nav class="sub">
@@ -44,10 +44,10 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>handshake</a>::<wbr><a class='struct' href=''>WebSocketRequest</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-2293' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/handshake/request.rs.html#29-38'>[src]</a></span></h1>
+        </span><a id='src-2296' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/handshake/request.rs.html#29-38'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketRequest {
     pub resource_name: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>,
-    pub http_version: HttpVersion,
+    pub http_version: <a class='struct' href='../../websocket/handshake/struct.HttpVersion.html' title='websocket::handshake::HttpVersion'>HttpVersion</a>,
     pub headers: <a class='struct' href='../../websocket/headers/struct.HeaderCollection.html' title='websocket::headers::HeaderCollection'>HeaderCollection</a>,
 }</pre><div class='docblock'><p>Represents a WebSocket handshake request, which is sent from the client to the server.
 Use the new() function to create a new request, and send it with the WebSocketClient::connect() function.

@@ -56,7 +56,7 @@
 <pre class='rust '>
  <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>TcpListener</span>;
  <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Listener</span>, <span class='ident'>Acceptor</span>};
- <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketClient</span>;
+ <span class='kw'>use</span> <span class='ident'>websocket</span>::{<span class='ident'>WebSocketClient</span>, <span class='ident'>WebSocketClientMode</span>};
  <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketResponse</span>;
  
  <span class='kw'>let</span> <span class='ident'>listener</span> <span class='op'>=</span> <span class='ident'>TcpListener</span>::<span class='ident'>bind</span>(<span class='string'>&quot;127.0.0.1:1234&quot;</span>);
@@ -68,8 +68,7 @@
             <span class='comment'>// Spawn a new task for each connection to run in parallel</span>
             <span class='ident'>spawn</span>(<span class='kw'>proc</span>() {
                 <span class='comment'>// Get a WebSocketClient from this stream</span>
-                <span class='comment'>// The mask argument is false as messages sent by the server are always unmasked</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>new</span>(<span class='ident'>stream</span>, <span class='boolval'>false</span>); 
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>new</span>(<span class='ident'>stream</span>, <span class='ident'>WebSocketClientMode</span>::<span class='ident'>RemoteClient</span>); 
                 
                 <span class='comment'>// Read the handshake from the client</span>
                 <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receive_handshake_request</span>().<span class='ident'>unwrap</span>();
@@ -131,13 +130,20 @@ For a client, you can use TcpStream::connect() to connect to the server, then ca
 WebSocketClient::new() passing the resultant stream.</p>
 <pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>TcpStream</span>;
-<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketClient</span>;
+<span class='kw'>use</span> <span class='ident'>websocket</span>::{<span class='ident'>WebSocketClient</span>, <span class='ident'>WebSocketClientMode</span>};
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketRequest</span>;
  
 <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>WebSocketRequest</span>::<span class='ident'>new</span>(<span class='string'>&quot;ws://127.0.0.1:1234&quot;</span>, [<span class='string'>&quot;myProtocol&quot;</span>].<span class='ident'>as_slice</span>()).<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='ident'>key</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>key</span>().<span class='ident'>unwrap</span>();
 </pre>
 </td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unmarked' title='No stability level'></a><a class='enum' href='enum.WebSocketClientMode.html'
+                               title='websocket::WebSocketClientMode'>WebSocketClientMode</a></td>
+                        <td class='docblock short'></td>
                     </tr>
                 </table></section>
     <section id='search' class="content hidden"></section>

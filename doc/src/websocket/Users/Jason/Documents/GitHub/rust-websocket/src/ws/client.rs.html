@@ -147,6 +147,14 @@
 <span id='105'>105</span>
 <span id='106'>106</span>
 <span id='107'>107</span>
+<span id='108'>108</span>
+<span id='109'>109</span>
+<span id='110'>110</span>
+<span id='111'>111</span>
+<span id='112'>112</span>
+<span id='113'>113</span>
+<span id='114'>114</span>
+<span id='115'>115</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>handshake</span>::<span class='ident'>request</span>::{<span class='ident'>WebSocketRequest</span>, <span class='ident'>ReadWebSocketRequest</span>, <span class='ident'>WriteWebSocketRequest</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>handshake</span>::<span class='ident'>response</span>::{<span class='ident'>WebSocketResponse</span>, <span class='ident'>ReadWebSocketResponse</span>, <span class='ident'>WriteWebSocketResponse</span>};
@@ -162,7 +170,7 @@
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use std::io::TcpStream;</span>
-<span class='doccomment'>/// use websocket::WebSocketClient;</span>
+<span class='doccomment'>/// use websocket::{WebSocketClient, WebSocketClientMode};</span>
 <span class='doccomment'>/// use websocket::handshake::WebSocketRequest;</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, [&quot;myProtocol&quot;].as_slice()).unwrap();</span>
@@ -171,7 +179,7 @@
 <span class='doccomment'>/// // We can get the hostname from the request</span>
 <span class='doccomment'>/// let stream = TcpStream::connect(request.host().unwrap().as_slice()).unwrap();</span>
 <span class='doccomment'>///</span>
-<span class='doccomment'>/// let mut client = WebSocketClient::new(stream, true);</span>
+<span class='doccomment'>/// let mut client = WebSocketClient::new(stream, WebSocketClientMode::RemoteServer);</span>
 <span class='doccomment'>/// let _ = client.send_handshake_request(&amp;request);</span>
 <span class='doccomment'>/// let response = client.receive_handshake_response().unwrap();</span>
 <span class='doccomment'>/// </span>
@@ -197,10 +205,13 @@
 	<span class='doccomment'>/// endpoint (and therefore, the server is the local endpoint), set mask to false.</span>
 	<span class='doccomment'>/// </span>
 	<span class='doccomment'>/// Nothing is sent to or read from the stream during the conversion.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>stream</span>: <span class='ident'>S</span>, <span class='ident'>mask</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>stream</span>: <span class='ident'>S</span>, <span class='ident'>mode</span>: <span class='ident'>WebSocketClientMode</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketClient</span> {
 			<span class='ident'>stream</span>: <span class='ident'>stream</span>,
-			<span class='ident'>mask</span>: <span class='ident'>mask</span>,
+			<span class='ident'>mask</span>: <span class='kw'>match</span> <span class='ident'>mode</span> {
+				<span class='ident'>WebSocketClientMode</span>::<span class='ident'>RemoteClient</span> <span class='op'>=&gt;</span> { <span class='boolval'>false</span> }
+				<span class='ident'>WebSocketClientMode</span>::<span class='ident'>RemoteServer</span> <span class='op'>=&gt;</span> { <span class='boolval'>true</span> }
+			},
 		}
 	}
 	
@@ -254,6 +265,11 @@
 			<span class='ident'>mask</span>: <span class='self'>self</span>.<span class='ident'>mask</span>,
 		}
 	}
+}
+
+<span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>WebSocketClientMode</span> {
+	<span class='ident'>RemoteClient</span>,
+	<span class='ident'>RemoteServer</span>,
 }
 </pre>
 </section>

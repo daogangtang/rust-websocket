@@ -258,12 +258,12 @@
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use websocket::message::WebSocketMessage;</span>
-<span class='doccomment'>/// # use websocket::WebSocketClient;</span>
+<span class='doccomment'>/// # use websocket::{WebSocketClient, WebSocketClientMode};</span>
 <span class='doccomment'>/// # use std::io::TcpStream;</span>
 <span class='doccomment'>/// # #[allow(unused_must_use)]</span>
 <span class='doccomment'>/// # fn foo() {</span>
 <span class='doccomment'>/// # let stream = TcpStream::connect(&quot;127.0.0.1:1234&quot;).unwrap();</span>
-<span class='doccomment'>/// # let mut client = WebSocketClient::new(stream, true);</span>
+<span class='doccomment'>/// # let mut client = WebSocketClient::new(stream, WebSocketClientMode::RemoteServer);</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// let mut sender = client.sender(); // Get a sender</span>
 <span class='doccomment'>/// let data = &quot;My fancy message&quot;.to_string();</span>
@@ -345,12 +345,12 @@
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use websocket::message::WebSocketMessage;</span>
-<span class='doccomment'>/// # use websocket::WebSocketClient;</span>
+<span class='doccomment'>/// # use websocket::{WebSocketClient, WebSocketClientMode};</span>
 <span class='doccomment'>/// # use std::io::TcpStream;</span>
 <span class='doccomment'>/// # #[allow(unused_must_use)]</span>
 <span class='doccomment'>/// # fn foo() {</span>
 <span class='doccomment'>/// # let stream = TcpStream::connect(&quot;127.0.0.1:1234&quot;).unwrap();</span>
-<span class='doccomment'>/// # let mut client = WebSocketClient::new(stream, true);</span>
+<span class='doccomment'>/// # let mut client = WebSocketClient::new(stream, WebSocketClientMode::RemoteServer);</span>
 <span class='doccomment'>/// # let mut sender = client.sender();</span>
 <span class='doccomment'>/// // Get a WebSocketFragmentSerializer</span>
 <span class='doccomment'>/// let mut fragment = sender.fragment();</span>
