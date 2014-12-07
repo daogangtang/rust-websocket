@@ -246,9 +246,9 @@
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>dataframe</span>::{<span class='ident'>WebSocketOpcode</span>, <span class='ident'>WebSocketDataFrame</span>, <span class='ident'>WebSocketDataFrameLength</span>, <span class='ident'>WriteWebSocketDataFrame</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>mask</span>::<span class='ident'>mask_data</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>WebSocketMessage</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>net</span>::<span class='ident'>tcp</span>::<span class='ident'>TcpStream</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Stream</span>, <span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rand</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>clone</span>::<span class='ident'>Clone</span>;
 
 <span class='doccomment'>/// Represents a WebSocket sender, capable of transmitting data to the remote endpoint.</span>
 <span class='doccomment'>/// Use the send_message() method to send a single, whole message. If you need to send</span>
@@ -259,11 +259,11 @@
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use websocket::message::WebSocketMessage;</span>
 <span class='doccomment'>/// # use websocket::WebSocketClient;</span>
-<span class='doccomment'>/// # use websocket::handshake::WebSocketRequest;</span>
+<span class='doccomment'>/// # use std::io::TcpStream;</span>
 <span class='doccomment'>/// # #[allow(unused_must_use)]</span>
 <span class='doccomment'>/// # fn foo() {</span>
-<span class='doccomment'>/// # let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, [&quot;None&quot;].as_slice()).unwrap();</span>
-<span class='doccomment'>/// # let mut client = WebSocketClient::connect(&amp;request).unwrap();</span>
+<span class='doccomment'>/// # let stream = TcpStream::connect(&quot;127.0.0.1:1234&quot;).unwrap();</span>
+<span class='doccomment'>/// # let mut client = WebSocketClient::new(stream, true);</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// let mut sender = client.sender(); // Get a sender</span>
 <span class='doccomment'>/// let data = &quot;My fancy message&quot;.to_string();</span>
@@ -272,8 +272,8 @@
 <span class='doccomment'>/// let _ = sender.send_message(&amp;message); // Send the message</span>
 <span class='doccomment'>/// # }</span>
 <span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketSender</span> {
-	<span class='ident'>stream</span>: <span class='ident'>TcpStream</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> {
+	<span class='ident'>stream</span>: <span class='ident'>S</span>,
 	<span class='ident'>mask</span>: <span class='ident'>bool</span>,
 }
 
@@ -319,7 +319,7 @@
 	}
 }
 
-<span class='kw'>impl</span> <span class='ident'>WebSocketSender</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Sends a message to the remote endpoint.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_message</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='kw-2'>&amp;</span><span class='ident'>WebSocketMessage</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='ident'>dataframe</span> <span class='op'>=</span> <span class='ident'>message_to_dataframe</span>(<span class='ident'>message</span>, <span class='self'>self</span>.<span class='ident'>mask</span>, <span class='boolval'>true</span>);
@@ -328,7 +328,7 @@
 	}
 	
 	<span class='doccomment'>/// Returns a fragment serializer, able to send fragments of a message to the remote endpoint.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fragment</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketFragmentSerializer</span> {
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>fragment</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketFragmentSerializer</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketFragmentSerializer</span> {
 			<span class='ident'>inc</span>: <span class='self'>self</span>,
 			<span class='ident'>started</span>: <span class='boolval'>false</span>,
@@ -346,11 +346,11 @@
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use websocket::message::WebSocketMessage;</span>
 <span class='doccomment'>/// # use websocket::WebSocketClient;</span>
-<span class='doccomment'>/// # use websocket::handshake::WebSocketRequest;</span>
+<span class='doccomment'>/// # use std::io::TcpStream;</span>
 <span class='doccomment'>/// # #[allow(unused_must_use)]</span>
 <span class='doccomment'>/// # fn foo() {</span>
-<span class='doccomment'>/// # let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, [&quot;None&quot;].as_slice()).unwrap();</span>
-<span class='doccomment'>/// # let mut client = WebSocketClient::connect(&amp;request).unwrap();</span>
+<span class='doccomment'>/// # let stream = TcpStream::connect(&quot;127.0.0.1:1234&quot;).unwrap();</span>
+<span class='doccomment'>/// # let mut client = WebSocketClient::new(stream, true);</span>
 <span class='doccomment'>/// # let mut sender = client.sender();</span>
 <span class='doccomment'>/// // Get a WebSocketFragmentSerializer</span>
 <span class='doccomment'>/// let mut fragment = sender.fragment();</span>
@@ -374,12 +374,12 @@
 <span class='doccomment'>/// drop(fragment);</span>
 <span class='doccomment'>/// # }</span>
 <span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketFragmentSerializer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
-	<span class='ident'>inc</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>WebSocketSender</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketFragmentSerializer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span>: <span class='lifetime'>&#39;a</span> <span class='op'>+</span> <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> {
+	<span class='ident'>inc</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>,
 	<span class='ident'>started</span>: <span class='ident'>bool</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='ident'>WebSocketFragmentSerializer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>WebSocketFragmentSerializer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Send a fragment of a message - if the message is finished, use the WebSocketFragmentSerializer::finish() function.</span>
 	<span class='doccomment'>/// Can only be used with a Text or Binary message.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_fragment</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>message</span>: <span class='kw-2'>&amp;</span><span class='ident'>WebSocketMessage</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
@@ -435,7 +435,7 @@
 	}
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_sender</span>(<span class='ident'>stream</span>: <span class='ident'>TcpStream</span>, <span class='ident'>mask</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketSender</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_sender</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span>(<span class='ident'>stream</span>: <span class='ident'>S</span>, <span class='ident'>mask</span>: <span class='ident'>bool</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 	<span class='ident'>WebSocketSender</span> {
 		<span class='ident'>stream</span>: <span class='ident'>stream</span>,
 		<span class='ident'>mask</span>: <span class='ident'>mask</span>,

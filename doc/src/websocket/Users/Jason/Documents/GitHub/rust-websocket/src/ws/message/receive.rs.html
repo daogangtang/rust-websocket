@@ -235,10 +235,10 @@
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>WebSocketMessage</span>;
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>mask</span>::<span class='ident'>mask_data</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>iter</span>::<span class='ident'>Iterator</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>net</span>::<span class='ident'>tcp</span>::<span class='ident'>TcpStream</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Stream</span>, <span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>option</span>::<span class='prelude-ty'>Option</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>from_utf8</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>clone</span>::<span class='ident'>Clone</span>;
 
 <span class='doccomment'>/// Represents a WebSocket receiver which can receive data from the remote endpoint.</span>
 <span class='doccomment'>/// All methods are task blocking (but not stream blocking, so you can send and receive concurrently).</span>
@@ -247,11 +247,11 @@
 <span class='doccomment'>/// ```no_run</span>
 <span class='doccomment'>/// use websocket::message::WebSocketMessage;</span>
 <span class='doccomment'>/// # use websocket::WebSocketClient;</span>
-<span class='doccomment'>/// # use websocket::handshake::WebSocketRequest;</span>
+<span class='doccomment'>/// # use std::io::TcpStream;</span>
 <span class='doccomment'>/// # #[allow(unused_must_use)]</span>
 <span class='doccomment'>/// # fn foo() {</span>
-<span class='doccomment'>/// # let request = WebSocketRequest::new(&quot;ws://127.0.0.1:1234&quot;, [&quot;None&quot;].as_slice()).unwrap();</span>
-<span class='doccomment'>/// # let mut client = WebSocketClient::connect(&amp;request).unwrap();</span>
+<span class='doccomment'>/// # let stream = TcpStream::connect(&quot;127.0.0.1:1234&quot;).unwrap();</span>
+<span class='doccomment'>/// # let mut client = WebSocketClient::new(stream, true);</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// let receiver = client.receiver();</span>
 <span class='doccomment'>/// </span>
@@ -279,13 +279,13 @@
 <span class='doccomment'>/// });</span>
 <span class='doccomment'>/// # }</span>
 <span class='doccomment'>/// ```</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketReceiver</span> {
-	<span class='ident'>stream</span>: <span class='ident'>TcpStream</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> {
+	<span class='ident'>stream</span>: <span class='ident'>S</span>,
 	<span class='ident'>opcode</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebSocketOpcode</span><span class='op'>&gt;</span>,
 	<span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>WebSocketReceiver</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Wait for and accept a message (subjected to the underlying stream timeout).</span>
 	<span class='doccomment'>/// If the received message is fragmented, this function will not return</span>
 	<span class='doccomment'>/// until the final fragment has been received.</span>
@@ -396,14 +396,14 @@
 	}
 	
 	<span class='doccomment'>/// Returns an iterator over the incoming messages for/from this client</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>incoming</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IncomingMessages</span> {
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>incoming</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IncomingMessages</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 		<span class='ident'>IncomingMessages</span> {
 			<span class='ident'>inc</span>: <span class='self'>self</span>,
 		}
 	}
 }
 
-<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_receiver</span>(<span class='ident'>stream</span>: <span class='ident'>TcpStream</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketReceiver</span> {
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new_receiver</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span>(<span class='ident'>stream</span>: <span class='ident'>S</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 	<span class='ident'>WebSocketReceiver</span> {
 		<span class='ident'>stream</span>: <span class='ident'>stream</span>,
 		<span class='ident'>opcode</span>: <span class='prelude-val'>None</span>,
@@ -412,11 +412,11 @@
 }
 
 <span class='doccomment'>/// An iterator over incoming messages. Blocks the task and always returns Some.</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>IncomingMessages</span> {
-	<span class='ident'>inc</span>: <span class='ident'>WebSocketReceiver</span>,
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>IncomingMessages</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> {
+	<span class='ident'>inc</span>: <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span>,
 }
 
-<span class='kw'>impl</span> <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketMessage</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>IncomingMessages</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>Stream</span> <span class='op'>+</span> <span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketMessage</span><span class='op'>&gt;&gt;</span> <span class='kw'>for</span> <span class='ident'>IncomingMessages</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>IoResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketMessage</span><span class='op'>&gt;&gt;</span> {
 		<span class='prelude-val'>Some</span>(<span class='self'>self</span>.<span class='ident'>inc</span>.<span class='ident'>receive_message</span>())
 	}

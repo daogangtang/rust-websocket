@@ -137,7 +137,7 @@
 <span class='doccomment'>//! with the capability to send and receive fragmented messages.</span>
 <span class='doccomment'>//! </span>
 <span class='doccomment'>//! Rust-WebSocket does not provide a &#39;listener&#39; object, since the WebSocket protocol utilises a TcpStream.</span>
-<span class='doccomment'>//! To implement a WebSocket server, use a normal TcpListener, and the WebSocketClient::from_stream() function</span>
+<span class='doccomment'>//! To implement a WebSocket server, use a normal TcpListener, and the WebSocketClient::new() function</span>
 <span class='doccomment'>//! on an accepted stream. You will then need to read the handshake from the client and send a response.</span>
 <span class='doccomment'>//! </span>
 <span class='doccomment'>//! ```no_run</span>
@@ -156,18 +156,18 @@
 <span class='doccomment'>//! 			spawn(proc() {</span>
 <span class='doccomment'>//! 				// Get a WebSocketClient from this stream</span>
 <span class='doccomment'>//! 				// The mask argument is false as messages sent by the server are always unmasked</span>
-<span class='doccomment'>//! 				let mut client = WebSocketClient::from_stream(stream, false); </span>
+<span class='doccomment'>//! 				let mut client = WebSocketClient::new(stream, false); </span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Read the handshake from the client</span>
 <span class='doccomment'>//! 				let request = client.receive_handshake_request().unwrap();</span>
 <span class='doccomment'>//! 				</span>
-<span class='doccomment'>//! 				// Get the headers we need to respond</span>
+<span class='doccomment'>//! 				// Get the Sec-WebSocket-Key from the request</span>
 <span class='doccomment'>//! 				let key = request.key().unwrap();</span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Form a response from the key</span>
-<span class='doccomment'>//!					/* In this example, we don&#39;t deal with the requested protocol</span>
-<span class='doccomment'>//!					   Because of this, however, we need to a type annotation,</span>
-<span class='doccomment'>//!					   which would usually not be required. */</span>
+<span class='doccomment'>//!					/* In this example, we don&#39;t deal with the requested Sec-WebSocket-Protocol.</span>
+<span class='doccomment'>//!					   Because of this, however, we need a type annotation, which would </span>
+<span class='doccomment'>//!					   not usually be required. */</span>
 <span class='doccomment'>//! 				let response = WebSocketResponse::new::&lt;String&gt;(key.as_slice(), None);</span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Send the response to the client</span>

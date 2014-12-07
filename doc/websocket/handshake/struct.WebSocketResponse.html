@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>handshake</a>::<wbr><a class='struct' href=''>WebSocketResponse</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-5296' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/handshake/response.rs.html#28-37'>[src]</a></span></h1>
+        </span><a id='src-5351' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/handshake/response.rs.html#39-48'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketResponse {
     pub http_version: HttpVersion,
     pub status_code: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>,
@@ -59,7 +59,18 @@ Use the new() function to create a new response, and send it with the WebSocketC
  
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>response</span>.<span class='ident'>accept</span>().<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>(), <span class='string'>&quot;s3pPLMBiTxaQ9kYGzzhZRbK+xOo=&quot;</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>response</span>.<span class='ident'>upgrade</span>().<span class='ident'>unwrap</span>().<span class='ident'>as_slice</span>(), <span class='string'>&quot;websocket&quot;</span>);
-<span class='comment'>//...</span>
+<span class='comment'>// ...</span>
+</pre>
+
+<p>Note that we can also send WebSocket failure responses.</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketResponse</span>;
+ 
+<span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>WebSocketResponse</span>::<span class='ident'>failure</span>(<span class='number'>403</span>, <span class='string'>&quot;Forbidden&quot;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>response</span>.<span class='ident'>status_code</span>, <span class='number'>403</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>response</span>.<span class='ident'>reason_phrase</span>.<span class='ident'>as_slice</span>(), <span class='string'>&quot;Forbidden&quot;</span>);
+ 
+<span class='comment'>// ...</span>
 </pre>
 </div><h2 class='fields'>Fields</h2>
 <table><tr><td id='structfield.http_version'><a class='stability Unmarked' title='No stability level'></a><code>http_version</code></td><td><div class='docblock'><p>The HTTP version of this request</p>
@@ -68,6 +79,9 @@ Use the new() function to create a new response, and send it with the WebSocketC
 </div></td></tr><tr><td id='structfield.headers'><a class='stability Unmarked' title='No stability level'></a><code>headers</code></td><td><div class='docblock'><p>The collection of headers contained in this WebSocket response</p>
 </div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>&lt;A: <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Show.html' title='core::fmt::Show'>Show</a>&gt;(key: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, protocol: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;A&gt;) -&gt; <a class='struct' href='../../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></code></h4>
 <div class='docblock'><p>Create a new WebSocket response based on the base-64 encoded key from a client.</p>
+</div><h4 id='method.failure' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.failure' class='fnname'>failure</a>&lt;A: <a class='trait' href='http://doc.rust-lang.org/nightly/collections/string/trait.ToString.html' title='collections::string::ToString'>ToString</a>&gt;(status_code: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>, reason_phrase: A) -&gt; <a class='struct' href='../../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></code></h4>
+<div class='docblock'><p>Create a WebSocket response with a particular status code and reason phrase - generally
+used to indicate a handshake failure.</p>
 </div><h4 id='method.upgrade' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.upgrade' class='fnname'>upgrade</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></h4>
 <div class='docblock'><p>Short-cut to get the Upgrade field value of this request</p>
 </div><h4 id='method.connection' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.connection' class='fnname'>connection</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></h4>
@@ -94,6 +108,9 @@ the Sec-WebSocket-Accept header must match the expected value from
 the given key.</p>
 </div></div><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>&lt;A: <a class='trait' href='http://doc.rust-lang.org/nightly/core/fmt/trait.Show.html' title='core::fmt::Show'>Show</a>&gt;(key: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, protocol: <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;A&gt;) -&gt; <a class='struct' href='../../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></code></h4>
 <div class='docblock'><p>Create a new WebSocket response based on the base-64 encoded key from a client.</p>
+</div><h4 id='method.failure' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.failure' class='fnname'>failure</a>&lt;A: <a class='trait' href='http://doc.rust-lang.org/nightly/collections/string/trait.ToString.html' title='collections::string::ToString'>ToString</a>&gt;(status_code: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>, reason_phrase: A) -&gt; <a class='struct' href='../../websocket/handshake/struct.WebSocketResponse.html' title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></code></h4>
+<div class='docblock'><p>Create a WebSocket response with a particular status code and reason phrase - generally
+used to indicate a handshake failure.</p>
 </div><h4 id='method.upgrade' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.upgrade' class='fnname'>upgrade</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></h4>
 <div class='docblock'><p>Short-cut to get the Upgrade field value of this request</p>
 </div><h4 id='method.connection' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.connection' class='fnname'>connection</a>(&amp;self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a>&gt;</code></h4>

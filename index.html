@@ -9,7 +9,7 @@
 	<body>
 		<div id="wrapper">
 			<header class="centered">
-				<h1 id="title">Rust-WebSocket <span id="version">(0.5.0 experimental)</span></h1>
+				<h1 id="title">Rust-WebSocket <span id="version">(0.6.0 experimental)</span></h1>
 				<nav id="navigation">
 					<ul>
 						<li><a href="index.html">Home</a></li>
@@ -35,7 +35,7 @@
 				<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 				<h2>Installation</h2>
 				<p>To add a library release version from crates.io to a Cargo project, add this to the <code><span class="c3">[dependencies]</span></code> section of your Cargo.toml:</p>
-				<pre><code><span class="c1">websocket</span> = <span class="c2">&quot;~0.5.0&quot;</span></code></pre>
+				<pre><code><span class="c1">websocket</span> = <span class="c2">&quot;~0.6.0&quot;</span></code></pre>
 				<p>To add the library's Git repository to a Cargo project, add this to your Cargo.toml:</p>
 				<pre><code><span class="c3">[dependencies.websocket]</span>
 
@@ -43,8 +43,8 @@
 				<p>And add the line <code><span class="c3">extern crate</span> <span class="c1">websocket</span>;</code> to your main.rs or lib.rs.</p>
 				<h2>Current State</h2>
 				<p>At the moment, the library provides both client and server WebSocket implementations, however these have not been tested thoroughly.
-				There is support for handling WebSocket requests and responses, as well as fragmented messages. There is currently no support for WebSocket
-				over TLS (wss:// URIs) for servers or clients, however, an implementation is planned.</p>
+				There is support for handling WebSocket requests and responses, as well as fragmented messages. Secure WebSocket connections can be used though
+				<a href="https://github.com/sfackler/rust-openssl">rust-openssl</a>. Simply pass an SslStream to the WebSocketClient::new() function and use the WebSocketClient as normal.</p>
 				<p>There are some unit tests, but more are required (as well as integration test). Eventually, proper compliance with RFC6455 should be tested.</p>
 				<h2>Documentation</h2>
 				<p>API Documentation for the library can be found <a href="doc/websocket">here</a>. Example usage can be found within the documentation.</p>

@@ -51,7 +51,7 @@
  with the capability to send and receive fragmented messages.</p>
 
 <p>Rust-WebSocket does not provide a &#39;listener&#39; object, since the WebSocket protocol utilises a TcpStream.
- To implement a WebSocket server, use a normal TcpListener, and the WebSocketClient::from_stream() function
+ To implement a WebSocket server, use a normal TcpListener, and the WebSocketClient::new() function
  on an accepted stream. You will then need to read the handshake from the client and send a response.</p>
 <pre class='rust '>
  <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>TcpListener</span>;
@@ -69,18 +69,18 @@
             <span class='ident'>spawn</span>(<span class='kw'>proc</span>() {
                 <span class='comment'>// Get a WebSocketClient from this stream</span>
                 <span class='comment'>// The mask argument is false as messages sent by the server are always unmasked</span>
-                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>from_stream</span>(<span class='ident'>stream</span>, <span class='boolval'>false</span>); 
+                <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>new</span>(<span class='ident'>stream</span>, <span class='boolval'>false</span>); 
                 
                 <span class='comment'>// Read the handshake from the client</span>
                 <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receive_handshake_request</span>().<span class='ident'>unwrap</span>();
                 
-                <span class='comment'>// Get the headers we need to respond</span>
+                <span class='comment'>// Get the Sec-WebSocket-Key from the request</span>
                 <span class='kw'>let</span> <span class='ident'>key</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>key</span>().<span class='ident'>unwrap</span>();
                 
                 <span class='comment'>// Form a response from the key</span>
-                    <span class='comment'>/* In this example, we don&#39;t deal with the requested protocol
-                       Because of this, however, we need to a type annotation,
-                       which would usually not be required. */</span>
+                    <span class='comment'>/* In this example, we don&#39;t deal with the requested Sec-WebSocket-Protocol.
+                       Because of this, however, we need a type annotation, which would 
+                       not usually be required. */</span>
                 <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>WebSocketResponse</span>::<span class='ident'>new</span>::<span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>(<span class='ident'>key</span>.<span class='ident'>as_slice</span>(), <span class='prelude-val'>None</span>);
                 
                 <span class='comment'>// Send the response to the client</span>
@@ -126,27 +126,16 @@ WebSocketRequest and WebSocketResponse.</p>
                         <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketClient.html'
                                title='websocket::WebSocketClient'>WebSocketClient</a></td>
                         <td class='docblock short'><p>Represents a WebSocket client.
-To use WebSocketClient, you must create one using either WebSocketClient::connect(),
-which is used for writing clients, or WebSocketClient::from_stream(), which creates
-a WebSocketClient from a TcpStream (typically used in a server).</p>
+To use WebSocketClient, you must create one using WebSocketClient::new().
+For a client, you can use TcpStream::connect() to connect to the server, then call
+WebSocketClient::new() passing the resultant stream.</p>
 <pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::<span class='ident'>TcpStream</span>;
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>WebSocketClient</span>;
 <span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketRequest</span>;
  
 <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>WebSocketRequest</span>::<span class='ident'>new</span>(<span class='string'>&quot;ws://127.0.0.1:1234&quot;</span>, [<span class='string'>&quot;myProtocol&quot;</span>].<span class='ident'>as_slice</span>()).<span class='ident'>unwrap</span>();
 <span class='kw'>let</span> <span class='ident'>key</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>key</span>().<span class='ident'>unwrap</span>();
-<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>connect</span>(<span class='kw-2'>&amp;</span><span class='ident'>request</span>).<span class='ident'>unwrap</span>();
-<span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receive_handshake_response</span>().<span class='ident'>unwrap</span>();
- 
-<span class='kw'>if</span> <span class='op'>!</span><span class='ident'>response</span>.<span class='ident'>is_successful</span>(<span class='ident'>key</span>) {
-    <span class='comment'>// Handshake failed!</span>
-}
- 
-<span class='comment'>// Now we can send and receive messages</span>
-<span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receiver</span>();
-<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>sender</span>();
- 
-<span class='comment'>// ...</span>
 </pre>
 </td>
                     </tr>

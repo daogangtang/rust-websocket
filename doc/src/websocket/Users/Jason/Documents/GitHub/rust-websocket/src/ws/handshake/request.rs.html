@@ -275,9 +275,6 @@
 <span id='233'>233</span>
 <span id='234'>234</span>
 <span id='235'>235</span>
-<span id='236'>236</span>
-<span id='237'>237</span>
-<span id='238'>238</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>phase</span>(<span class='ident'>plugin</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>regex_macros</span>;
@@ -328,10 +325,7 @@
 		};
 		
 		<span class='kw'>match</span> <span class='ident'>ws_uri</span>.<span class='ident'>scheme</span>.<span class='ident'>as_slice</span>() {
-			<span class='string'>&quot;ws&quot;</span> <span class='op'>=&gt;</span> { }
-			<span class='comment'>/* &quot;wss&quot; =&gt; {
-				// Don&#39;t know how to handle secure WebSocket
-			} */</span>
+			<span class='string'>&quot;ws&quot;</span> <span class='op'>|</span> <span class='string'>&quot;wss&quot;</span> <span class='op'>=&gt;</span> { }
 			_ <span class='op'>=&gt;</span> { <span class='kw'>return</span> <span class='prelude-val'>Err</span>(<span class='ident'>ParseError</span>::<span class='ident'>InvalidScheme</span>); }
 		}
 		

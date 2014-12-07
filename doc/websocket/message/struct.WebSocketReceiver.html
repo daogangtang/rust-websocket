@@ -44,8 +44,8 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>message</a>::<wbr><a class='struct' href=''>WebSocketReceiver</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1463' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/receive.rs.html#49-53'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct WebSocketReceiver {
+        </span><a id='src-1491' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/receive.rs.html#49-53'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct WebSocketReceiver&lt;S: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Stream.html' title='std::io::Stream'>Stream</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>Represents a WebSocket receiver which can receive data from the remote endpoint.
 All methods are task blocking (but not stream blocking, so you can send and receive concurrently).
@@ -78,14 +78,14 @@ A WebSocketReceiver can be captured into another task for concurrency</p>
     }
 });
 </pre>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../../websocket/message/struct.WebSocketReceiver.html' title='websocket::message::WebSocketReceiver'>WebSocketReceiver</a></code></h3><div class='impl-items'><h4 id='method.receive_message' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.receive_message' class='fnname'>receive_message</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='enum' href='../../websocket/message/enum.WebSocketMessage.html' title='websocket::message::WebSocketMessage'>WebSocketMessage</a>&gt;</code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl&lt;S: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Stream.html' title='std::io::Stream'>Stream</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; <a class='struct' href='../../websocket/message/struct.WebSocketReceiver.html' title='websocket::message::WebSocketReceiver'>WebSocketReceiver</a>&lt;S&gt;</code></h3><div class='impl-items'><h4 id='method.receive_message' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.receive_message' class='fnname'>receive_message</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='enum' href='../../websocket/message/enum.WebSocketMessage.html' title='websocket::message::WebSocketMessage'>WebSocketMessage</a>&gt;</code></h4>
 <div class='docblock'><p>Wait for and accept a message (subjected to the underlying stream timeout).
 If the received message is fragmented, this function will not return
 until the final fragment has been received.
 If a control frame is received interleaved within a fragmented message,
 The control frame will be returned first, and the message will be returned
 on the next call to the function (or later if more control frames are received).</p>
-</div><h4 id='method.incoming' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.incoming' class='fnname'>incoming</a>(self) -&gt; <a class='struct' href='../../websocket/message/struct.IncomingMessages.html' title='websocket::message::IncomingMessages'>IncomingMessages</a></code></h4>
+</div><h4 id='method.incoming' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.incoming' class='fnname'>incoming</a>(self) -&gt; <a class='struct' href='../../websocket/message/struct.IncomingMessages.html' title='websocket::message::IncomingMessages'>IncomingMessages</a>&lt;S&gt;</code></h4>
 <div class='docblock'><p>Returns an iterator over the incoming messages for/from this client</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
