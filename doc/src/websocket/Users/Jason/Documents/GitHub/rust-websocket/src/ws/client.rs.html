@@ -146,6 +146,7 @@
 <span id='104'>104</span>
 <span id='105'>105</span>
 <span id='106'>106</span>
+<span id='107'>107</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>handshake</span>::<span class='ident'>request</span>::{<span class='ident'>WebSocketRequest</span>, <span class='ident'>ReadWebSocketRequest</span>, <span class='ident'>WriteWebSocketRequest</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>handshake</span>::<span class='ident'>response</span>::{<span class='ident'>WebSocketResponse</span>, <span class='ident'>ReadWebSocketResponse</span>, <span class='ident'>WriteWebSocketResponse</span>};
@@ -171,6 +172,7 @@
 <span class='doccomment'>/// let stream = TcpStream::connect(request.host().unwrap().as_slice()).unwrap();</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// let mut client = WebSocketClient::new(stream, true);</span>
+<span class='doccomment'>/// let _ = client.send_handshake_request(&amp;request);</span>
 <span class='doccomment'>/// let response = client.receive_handshake_response().unwrap();</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// if !response.is_successful(key) {</span>
@@ -222,14 +224,14 @@
 	
 	<span class='doccomment'>/// Sends the specified WebSocketRequest to the remote endpoint. Only to be used if the server is</span>
 	<span class='doccomment'>/// the remote endpoint and the client is the local endpoint.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_handshake_request</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>request</span>: <span class='ident'>WebSocketRequest</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>write_websocket_request</span>(<span class='kw-2'>&amp;</span><span class='ident'>request</span>)
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_handshake_request</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>request</span>: <span class='kw-2'>&amp;</span><span class='ident'>WebSocketRequest</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>write_websocket_request</span>(<span class='ident'>request</span>)
 	}
 	
 	<span class='doccomment'>/// Sends the specified WebSocketResponse to this client. Only to be used if the server is</span>
 	<span class='doccomment'>/// the local endpoint and the client is the remote endpoint.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_handshake_response</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>response</span>: <span class='ident'>WebSocketResponse</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>write_websocket_response</span>(<span class='kw-2'>&amp;</span><span class='ident'>response</span>)
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_handshake_response</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>response</span>: <span class='kw-2'>&amp;</span><span class='ident'>WebSocketResponse</span>) <span class='op'>-&gt;</span> <span class='ident'>IoResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
+		<span class='self'>self</span>.<span class='ident'>stream</span>.<span class='ident'>write_websocket_response</span>(<span class='ident'>response</span>)
 	}
 	
 	<span class='doccomment'>/// Returns a WebSocketSender from this client. Used to transmit data to the remote endpoint,</span>

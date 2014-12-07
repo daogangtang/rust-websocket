@@ -171,7 +171,7 @@
 <span class='doccomment'>//! 				let response = WebSocketResponse::new::&lt;String&gt;(key.as_slice(), None);</span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Send the response to the client</span>
-<span class='doccomment'>//! 				let _ = client.send_handshake_response(response);</span>
+<span class='doccomment'>//! 				let _ = client.send_handshake_response(&amp;response);</span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// Now we can send and receive messages</span>
 <span class='doccomment'>//! 				let receiver = client.receiver();</span>

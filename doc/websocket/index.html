@@ -84,7 +84,7 @@
                 <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>WebSocketResponse</span>::<span class='ident'>new</span>::<span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>(<span class='ident'>key</span>.<span class='ident'>as_slice</span>(), <span class='prelude-val'>None</span>);
                 
                 <span class='comment'>// Send the response to the client</span>
-                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>send_handshake_response</span>(<span class='ident'>response</span>);
+                <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>send_handshake_response</span>(<span class='kw-2'>&amp;</span><span class='ident'>response</span>);
                 
                 <span class='comment'>// Now we can send and receive messages</span>
                 <span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receiver</span>();
