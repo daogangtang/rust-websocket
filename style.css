@@ -15,7 +15,6 @@ pre code {
 	border:solid 1px #CCC;
 	border-radius:3px;
 	display:block;
-	white-space:nowrap;
 	overflow:auto;
 	padding:5px;
 	line-height:130%;
