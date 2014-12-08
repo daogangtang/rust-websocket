@@ -283,12 +283,12 @@
 
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>util</span>::{<span class='ident'>ReadUntilStr</span>, <span class='ident'>HeaderCollection</span>, <span class='ident'>ReadHttpHeaders</span>, <span class='ident'>WriteHttpHeaders</span>};
 <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>version</span>::<span class='ident'>HttpVersion</span>;
+<span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>base64</span>::{<span class='ident'>ToBase64</span>, <span class='ident'>STANDARD</span>};
 <span class='kw'>use</span> <span class='ident'>url</span>::{<span class='ident'>Url</span>, <span class='ident'>ParseResult</span>, <span class='ident'>ParseError</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Reader</span>, <span class='ident'>Writer</span>, <span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>clone</span>::<span class='ident'>Clone</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Show</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rand</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Reader</span>, <span class='ident'>Writer</span>, <span class='ident'>IoResult</span>, <span class='ident'>IoError</span>, <span class='ident'>IoErrorKind</span>};
-<span class='kw'>use</span> <span class='ident'>serialize</span>::<span class='ident'>base64</span>::{<span class='ident'>ToBase64</span>, <span class='ident'>STANDARD</span>};
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>clone</span>::<span class='ident'>Clone</span>;
 
 <span class='doccomment'>/// Represents a WebSocket handshake request, which is sent from the client to the server.</span>
 <span class='doccomment'>/// Use the new() function to create a new request, and send it with the WebSocketClient::connect() function.</span>
@@ -317,7 +317,7 @@
 
 <span class='kw'>impl</span> <span class='ident'>WebSocketRequest</span> {
 	<span class='doccomment'>/// Creates a new WebSocket handshake request for use with WebSocketClient::connect().</span>
-	<span class='doccomment'>/// The URI should use the ws:// scheme (wss:// not supported at this time).</span>
+	<span class='doccomment'>/// The URI should use the ws:// or wss:// scheme.</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>Show</span><span class='op'>&gt;</span>(<span class='ident'>uri</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>protocols</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>A</span>]) <span class='op'>-&gt;</span> <span class='ident'>ParseResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketRequest</span><span class='op'>&gt;</span> {
 		<span class='kw'>let</span> <span class='ident'>ws_uri</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>Url</span>::<span class='ident'>parse</span>(<span class='ident'>uri</span>) {
 			<span class='prelude-val'>Ok</span>(<span class='ident'>uri</span>) <span class='op'>=&gt;</span> { <span class='ident'>uri</span> }
