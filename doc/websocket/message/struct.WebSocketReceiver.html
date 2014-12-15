@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>message</a>::<wbr><a class='struct' href=''>WebSocketReceiver</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1494' href='../../src/websocket/Users/Jason/Documents/GitHub/rust-websocket/src/ws/message/receive.rs.html#49-53'>[src]</a></span></h1>
+        </span><a id='src-1631' href='../../src/websocket/ws/message/receive.rs.html#49-53'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WebSocketReceiver&lt;S: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Stream.html' title='std::io::Stream'>Stream</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a>&gt; {
     // some fields omitted
 }</pre><div class='docblock'><p>Represents a WebSocket receiver which can receive data from the remote endpoint.
@@ -55,7 +55,7 @@ A WebSocketReceiver can be captured into another task for concurrency</p>
  
 <span class='kw'>let</span> <span class='ident'>receiver</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>receiver</span>();
  
-<span class='ident'>spawn</span>(<span class='kw'>proc</span>() {
+<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
     <span class='comment'>// Will continuously try to receive messages</span>
     <span class='kw'>for</span> <span class='ident'>message</span> <span class='kw'>in</span> <span class='ident'>receiver</span>.<span class='ident'>incoming</span>() {
         <span class='kw'>match</span> <span class='ident'>message</span> {
