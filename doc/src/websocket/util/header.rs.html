@@ -213,7 +213,7 @@
 		<span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='ident'>lowercase</span>.<span class='ident'>to_string</span>(), <span class='ident'>value</span>.<span class='ident'>to_string</span>()) {
 			<span class='prelude-val'>Some</span>(<span class='ident'>old_value</span>) <span class='op'>=&gt;</span> {
 				<span class='comment'>//Append if there&#39;s already a value</span>
-				<span class='self'>self</span>.<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='ident'>lowercase</span>.<span class='ident'>to_string</span>(), <span class='ident'>old_value</span> <span class='op'>+</span> <span class='string'>&quot;, &quot;</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='ident'>value</span>.<span class='ident'>to_string</span>());
+				<span class='self'>self</span>.<span class='ident'>map</span>.<span class='ident'>insert</span>(<span class='ident'>lowercase</span>.<span class='ident'>to_string</span>(), <span class='ident'>old_value</span>.<span class='ident'>to_string</span>() <span class='op'>+</span> <span class='string'>&quot;, &quot;</span> <span class='op'>+</span> <span class='ident'>value</span>.<span class='ident'>to_string</span>().<span class='ident'>as_slice</span>());
 			}
 			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { }
 		}
