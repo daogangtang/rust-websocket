@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>websocket</a><wbr></span><span class='out-of-band'><a href='stability.html'>[stability]</a> <span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-0' href='../src/websocket/lib.rs.html#1-87'>[src]</a></span></h1>
+        </span><a id='src-0' href='../src/websocket/lib.rs.html#1-88'>[src]</a></span></h1>
 <div class='docblock'><p>Rust-WebSocket is a WebSocket (RFC6455) library written in Rust.
  Rust-WebSocket attempts to provide a framework for WebSocket connections (both clients and servers).
  The library is currently in an experimental state, but can work as a simple WebSocket server or client,
@@ -66,7 +66,7 @@
     <span class='kw'>match</span> <span class='ident'>stream</span> {
         <span class='prelude-val'>Ok</span>(<span class='ident'>stream</span>) <span class='op'>=&gt;</span> {
             <span class='comment'>// Spawn a new task for each connection to run in parallel</span>
-            <span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='ident'>Thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
                 <span class='comment'>// Get a WebSocketClient from this stream</span>
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>WebSocketClient</span>::<span class='ident'>new</span>(<span class='ident'>stream</span>, <span class='ident'>WebSocketClientMode</span>::<span class='ident'>RemoteClient</span>); 
                 
@@ -90,7 +90,7 @@
                 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>sender</span>();
                 
                 <span class='comment'>// ...</span>
-            });
+            }).<span class='ident'>detach</span>();
         }
         _ <span class='op'>=&gt;</span> { <span class='comment'>/* A connection error occurred */</span> }
     }

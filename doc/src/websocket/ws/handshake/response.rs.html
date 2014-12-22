@@ -272,6 +272,15 @@
 <span id='230'>230</span>
 <span id='231'>231</span>
 <span id='232'>232</span>
+<span id='233'>233</span>
+<span id='234'>234</span>
+<span id='235'>235</span>
+<span id='236'>236</span>
+<span id='237'>237</span>
+<span id='238'>238</span>
+<span id='239'>239</span>
+<span id='240'>240</span>
+<span id='241'>241</span>
 </pre><pre class='rust '>
 <span class='attribute'>#[<span class='ident'>phase</span>(<span class='ident'>plugin</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>regex_macros</span>;
@@ -465,10 +474,19 @@
 		<span class='kw'>let</span> <span class='ident'>re</span> <span class='op'>=</span> <span class='macro'>regex</span><span class='macro'>!</span>(<span class='string'>r&quot;HTTP/(?P&lt;vmaj&gt;\d+)(?:\.(?P&lt;vmin&gt;\d+))? (?P&lt;sc&gt;\d\d\d) (?P&lt;rp&gt;.*)&quot;</span>);
 		<span class='kw'>let</span> <span class='ident'>captures</span> <span class='op'>=</span> <span class='ident'>re</span>.<span class='ident'>captures</span>(<span class='ident'>status_line</span>.<span class='ident'>as_slice</span>()).<span class='ident'>unwrap</span>();
 		
-		<span class='kw'>let</span> <span class='ident'>version_major</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>from_str</span>(<span class='ident'>captures</span>.<span class='ident'>name</span>(<span class='string'>&quot;vmaj&quot;</span>));
-		<span class='kw'>let</span> <span class='ident'>version_minor</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>from_str</span>(<span class='ident'>captures</span>.<span class='ident'>name</span>(<span class='string'>&quot;vmin&quot;</span>));
+		<span class='kw'>let</span> <span class='ident'>version_major</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>captures</span>.<span class='ident'>name</span>(<span class='string'>&quot;vmaj&quot;</span>) {
+			<span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> { <span class='ident'>from_str</span>(<span class='ident'>c</span>) },
+			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='prelude-val'>None</span> }
+		};
+		<span class='kw'>let</span> <span class='ident'>version_minor</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>captures</span>.<span class='ident'>name</span>(<span class='string'>&quot;vmin&quot;</span>) {
+			<span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> { <span class='ident'>from_str</span>(<span class='ident'>c</span>) },
+			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='prelude-val'>None</span> }
+		};
 		
-		<span class='kw'>let</span> <span class='ident'>status_code</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>uint</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>from_str</span>(<span class='ident'>captures</span>.<span class='ident'>name</span>(<span class='string'>&quot;sc&quot;</span>));
+		<span class='kw'>let</span> <span class='ident'>status_code</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>uint</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>captures</span>.<span class='ident'>name</span>(<span class='string'>&quot;sc&quot;</span>) {
+			<span class='prelude-val'>Some</span>(<span class='ident'>c</span>) <span class='op'>=&gt;</span> { <span class='ident'>from_str</span>(<span class='ident'>c</span>) },
+			<span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { <span class='prelude-val'>None</span> }
+		};
 		<span class='kw'>let</span> <span class='ident'>reason_phrase</span> <span class='op'>=</span> <span class='ident'>captures</span>.<span class='ident'>name</span>(<span class='string'>&quot;rp&quot;</span>).<span class='ident'>to_string</span>();
 		<span class='kw'>let</span> <span class='ident'>headers</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>read_http_headers</span>());
 		

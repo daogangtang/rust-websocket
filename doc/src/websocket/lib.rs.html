@@ -127,6 +127,7 @@
 <span id='85'>85</span>
 <span id='86'>86</span>
 <span id='87'>87</span>
+<span id='88'>88</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_name</span> <span class='op'>=</span> <span class='string'>&quot;websocket&quot;</span>]</span>
@@ -141,6 +142,7 @@
 <span class='doccomment'>//! on an accepted stream. You will then need to read the handshake from the client and send a response.</span>
 <span class='doccomment'>//! </span>
 <span class='doccomment'>//! ```no_run</span>
+<span class='doccomment'>//! # use std::thread::Thread;</span>
 <span class='doccomment'>//! use std::io::TcpListener;</span>
 <span class='doccomment'>//! use std::io::{Listener, Acceptor};</span>
 <span class='doccomment'>//! use websocket::{WebSocketClient, WebSocketClientMode};</span>
@@ -153,7 +155,7 @@
 <span class='doccomment'>//! 	match stream {</span>
 <span class='doccomment'>//! 		Ok(stream) =&gt; {</span>
 <span class='doccomment'>//! 			// Spawn a new task for each connection to run in parallel</span>
-<span class='doccomment'>//! 			spawn(move || {</span>
+<span class='doccomment'>//! 			Thread::spawn(move || {</span>
 <span class='doccomment'>//! 				// Get a WebSocketClient from this stream</span>
 <span class='doccomment'>//! 				let mut client = WebSocketClient::new(stream, WebSocketClientMode::RemoteClient); </span>
 <span class='doccomment'>//! 				</span>
@@ -177,7 +179,7 @@
 <span class='doccomment'>//! 				let mut sender = client.sender();</span>
 <span class='doccomment'>//! 				</span>
 <span class='doccomment'>//! 				// ...</span>
-<span class='doccomment'>//! 			});</span>
+<span class='doccomment'>//! 			}).detach();</span>
 <span class='doccomment'>//! 		}</span>
 <span class='doccomment'>//! 		_ =&gt; { /* A connection error occurred */ }</span>
 <span class='doccomment'>//! 	}</span>
