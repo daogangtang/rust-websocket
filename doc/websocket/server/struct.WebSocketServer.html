@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `WebSocketServer` struct in crate `websocket`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, WebSocketServer">
+
+    <title>websocket::server::WebSocketServer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>websocket</a>::<wbr><a href='index.html'>server</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.WebSocketAcceptor.html'>WebSocketAcceptor</a><a class='struct current' href='struct.WebSocketServer.html'>WebSocketServer</a></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>server</a>::<wbr><a class='struct' href=''>WebSocketServer</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="collapse-all" href="#">[-]
+            </a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-12169' href='../../src/websocket/server/mod.rs.html#85-88'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct WebSocketServer&lt;'a&gt; {
+    // some fields omitted
+}</pre><div class='docblock'><p>Represents a WebSocketServer which can work with either normal (non-secure) connections, or secure WebSocket connections.</p>
+
+<p>This is a convenient way to implement WebSocket servers, however it is possible to use any sendable Reader and Writer to obtain
+ a WebSocketClient, so if needed, an alternative server implementation can be used. </p>
+
+<h1 id="non-secure-servers" class='section-header'><a
+                           href="#non-secure-servers">Non-secure Servers</a></h1><pre class='rust '>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>websocket</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>::<span class='ident'>Thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Listener</span>, <span class='ident'>Acceptor</span>};
+<span class='kw'>use</span> <span class='ident'>websocket</span>::{<span class='ident'>WebSocketServer</span>, <span class='ident'>WebSocketMessage</span>};
+
+<span class='kw'>let</span> <span class='ident'>server</span> <span class='op'>=</span> <span class='ident'>WebSocketServer</span>::<span class='ident'>bind</span>(<span class='string'>&quot;127.0.0.1:1234&quot;</span>).<span class='ident'>unwrap</span>();
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>acceptor</span> <span class='op'>=</span> <span class='ident'>server</span>.<span class='ident'>listen</span>().<span class='ident'>unwrap</span>();
+<span class='kw'>for</span> <span class='ident'>request</span> <span class='kw'>in</span> <span class='ident'>acceptor</span>.<span class='ident'>incoming</span>() {
+    <span class='comment'>// Spawn a new thread for each connection.</span>
+    <span class='ident'>Thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+        <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>unwrap</span>(); <span class='comment'>// Get the request</span>
+        <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>accept</span>(); <span class='comment'>// Form a response</span>
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>response</span>.<span class='ident'>send</span>().<span class='ident'>unwrap</span>(); <span class='comment'>// Send the response</span>
+        
+        <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>WebSocketMessage</span>::<span class='ident'>Text</span>(<span class='string'>&quot;Hello, client!&quot;</span>.<span class='ident'>to_string</span>());
+        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>send_message</span>(<span class='ident'>message</span>);
+        
+        <span class='comment'>// ...</span>
+    }).<span class='ident'>detach</span>();
+}
+</pre>
+
+<h1 id="secure-servers" class='section-header'><a
+                           href="#secure-servers">Secure Servers</a></h1><pre class='rust '>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>websocket</span>;
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>openssl</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>::<span class='ident'>Thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>Listener</span>, <span class='ident'>Acceptor</span>};
+<span class='kw'>use</span> <span class='ident'>websocket</span>::{<span class='ident'>WebSocketServer</span>, <span class='ident'>WebSocketMessage</span>};
+<span class='kw'>use</span> <span class='ident'>openssl</span>::<span class='ident'>ssl</span>::{<span class='ident'>SslContext</span>, <span class='ident'>SslMethod</span>};
+<span class='kw'>use</span> <span class='ident'>openssl</span>::<span class='ident'>x509</span>::<span class='ident'>X509FileType</span>;
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>context</span> <span class='op'>=</span> <span class='ident'>SslContext</span>::<span class='ident'>new</span>(<span class='ident'>SslMethod</span>::<span class='ident'>Tlsv1</span>).<span class='ident'>unwrap</span>();
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>set_certificate_file</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;cert.pem&quot;</span>)), <span class='ident'>X509FileType</span>::<span class='ident'>PEM</span>);
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>context</span>.<span class='ident'>set_private_key_file</span>(<span class='kw-2'>&amp;</span>(<span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='string'>&quot;key.pem&quot;</span>)), <span class='ident'>X509FileType</span>::<span class='ident'>PEM</span>);
+<span class='kw'>let</span> <span class='ident'>server</span> <span class='op'>=</span> <span class='ident'>WebSocketServer</span>::<span class='ident'>bind_secure</span>(<span class='string'>&quot;127.0.0.1:1234&quot;</span>, <span class='kw-2'>&amp;</span><span class='ident'>context</span>).<span class='ident'>unwrap</span>();
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>acceptor</span> <span class='op'>=</span> <span class='ident'>server</span>.<span class='ident'>listen</span>().<span class='ident'>unwrap</span>();
+<span class='kw'>for</span> <span class='ident'>request</span> <span class='kw'>in</span> <span class='ident'>acceptor</span>.<span class='ident'>incoming</span>() {
+    <span class='comment'>// Spawn a new thread for each connection.</span>
+    <span class='ident'>Thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+        <span class='kw'>let</span> <span class='ident'>request</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>unwrap</span>(); <span class='comment'>// Get the request</span>
+        <span class='kw'>let</span> <span class='ident'>response</span> <span class='op'>=</span> <span class='ident'>request</span>.<span class='ident'>accept</span>(); <span class='comment'>// Form a response</span>
+        <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>client</span> <span class='op'>=</span> <span class='ident'>response</span>.<span class='ident'>send</span>().<span class='ident'>unwrap</span>(); <span class='comment'>// Send the response</span>
+        
+        <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>WebSocketMessage</span>::<span class='ident'>Text</span>(<span class='string'>&quot;Hello, client!&quot;</span>.<span class='ident'>to_string</span>());
+        <span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>send_message</span>(<span class='ident'>message</span>);
+        
+        <span class='comment'>// ...</span>
+    }).<span class='ident'>detach</span>();
+}
+</pre>
+
+<h1 id="custom-implementations" class='section-header'><a
+                           href="#custom-implementations">Custom implementations</a></h1>
+<p>Rust-WebSocket allows you to use any (sendable) Reader and Writer with a WebSocketClient.
+ This means you can implement your own server in which ever way you please.</p>
+
+<p>The essential things are to obtain a Reader and a Writer and pass them to <code>WebSocketRequest::read()</code>.
+ This will give you an inbound WebSocketRequest which can be used with <code>WebSocketResponse::new()</code>.
+ Finally, call <code>begin()</code> or <code>begin_with()</code> on the response to obtain a WebSocketClient and begin
+ sending/receiving messages.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl&lt;'a&gt; <a class='struct' href='../../websocket/server/struct.WebSocketServer.html' title='websocket::server::WebSocketServer'>WebSocketServer</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.bind' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.bind' class='fnname'>bind</a>&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/net/ip/trait.ToSocketAddr.html' title='std::io::net::ip::ToSocketAddr'>ToSocketAddr</a>&gt;(addr: T) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../../websocket/server/struct.WebSocketServer.html' title='websocket::server::WebSocketServer'>WebSocketServer</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Bind this WebSocketServer to this socket</p>
+</div><h4 id='method.bind_secure' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.bind_secure' class='fnname'>bind_secure</a>&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/net/ip/trait.ToSocketAddr.html' title='std::io::net::ip::ToSocketAddr'>ToSocketAddr</a>&gt;(addr: T, context: &amp;'a <a class='struct' href='../../openssl/ssl/struct.SslContext.html' title='openssl::ssl::SslContext'>SslContext</a>) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../../websocket/server/struct.WebSocketServer.html' title='websocket::server::WebSocketServer'>WebSocketServer</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Bind this WebSocketServer to this socket, utilising the given SslContext</p>
+</div><h4 id='method.socket_name' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.socket_name' class='fnname'>socket_name</a>(&amp;mut self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/std/io/net/ip/struct.SocketAddr.html' title='std::io::net::ip::SocketAddr'>SocketAddr</a>&gt;</code></h4>
+<div class='docblock'><p>Get the socket name of this server</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Experimental' title='Experimental'></a><code>impl&lt;'a&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Listener.html' title='std::io::Listener'>Listener</a>&lt;<a class='struct' href='../../websocket/handshake/request/struct.WebSocketRequest.html' title='websocket::handshake::request::WebSocketRequest'>WebSocketRequest</a>&lt;<a class='enum' href='../../websocket/common/stream/enum.WebSocketStream.html' title='websocket::common::stream::WebSocketStream'>WebSocketStream</a>, <a class='enum' href='../../websocket/common/stream/enum.WebSocketStream.html' title='websocket::common::stream::WebSocketStream'>WebSocketStream</a>, <a class='struct' href='../../websocket/common/struct.Inbound.html' title='websocket::common::Inbound'>Inbound</a>&gt;, <a class='struct' href='../../websocket/server/struct.WebSocketAcceptor.html' title='websocket::server::WebSocketAcceptor'>WebSocketAcceptor</a>&lt;'a&gt;&gt; for <a class='struct' href='../../websocket/server/struct.WebSocketServer.html' title='websocket::server::WebSocketServer'>WebSocketServer</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.listen' class='method'><a class='stability Experimental' title='Experimental'></a><code>fn <a href='#method.listen' class='fnname'>listen</a>(self) -&gt; <a class='type' href='http://doc.rust-lang.org/nightly/std/io/type.IoResult.html' title='std::io::IoResult'>IoResult</a>&lt;<a class='struct' href='../../websocket/server/struct.WebSocketAcceptor.html' title='websocket::server::WebSocketAcceptor'>WebSocketAcceptor</a>&lt;'a&gt;&gt;</code></h4>
+<div class='docblock'><p>Begin listening for connections</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "websocket";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

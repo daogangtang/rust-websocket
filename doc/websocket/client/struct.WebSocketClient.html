@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `WebSocketClient` struct in crate `websocket`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, WebSocketClient">
+
+    <title>websocket::client::WebSocketClient - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>websocket</a>::<wbr><a href='index.html'>client</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='fragment/index.html'>fragment</a><a class='mod ' href='incoming/index.html'>incoming</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.WebSocketClient.html'>WebSocketClient</a></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>websocket</a>::<wbr><a href='index.html'>client</a>::<wbr><a class='struct' href=''>WebSocketClient</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="collapse-all" href="#">[-]
+            </a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-594' href='../../src/websocket/client/mod.rs.html#21-24'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct WebSocketClient&lt;S: <a class='trait' href='../../websocket/dataframe/sender/trait.WebSocketDataFrameSender.html' title='websocket::dataframe::sender::WebSocketDataFrameSender'>WebSocketDataFrameSender</a>&lt;W&gt;, R: <a class='trait' href='../../websocket/dataframe/receiver/trait.WebSocketDataFrameReceiver.html' title='websocket::dataframe::receiver::WebSocketDataFrameReceiver'>WebSocketDataFrameReceiver</a>&lt;E&gt;, C: <a class='trait' href='../../websocket/dataframe/converter/trait.WebSocketDataFrameConverter.html' title='websocket::dataframe::converter::WebSocketDataFrameConverter'>WebSocketDataFrameConverter</a>&lt;M&gt;, E: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Reader.html' title='std::io::Reader'>Reader</a>, W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>, M: <a class='trait' href='../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt; {
+    // some fields omitted
+}</pre><div class='docblock'><p>Represents a WebSocketClient which connects to a WebSocketServer. See the main library documentation for how to obtain a <code>WebSocketClient</code>.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl&lt;S: <a class='trait' href='../../websocket/dataframe/sender/trait.WebSocketDataFrameSender.html' title='websocket::dataframe::sender::WebSocketDataFrameSender'>WebSocketDataFrameSender</a>&lt;W&gt;, R: <a class='trait' href='../../websocket/dataframe/receiver/trait.WebSocketDataFrameReceiver.html' title='websocket::dataframe::receiver::WebSocketDataFrameReceiver'>WebSocketDataFrameReceiver</a>&lt;E&gt;, C: <a class='trait' href='../../websocket/dataframe/converter/trait.WebSocketDataFrameConverter.html' title='websocket::dataframe::converter::WebSocketDataFrameConverter'>WebSocketDataFrameConverter</a>&lt;M&gt;, E: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Reader.html' title='std::io::Reader'>Reader</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>, W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>, M: <a class='trait' href='../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt; <a class='struct' href='../../websocket/client/struct.WebSocketClient.html' title='websocket::client::WebSocketClient'>WebSocketClient</a>&lt;S, R, C, E, W, M&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.new' class='fnname'>new</a>(sender: S, receiver: R, converter: C) -&gt; <a class='struct' href='../../websocket/client/struct.WebSocketClient.html' title='websocket::client::WebSocketClient'>WebSocketClient</a>&lt;S, R, C, E, W, M&gt;</code></h4>
+<div class='docblock'><p>Create a WebSocketClient from the specified WebSocketDataFrameSender and WebSocketDataFrameReceiver.
+Not required for normal usage (used internally by <code>WebSocketResponse</code>).</p>
+</div><h4 id='method.send_dataframe' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.send_dataframe' class='fnname'>send_dataframe</a>(&amp;mut self, dataframe: &amp;<a class='struct' href='../../websocket/dataframe/struct.WebSocketDataFrame.html' title='websocket::dataframe::WebSocketDataFrame'>WebSocketDataFrame</a>) -&gt; <a class='type' href='../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<div class='docblock'><p>Sends a WebSocketDataFrame. Blocks the task until the message has been sent.</p>
+</div><h4 id='method.recv_dataframe' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.recv_dataframe' class='fnname'>recv_dataframe</a>(&amp;mut self) -&gt; <a class='type' href='../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;<a class='struct' href='../../websocket/dataframe/struct.WebSocketDataFrame.html' title='websocket::dataframe::WebSocketDataFrame'>WebSocketDataFrame</a>&gt;</code></h4>
+<div class='docblock'><p>Receives a single WebSocketDataFrame - may corrupt messages received from recv_message(),
+so do not use both at the same time (ie. either use only recv_dataframe() or use only recv_message())</p>
+</div><h4 id='method.incoming_dataframes' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.incoming_dataframes' class='fnname'>incoming_dataframes</a>(&amp;mut self) -&gt; <a class='struct' href='../../websocket/client/incoming/struct.IncomingDataFrames.html' title='websocket::client::incoming::IncomingDataFrames'>IncomingDataFrames</a>&lt;S, R, C, E, W, M&gt;</code></h4>
+<div class='docblock'><p>Gets an iterator over incoming data frames</p>
+</div><h4 id='method.incoming_messages' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.incoming_messages' class='fnname'>incoming_messages</a>(&amp;mut self) -&gt; <a class='struct' href='../../websocket/client/incoming/struct.IncomingMessages.html' title='websocket::client::incoming::IncomingMessages'>IncomingMessages</a>&lt;S, R, C, E, W, M&gt;</code></h4>
+<div class='docblock'><p>Gets an iterator over incoming messages.</p>
+
+<p>The iterator always returns Some(), and each iteration will block until a message is received.</p>
+<pre class='rust '>
+<span class='kw'>for</span> <span class='ident'>message</span> <span class='kw'>in</span> <span class='ident'>client</span>.<span class='ident'>incoming_messages</span>() {
+    <span class='kw'>match</span> <span class='ident'>message</span>.<span class='ident'>unwrap</span>() {
+        <span class='ident'>WebSocketMessage</span>::<span class='ident'>Text</span>(<span class='ident'>text</span>) <span class='op'>=&gt;</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Text: {}&quot;</span>, <span class='ident'>text</span>); },
+        <span class='ident'>WebSocketMessage</span>::<span class='ident'>Binary</span>(<span class='ident'>data</span>) <span class='op'>=&gt;</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Binary data received&quot;</span>); },
+        _ <span class='op'>=&gt;</span> { }
+    }
+}
+</pre>
+</div><h4 id='method.frag_send_text' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.frag_send_text' class='fnname'>frag_send_text</a>&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/collections/string/trait.ToString.html' title='collections::string::ToString'>ToString</a>, I: <a class='trait' href='http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;T&gt;&gt;(&amp;mut self, iterator: I) -&gt; <a class='type' href='../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<div class='docblock'><p>Sends strings from an iterator immediately to the remote endpoint as a single (fragmented) message</p>
+<pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>client</span>::<span class='ident'>fragment</span>::<span class='ident'>string_fragmenter</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>::<span class='ident'>Thread</span>;
+<span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>writer</span>, <span class='ident'>iterator</span>) <span class='op'>=</span> <span class='ident'>string_fragmenter</span>(); <span class='comment'>//Returns a writer and and iterator</span>
+<span class='ident'>Thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+    <span class='ident'>writer</span>.<span class='ident'>push</span>(<span class='string'>&quot;This &quot;</span>);
+    <span class='ident'>writer</span>.<span class='ident'>push</span>(<span class='string'>&quot;is &quot;</span>);
+    <span class='ident'>writer</span>.<span class='ident'>push</span>(<span class='string'>&quot;a &quot;</span>);
+    <span class='ident'>writer</span>.<span class='ident'>push</span>(<span class='string'>&quot;fragmented &quot;</span>);
+    <span class='ident'>writer</span>.<span class='ident'>push</span>(<span class='string'>&quot;message.&quot;</span>);
+    <span class='ident'>writer</span>.<span class='ident'>finish</span>();            
+}).<span class='ident'>detach</span>();
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>frag_send_text</span>(<span class='ident'>iterator</span>);
+</pre>
+</div><h4 id='method.frag_send_bytes' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.frag_send_bytes' class='fnname'>frag_send_bytes</a>&lt;I: <a class='trait' href='http://doc.rust-lang.org/nightly/core/iter/trait.Iterator.html' title='core::iter::Iterator'>Iterator</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;&gt;&gt;(&amp;mut self, iterator: I) -&gt; <a class='type' href='../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<div class='docblock'><p>Sends binary data from an iterator immediately to the remote endpoint as a single (fragmented) message</p>
+</div><h4 id='method.send_message' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.send_message' class='fnname'>send_message</a>(&amp;mut self, message: M) -&gt; <a class='type' href='../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<div class='docblock'><p>Sends a WebSocketMessage. Blocks the task until the message has been sent.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>WebSocketMessage</span>::<span class='ident'>Text</span>(<span class='string'>&quot;Hello, server!&quot;</span>.<span class='ident'>to_string</span>());
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>send_message</span>(<span class='ident'>message</span>);
+</pre>
+</div><h4 id='method.recv_message' class='method'><a class='stability Unstable' title='Unstable'></a><code>fn <a href='#method.recv_message' class='fnname'>recv_message</a>(&amp;mut self) -&gt; <a class='type' href='../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;M&gt;</code></h4>
+<div class='docblock'><p>Receives a WebSocketMessage. Blocks the task until a full message is received.</p>
+<pre class='rust '>
+<span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='ident'>client</span>.<span class='ident'>recv_message</span>().<span class='ident'>unwrap</span>();
+<span class='kw'>match</span> <span class='ident'>message</span> {
+    <span class='ident'>WebSocketMessage</span>::<span class='ident'>Text</span>(<span class='ident'>text</span>) <span class='op'>=&gt;</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Text: {}&quot;</span>, <span class='ident'>text</span>); },
+    <span class='ident'>WebSocketMessage</span>::<span class='ident'>Binary</span>(<span class='ident'>data</span>) <span class='op'>=&gt;</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Binary data received&quot;</span>); },
+    _ <span class='op'>=&gt;</span> { }
+}
+</pre>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl&lt;S: <a class='trait' href='../../websocket/dataframe/sender/trait.WebSocketDataFrameSender.html' title='websocket::dataframe::sender::WebSocketDataFrameSender'>WebSocketDataFrameSender</a>&lt;W&gt;, R: <a class='trait' href='../../websocket/dataframe/receiver/trait.WebSocketDataFrameReceiver.html' title='websocket::dataframe::receiver::WebSocketDataFrameReceiver'>WebSocketDataFrameReceiver</a>&lt;E&gt;, C: <a class='trait' href='../../websocket/dataframe/converter/trait.WebSocketDataFrameConverter.html' title='websocket::dataframe::converter::WebSocketDataFrameConverter'>WebSocketDataFrameConverter</a>&lt;M&gt;, E: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Reader.html' title='std::io::Reader'>Reader</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>, W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>, M: <a class='trait' href='../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../websocket/client/struct.WebSocketClient.html' title='websocket::client::WebSocketClient'>WebSocketClient</a>&lt;S, R, C, E, W, M&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../websocket/client/struct.WebSocketClient.html' title='websocket::client::WebSocketClient'>WebSocketClient</a>&lt;S, R, C, E, W, M&gt;</code></h4>
+<div class='docblock'><p>Clone this WebSocketClient, allowing for concurrent operations on a single stream.</p>
+
+<p>All cloned clients refer to the same underlying stream. Simultaneous reads will not
+return the same data; the first read will obtain one WebSocketMessage/WebSocketDataFrame,<br>
+the second will obtain the next WebSocketMessage/WebSocketDataFrame, etc.</p>
+</div><h4 id='method.clone_from' class='tymethod'><a class='stability Unstable' title='Unstable: this function rarely unused'></a><code>fn <a href='#tymethod.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><a class='stability Experimental' title='Experimental'></a><code>impl&lt;S: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> + <a class='trait' href='../../websocket/dataframe/sender/trait.WebSocketDataFrameSender.html' title='websocket::dataframe::sender::WebSocketDataFrameSender'>WebSocketDataFrameSender</a>&lt;W&gt;, R: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> + <a class='trait' href='../../websocket/dataframe/receiver/trait.WebSocketDataFrameReceiver.html' title='websocket::dataframe::receiver::WebSocketDataFrameReceiver'>WebSocketDataFrameReceiver</a>&lt;E&gt;, C: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> + <a class='trait' href='../../websocket/dataframe/converter/trait.WebSocketDataFrameConverter.html' title='websocket::dataframe::converter::WebSocketDataFrameConverter'>WebSocketDataFrameConverter</a>&lt;M&gt;, E: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Reader.html' title='std::io::Reader'>Reader</a>, W: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a>, M: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> + <a class='trait' href='../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt; <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> for <a class='struct' href='../../websocket/client/struct.WebSocketClient.html' title='websocket::client::WebSocketClient'>WebSocketClient</a>&lt;S, R, C, E, W, M&gt;</code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "websocket";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

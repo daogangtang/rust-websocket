@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod current' href='../handshake/index.html'>handshake</a><a class='mod ' href='../headers/index.html'>headers</a><a class='mod ' href='../message/index.html'>message</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='../struct.WebSocketClient.html'>WebSocketClient</a></div><div class='block enum'><h2>Enums</h2><a class='enum ' href='../enum.WebSocketClientMode.html'>WebSocketClientMode</a></div>
+        <p class='location'><a href='../index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../client/index.html'>client</a><a class='mod ' href='../common/index.html'>common</a><a class='mod ' href='../dataframe/index.html'>dataframe</a><a class='mod current' href='../handshake/index.html'>handshake</a><a class='mod ' href='../header/index.html'>header</a><a class='mod ' href='../message/index.html'>message</a><a class='mod ' href='../server/index.html'>server</a></div>
     </section>
 
     <nav class="sub">
@@ -41,40 +41,35 @@
     </nav>
 
     <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>websocket</a>::<wbr><a class='mod' href=''>handshake</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>websocket</a>::<wbr><a class='mod' href=''>handshake</a><wbr><a class='stability Stable' title=''>Stable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-18' href='../../src/websocket/lib.rs.html#74-78'>[src]</a></span></h1>
-<div class='docblock'><p>Structs for WebSocket handshake requests and responses</p>
-</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+        </span><a id='src-6781' href='../../src/websocket/handshake/mod.rs.html#1-10'>[src]</a></span></h1>
+<div class='docblock'><p>Structs for dealing with WebSocket requests and responses.</p>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use self::<a class='mod'
+                                            href='./request/index.html'>request</a>::<a class='struct' href='../../websocket/handshake/request/struct.WebSocketRequest.html' title='websocket::handshake::request::WebSocketRequest'>WebSocketRequest</a>;</code></td></tr><tr><td><code>pub use self::<a class='mod'
+                                            href='./response/index.html'>response</a>::<a class='struct' href='../../websocket/handshake/response/struct.WebSocketResponse.html' title='websocket::handshake::response::WebSocketResponse'>WebSocketResponse</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.HttpVersion.html'
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='mod' href='request/index.html'
+                               title='websocket::handshake::request'>request</a></td>
+                        <td class='docblock short'><p>Structs for WebSocket requests</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='mod' href='response/index.html'
+                               title='websocket::handshake::response'>response</a></td>
+                        <td class='docblock short'><p>Structs for WebSocket responses</p>
+</td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Experimental' title='Experimental'></a><a class='enum' href='enum.HttpVersion.html'
                                title='websocket::handshake::HttpVersion'>HttpVersion</a></td>
-                        <td class='docblock short'><p>Represents an HTTP version.</p>
-</td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketRequest.html'
-                               title='websocket::handshake::WebSocketRequest'>WebSocketRequest</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket handshake request, which is sent from the client to the server.
-Use the new() function to create a new request, and send it with the WebSocketClient::connect() function.
-Use the WebSocketClient.receive_handshake_request() method to read a WebSocketRequest from a remote client.</p>
-<pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketRequest</span>;
-</pre>
-</td>
-                    </tr>
-                
-                    <tr>
-                        <td><a class='stability Unmarked' title='No stability level'></a><a class='struct' href='struct.WebSocketResponse.html'
-                               title='websocket::handshake::WebSocketResponse'>WebSocketResponse</a></td>
-                        <td class='docblock short'><p>Represents a WebSocket response which is sent from the server to the client.
-Use the new() function to create a new response, and send it with the WebSocketClient::send_handshake_response() function.</p>
-<pre class='rust '>
-<span class='kw'>use</span> <span class='ident'>websocket</span>::<span class='ident'>handshake</span>::<span class='ident'>WebSocketResponse</span>;
-</pre>
+                        <td class='docblock short'><p>Represents a version of the HTTP spec.</p>
 </td>
                     </tr>
                 </table></section>

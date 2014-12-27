@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `dataframe` mod in crate `websocket`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, dataframe">
+
+    <title>websocket::dataframe - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='../index.html'>websocket</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='../client/index.html'>client</a><a class='mod ' href='../common/index.html'>common</a><a class='mod current' href='../dataframe/index.html'>dataframe</a><a class='mod ' href='../handshake/index.html'>handshake</a><a class='mod ' href='../header/index.html'>header</a><a class='mod ' href='../message/index.html'>message</a><a class='mod ' href='../server/index.html'>server</a></div>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>websocket</a>::<wbr><a class='mod' href=''>dataframe</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="collapse-all" href="#">[-]
+            </a>&nbsp;<a id="expand-all" href="#">[+]</a>
+        </span><a id='src-3038' href='../../src/websocket/dataframe/mod.rs.html#1-41'>[src]</a></span></h1>
+<div class='docblock'><p>Structs for dealing with WebSocket data frames</p>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use self::sender::{<a class='trait' href='../../websocket/dataframe/sender/trait.WebSocketDataFrameSender.html' title='websocket::dataframe::sender::WebSocketDataFrameSender'>WebSocketDataFrameSender</a>, <a class='struct' href='../../websocket/dataframe/sender/struct.WebSocketSender.html' title='websocket::dataframe::sender::WebSocketSender'>WebSocketSender</a>};</code></td></tr><tr><td><code>pub use self::receiver::{<a class='trait' href='../../websocket/dataframe/receiver/trait.WebSocketDataFrameReceiver.html' title='websocket::dataframe::receiver::WebSocketDataFrameReceiver'>WebSocketDataFrameReceiver</a>, <a class='struct' href='../../websocket/dataframe/receiver/struct.WebSocketReceiver.html' title='websocket::dataframe::receiver::WebSocketReceiver'>WebSocketReceiver</a>};</code></td></tr><tr><td><code>pub use self::converter::{<a class='trait' href='../../websocket/dataframe/converter/trait.WebSocketDataFrameConverter.html' title='websocket::dataframe::converter::WebSocketDataFrameConverter'>WebSocketDataFrameConverter</a>, <a class='struct' href='../../websocket/dataframe/converter/struct.WebSocketConverter.html' title='websocket::dataframe::converter::WebSocketConverter'>WebSocketConverter</a>};</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='mod' href='converter/index.html'
+                               title='websocket::dataframe::converter'>converter</a></td>
+                        <td class='docblock short'><p>Traits and structs related to conversion of data frames into messages</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Stable' title='Stable'></a><a class='mod' href='mask/index.html'
+                               title='websocket::dataframe::mask'>mask</a></td>
+                        <td class='docblock short'><p>Functions for masking payload data</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Stable' title='Stable'></a><a class='mod' href='opcode/index.html'
+                               title='websocket::dataframe::opcode'>opcode</a></td>
+                        <td class='docblock short'><p>Provides an enumeration of WebSocket opcodes</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Stable' title='Stable'></a><a class='mod' href='raw/index.html'
+                               title='websocket::dataframe::raw'>raw</a></td>
+                        <td class='docblock short'><p>Provides a way to deal with data frames at a lower level</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='mod' href='receiver/index.html'
+                               title='websocket::dataframe::receiver'>receiver</a></td>
+                        <td class='docblock short'><p>Traits and structs related to receiving WebSocket data frames</p>
+</td>
+                    </tr>
+                
+                    <tr>
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='mod' href='sender/index.html'
+                               title='websocket::dataframe::sender'>sender</a></td>
+                        <td class='docblock short'><p>Traits and structs related to sending WebSocket data frames</p>
+</td>
+                    </tr>
+                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr>
+                        <td><a class='stability Stable' title='Stable'></a><a class='struct' href='struct.WebSocketDataFrame.html'
+                               title='websocket::dataframe::WebSocketDataFrame'>WebSocketDataFrame</a></td>
+                        <td class='docblock short'><p>Represents a WebSocket data frame. The data held in a WebSocketDataFrame is never masked.</p>
+</td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "websocket";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>
