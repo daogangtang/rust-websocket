@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\server\mod.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\server\mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -198,7 +198,6 @@
 <span id='156'>156</span>
 <span id='157'>157</span>
 <span id='158'>158</span>
-<span id='159'>159</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Provides an implementation of a WebSocket server</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
@@ -283,7 +282,6 @@
 <span class='doccomment'>/// This will give you an inbound WebSocketRequest which can be used with ```WebSocketResponse::new()```.</span>
 <span class='doccomment'>/// Finally, call ```begin()``` or ```begin_with()``` on the response to obtain a WebSocketClient and begin</span>
 <span class='doccomment'>/// sending/receiving messages.</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketServer</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
 	<span class='ident'>inner</span>: <span class='ident'>TcpListener</span>,
 	<span class='ident'>context</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>SslContext</span><span class='op'>&gt;</span>,

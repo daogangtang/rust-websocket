@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\header\origin.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\header\origin.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>origin.rs.html -- source</title>
@@ -70,6 +70,9 @@
 <span id='28'>28</span>
 <span id='29'>29</span>
 <span id='30'>30</span>
+<span id='31'>31</span>
+<span id='32'>32</span>
+<span id='33'>33</span>
 </pre><pre class='rust '>
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::{<span class='ident'>Header</span>, <span class='ident'>HeaderFormat</span>};
 <span class='kw'>use</span> <span class='ident'>hyper</span>::<span class='ident'>header</span>::<span class='ident'>common</span>::<span class='ident'>util</span>::<span class='ident'>from_one_raw_str</span>;
@@ -77,9 +80,12 @@
 
 <span class='doccomment'>/// Represents an Origin header</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>Show</span>)]</span>
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Origin</span>(<span class='kw'>pub</span> <span class='ident'>String</span>);
 
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>impl</span> <span class='ident'>Deref</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Origin</span> {
+	<span class='attribute'>#[<span class='ident'>stable</span>]</span>
     <span class='kw'>fn</span> <span class='ident'>deref</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>String</span> {
         <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='number'>0</span>
     }

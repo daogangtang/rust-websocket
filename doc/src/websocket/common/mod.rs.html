@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\common\mod.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\common\mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -70,15 +70,6 @@
 <span id='28'>28</span>
 <span id='29'>29</span>
 <span id='30'>30</span>
-<span id='31'>31</span>
-<span id='32'>32</span>
-<span id='33'>33</span>
-<span id='34'>34</span>
-<span id='35'>35</span>
-<span id='36'>36</span>
-<span id='37'>37</span>
-<span id='38'>38</span>
-<span id='39'>39</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Contains some common types for use with Rust-WebSocket</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
@@ -90,35 +81,26 @@
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>error</span>;
 
 <span class='doccomment'>/// The type used for WebSocket results</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>WebSocketError</span><span class='op'>&gt;</span>;
 
 <span class='doccomment'>/// Represents a local endpoint</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Copy</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Local</span>;
 <span class='doccomment'>/// Represents a remote endpoint</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Copy</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Remote</span>;
 
 <span class='doccomment'>/// Represents an inbound object</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Copy</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Inbound</span>;
 <span class='doccomment'>/// Represents an outbound object</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Copy</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Outbound</span>;
-
-<span class='doccomment'>/// Represents text data</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Copy</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Text</span>;
-<span class='doccomment'>/// Represents binary data</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Copy</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Binary</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

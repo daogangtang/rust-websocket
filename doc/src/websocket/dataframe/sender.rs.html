@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\dataframe\sender.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\dataframe\sender.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>sender.rs.html -- source</title>
@@ -119,8 +119,6 @@
 <span id='77'>77</span>
 <span id='78'>78</span>
 <span id='79'>79</span>
-<span id='80'>80</span>
-<span id='81'>81</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Traits and structs related to sending WebSocket data frames</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
@@ -138,8 +136,7 @@
 <span class='doccomment'>/// The function ```RawDataFrame.write()``` writes RawDataFrames to a Writer, allowing</span>
 <span class='doccomment'>/// the data frame sender to simply convert a WebSocketDataFrame into a RawDataFrame</span>
 <span class='doccomment'>/// and let the RawDataFrame do the writing.</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>: <span class='ident'>Send</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>: <span class='ident'>Send</span> {
 	<span class='doccomment'>/// Create a new sender from a Writer</span>
 	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>inner</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>Self</span>;
 	<span class='doccomment'>/// Write a data frame to the inner Writer</span>
@@ -148,12 +145,11 @@
 
 <span class='doccomment'>/// The default WebSocket data frame sender</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Send</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Writer</span>, <span class='ident'>L</span><span class='op'>&gt;</span> {
 	<span class='ident'>inner</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;&gt;</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>Local</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>Local</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Create a new local WebSocketSender using the specified Writer</span>
 	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>inner</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>Local</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketSender</span> {
@@ -176,7 +172,7 @@
 	}
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>Remote</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>Remote</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>inner</span>: <span class='ident'>W</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketSender</span><span class='op'>&lt;</span><span class='ident'>W</span>, <span class='ident'>Remote</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketSender</span> {
 			<span class='ident'>inner</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>inner</span>))

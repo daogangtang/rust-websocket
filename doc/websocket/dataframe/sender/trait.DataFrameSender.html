@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `WebSocketDataFrameSender` trait in crate `websocket`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, WebSocketDataFrameSender">
+    <meta name="description" content="API documentation for the Rust `DataFrameSender` trait in crate `websocket`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, DataFrameSender">
 
-    <title>websocket::dataframe::sender::WebSocketDataFrameSender - Rust</title>
+    <title>websocket::dataframe::sender::DataFrameSender - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>sender</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.WebSocketSender.html'>WebSocketSender</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.WebSocketDataFrameSender.html'>WebSocketDataFrameSender</a></div>
+        <p class='location'><a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>sender</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.WebSocketSender.html'>WebSocketSender</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.DataFrameSender.html'>DataFrameSender</a></div>
     </section>
 
     <nav class="sub">
@@ -41,11 +41,11 @@
     </nav>
 
     <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>sender</a>::<wbr><a class='trait' href=''>WebSocketDataFrameSender</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Trait <a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>sender</a>::<wbr><a class='trait' href=''>DataFrameSender</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-6010' href='../../../src/websocket/dataframe/sender.rs.html#18-23'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait WebSocketDataFrameSender&lt;W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt;: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> {
+        </span><a id='src-5811' href='../../../src/websocket/dataframe/sender.rs.html#17-22'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait DataFrameSender&lt;W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt;: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> {
     fn <a href='#tymethod.new' class='fnname'>new</a>(inner: W) -&gt; Self;
     fn <a href='#tymethod.send_dataframe' class='fnname'>send_dataframe</a>(&amp;mut self, dataframe: &amp;<a class='struct' href='../../../websocket/dataframe/struct.WebSocketDataFrame.html' title='websocket::dataframe::WebSocketDataFrame'>WebSocketDataFrame</a>) -&gt; <a class='type' href='../../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;;
 }</pre><div class='docblock'><p>A trait that allows for sending data frames.</p>
@@ -63,10 +63,10 @@ and let the RawDataFrame do the writing.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><a class='stability Unstable' title='Unstable'></a><code>impl&lt;W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt; <a class='trait' href='../../../websocket/dataframe/sender/trait.WebSocketDataFrameSender.html' title='websocket::dataframe::sender::WebSocketDataFrameSender'>WebSocketDataFrameSender</a>&lt;W&gt; for <a class='struct' href='../../../websocket/dataframe/sender/struct.WebSocketSender.html' title='websocket::dataframe::sender::WebSocketSender'>WebSocketSender</a>&lt;W, <a class='struct' href='../../../websocket/common/struct.Local.html' title='websocket::common::Local'>Local</a>&gt;</code></li>
-<li><a class='stability Unstable' title='Unstable'></a><code>impl&lt;W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt; <a class='trait' href='../../../websocket/dataframe/sender/trait.WebSocketDataFrameSender.html' title='websocket::dataframe::sender::WebSocketDataFrameSender'>WebSocketDataFrameSender</a>&lt;W&gt; for <a class='struct' href='../../../websocket/dataframe/sender/struct.WebSocketSender.html' title='websocket::dataframe::sender::WebSocketSender'>WebSocketSender</a>&lt;W, <a class='struct' href='../../../websocket/common/struct.Remote.html' title='websocket::common::Remote'>Remote</a>&gt;</code></li>
+    <li><a class='stability Unstable' title='Unstable'></a><code>impl&lt;W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt; <a class='trait' href='../../../websocket/dataframe/sender/trait.DataFrameSender.html' title='websocket::dataframe::sender::DataFrameSender'>DataFrameSender</a>&lt;W&gt; for <a class='struct' href='../../../websocket/dataframe/sender/struct.WebSocketSender.html' title='websocket::dataframe::sender::WebSocketSender'>WebSocketSender</a>&lt;W, <a class='struct' href='../../../websocket/common/struct.Local.html' title='websocket::common::Local'>Local</a>&gt;</code></li>
+<li><a class='stability Unstable' title='Unstable'></a><code>impl&lt;W: <a class='trait' href='http://doc.rust-lang.org/nightly/std/io/trait.Writer.html' title='std::io::Writer'>Writer</a> + <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a>&gt; <a class='trait' href='../../../websocket/dataframe/sender/trait.DataFrameSender.html' title='websocket::dataframe::sender::DataFrameSender'>DataFrameSender</a>&lt;W&gt; for <a class='struct' href='../../../websocket/dataframe/sender/struct.WebSocketSender.html' title='websocket::dataframe::sender::WebSocketSender'>WebSocketSender</a>&lt;W, <a class='struct' href='../../../websocket/common/struct.Remote.html' title='websocket::common::Remote'>Remote</a>&gt;</code></li>
 </ul><script type="text/javascript" async
-                              src="../../../implementors/websocket/dataframe/sender/trait.WebSocketDataFrameSender.js">
+                              src="../../../implementors/websocket/dataframe/sender/trait.DataFrameSender.js">
                       </script></section>
     <section id='search' class="content hidden"></section>
 

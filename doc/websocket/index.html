@@ -141,8 +141,8 @@
 <p>Rust-WebSocket provides a number of mechanisms to extend the WebSocket implementation.</p>
 
 <p>The function <code>WebSocketRequest::connect_with()</code> gives the ability to use a different Reader and Writer,
- The method <code>WebSocketResponse::begin_with()</code> allows the use of any WebSocketDataFrameSender, WebSocketDataFrameReceiver,
- WebSocketDataFrameConverter and WebSocketMessaging trait implementers. These traits provide interfaces required for use
+ The method <code>WebSocketResponse::begin_with()</code> allows the use of any DataFrameSender, DataFrameReceiver,
+ DataFrameConverter and WebSocketMessaging trait implementers. These traits provide interfaces required for use
  within Rust-WebSocket.</p>
 
 <p>See each trait for more detailed information.</p>
@@ -157,7 +157,7 @@
                                             href='./message/index.html'>message</a>::<a class='enum' href='../websocket/message/enum.WebSocketMessage.html' title='websocket::message::WebSocketMessage'>WebSocketMessage</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                     <tr>
-                        <td><a class='stability Stable' title='Stable'></a><a class='mod' href='client/index.html'
+                        <td><a class='stability Unstable' title='Unstable'></a><a class='mod' href='client/index.html'
                                title='websocket::client'>client</a></td>
                         <td class='docblock short'><p>Structs for dealing with WebSocket clients</p>
 </td>
@@ -185,7 +185,7 @@
                     </tr>
                 
                     <tr>
-                        <td><a class='stability Unstable' title='Unstable'></a><a class='mod' href='header/index.html'
+                        <td><a class='stability Stable' title='Stable'></a><a class='mod' href='header/index.html'
                                title='websocket::header'>header</a></td>
                         <td class='docblock short'><p>Structs representing headers relevant in a WebSocket context</p>
 </td>

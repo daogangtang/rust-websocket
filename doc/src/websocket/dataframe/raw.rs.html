@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\dataframe\raw.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\dataframe\raw.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>raw.rs.html -- source</title>
@@ -267,6 +267,8 @@
 <span id='225'>225</span>
 <span id='226'>226</span>
 <span id='227'>227</span>
+<span id='228'>228</span>
+<span id='229'>229</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Provides a way to deal with data frames at a lower level</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
@@ -294,6 +296,7 @@
 	<span class='kw'>pub</span> <span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
 }
 
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>impl</span> <span class='ident'>RawDataFrame</span> {
 	<span class='doccomment'>/// Helper function that reads a RawDataFrame from the Reader.</span>
 	<span class='attribute'>#[<span class='ident'>stable</span>]</span>
@@ -439,6 +442,7 @@
 	<span class='ident'>Long</span>(<span class='ident'>u64</span>),
 }
 
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>impl</span> <span class='ident'>DataFrameLength</span> {
 	<span class='doccomment'>/// Retrieve the underlying length as a uint</span>
 	<span class='attribute'>#[<span class='ident'>stable</span>]</span>

@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `WebSocketDataFrameConverter` trait in crate `websocket`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, WebSocketDataFrameConverter">
+    <meta name="description" content="API documentation for the Rust `DataFrameConverter` trait in crate `websocket`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, DataFrameConverter">
 
-    <title>websocket::dataframe::converter::WebSocketDataFrameConverter - Rust</title>
+    <title>websocket::dataframe::converter::DataFrameConverter - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         
-        <p class='location'><a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>converter</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.WebSocketConverter.html'>WebSocketConverter</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.WebSocketDataFrameConverter.html'>WebSocketDataFrameConverter</a></div>
+        <p class='location'><a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>converter</a></p><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.WebSocketConverter.html'>WebSocketConverter</a></div><div class='block trait'><h2>Traits</h2><a class='trait current' href='trait.DataFrameConverter.html'>DataFrameConverter</a></div>
     </section>
 
     <nav class="sub">
@@ -41,11 +41,11 @@
     </nav>
 
     <section id='main' class="content trait">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>converter</a>::<wbr><a class='trait' href=''>WebSocketDataFrameConverter</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
+<h1 class='fqn'><span class='in-band'>Trait <a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>converter</a>::<wbr><a class='trait' href=''>DataFrameConverter</a><wbr><a class='stability Unstable' title=''>Unstable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-5740' href='../../../src/websocket/dataframe/converter.rs.html#12-26'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait WebSocketDataFrameConverter&lt;M: <a class='trait' href='../../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt;: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> {
+        </span><a id='src-5541' href='../../../src/websocket/dataframe/converter.rs.html#11-25'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait DataFrameConverter&lt;M: <a class='trait' href='../../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt;: <a class='trait' href='http://doc.rust-lang.org/nightly/core/kinds/trait.Send.html' title='core::kinds::Send'>Send</a> {
     fn <a href='#tymethod.new' class='fnname'>new</a>() -&gt; Self;
     fn <a href='#tymethod.push' class='fnname'>push</a>(&amp;mut self, dataframe: <a class='struct' href='../../../websocket/dataframe/struct.WebSocketDataFrame.html' title='websocket::dataframe::WebSocketDataFrame'>WebSocketDataFrame</a>) -&gt; <a class='type' href='../../../websocket/common/type.WebSocketResult.html' title='websocket::common::WebSocketResult'>WebSocketResult</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;;
     fn <a href='#tymethod.pop' class='fnname'>pop</a>(&amp;mut self) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;M&gt;;
@@ -67,9 +67,9 @@
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
-    <li><a class='stability Unstable' title='Unstable'></a><code>impl&lt;M: <a class='trait' href='../../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt; <a class='trait' href='../../../websocket/dataframe/converter/trait.WebSocketDataFrameConverter.html' title='websocket::dataframe::converter::WebSocketDataFrameConverter'>WebSocketDataFrameConverter</a>&lt;M&gt; for <a class='struct' href='../../../websocket/dataframe/converter/struct.WebSocketConverter.html' title='websocket::dataframe::converter::WebSocketConverter'>WebSocketConverter</a>&lt;M&gt;</code></li>
+    <li><a class='stability Unstable' title='Unstable'></a><code>impl&lt;M: <a class='trait' href='../../../websocket/message/trait.WebSocketMessaging.html' title='websocket::message::WebSocketMessaging'>WebSocketMessaging</a>&gt; <a class='trait' href='../../../websocket/dataframe/converter/trait.DataFrameConverter.html' title='websocket::dataframe::converter::DataFrameConverter'>DataFrameConverter</a>&lt;M&gt; for <a class='struct' href='../../../websocket/dataframe/converter/struct.WebSocketConverter.html' title='websocket::dataframe::converter::WebSocketConverter'>WebSocketConverter</a>&lt;M&gt;</code></li>
 </ul><script type="text/javascript" async
-                              src="../../../implementors/websocket/dataframe/converter/trait.WebSocketDataFrameConverter.js">
+                              src="../../../implementors/websocket/dataframe/converter/trait.DataFrameConverter.js">
                       </script></section>
     <section id='search' class="content hidden"></section>
 

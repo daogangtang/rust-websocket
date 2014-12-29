@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\dataframe\receiver.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\dataframe\receiver.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>receiver.rs.html -- source</title>
@@ -120,8 +120,6 @@
 <span id='78'>78</span>
 <span id='79'>79</span>
 <span id='80'>80</span>
-<span id='81'>81</span>
-<span id='82'>82</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Traits and structs related to receiving WebSocket data frames</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
@@ -138,8 +136,7 @@
 <span class='doccomment'>/// Data frame receivers read data frames off a Reader, and return WebSocketDataFrames.</span>
 <span class='doccomment'>/// The function RawDataFrame::read() can be used to read a RawDataFrame from a Reader,</span>
 <span class='doccomment'>/// enabling the receiver to simply convert that RawDataFrame to a WebSocketDataFrame.</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>: <span class='ident'>Send</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span>: <span class='ident'>Send</span> {
 <span class='doccomment'>/// WebSocketDataFrame.</span>
 	<span class='doccomment'>/// Create a new receiver from a Reader</span>
 	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>inner</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>Self</span>;
@@ -148,13 +145,12 @@
 }
 
 <span class='doccomment'>/// The default WebSocket data frame receiver</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Send</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span>, <span class='ident'>L</span><span class='op'>&gt;</span> {
 	<span class='ident'>inner</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;&gt;</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>Local</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>Local</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Create a new receiver from a Reader</span>
 	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>inner</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>Local</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketReceiver</span> {
@@ -177,7 +173,7 @@
 	}
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>Remote</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span><span class='op'>&gt;</span> <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>Remote</span><span class='op'>&gt;</span> {
 	<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>inner</span>: <span class='ident'>R</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span>, <span class='ident'>Remote</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketReceiver</span> {
 			<span class='ident'>inner</span>: <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='ident'>inner</span>))

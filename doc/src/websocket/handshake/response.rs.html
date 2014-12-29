@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\handshake\response.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\handshake\response.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>response.rs.html -- source</title>
@@ -208,7 +208,6 @@
 <span id='166'>166</span>
 <span id='167'>167</span>
 <span id='168'>168</span>
-<span id='169'>169</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
 <span class='doccomment'>//! Structs for WebSocket responses</span>
@@ -224,9 +223,9 @@
 <span class='kw'>use</span> <span class='ident'>client</span>::<span class='ident'>WebSocketClient</span>;
 <span class='kw'>use</span> <span class='ident'>common</span>::{<span class='ident'>Inbound</span>, <span class='ident'>Outbound</span>, <span class='ident'>Local</span>, <span class='ident'>Remote</span>, <span class='ident'>WebSocketResult</span>, <span class='ident'>WebSocketError</span>};
 <span class='kw'>use</span> <span class='ident'>message</span>::{<span class='ident'>WebSocketMessaging</span>, <span class='ident'>WebSocketMessage</span>};
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>sender</span>::{<span class='ident'>WebSocketDataFrameSender</span>, <span class='ident'>WebSocketSender</span>};
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>receiver</span>::{<span class='ident'>WebSocketDataFrameReceiver</span>, <span class='ident'>WebSocketReceiver</span>};
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>converter</span>::{<span class='ident'>WebSocketDataFrameConverter</span>, <span class='ident'>WebSocketConverter</span>};
+<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>sender</span>::{<span class='ident'>DataFrameSender</span>, <span class='ident'>WebSocketSender</span>};
+<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>receiver</span>::{<span class='ident'>DataFrameReceiver</span>, <span class='ident'>WebSocketReceiver</span>};
+<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>converter</span>::{<span class='ident'>DataFrameConverter</span>, <span class='ident'>WebSocketConverter</span>};
 
 <span class='doccomment'>/// Represents a WebSocket response</span>
 <span class='doccomment'>/// </span>
@@ -240,7 +239,6 @@
 <span class='doccomment'>/// The headers field allows access to the HTTP headers in the response, but short-cut methods are</span>
 <span class='doccomment'>/// available for accessing common headers.</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Send</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketResponse</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span>, <span class='ident'>B</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// The status of the response</span>
 	<span class='kw'>pub</span> <span class='ident'>status</span>: <span class='ident'>StatusCode</span>,
@@ -302,12 +300,12 @@
 		<span class='self'>self</span>.<span class='ident'>headers</span>.<span class='ident'>get_mut</span>()
 	}
 	
-	<span class='doccomment'>/// Send this response with the given WebSocketDataFrameSender, WebSocketDataFrameReceiver and WebSocketDataFrameConverter</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_with</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>B</span>: <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>WebSocketDataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>C</span>, <span class='ident'>R</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;&gt;</span> {
+	<span class='doccomment'>/// Send this response with the given DataFrameSender, DataFrameReceiver and DataFrameConverter</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>send_with</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>B</span>: <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>C</span>, <span class='ident'>R</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;&gt;</span> {
 		<span class='macro'>try</span><span class='macro'>!</span>(<span class='self'>self</span>.<span class='ident'>write</span>());
-		<span class='kw'>let</span> <span class='ident'>sender</span>: <span class='ident'>A</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrameSender</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>writer</span>);
-		<span class='kw'>let</span> <span class='ident'>receiver</span>: <span class='ident'>B</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrameReceiver</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>reader</span>);
-		<span class='kw'>let</span> <span class='ident'>converter</span>: <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrameConverter</span>::<span class='ident'>new</span>();
+		<span class='kw'>let</span> <span class='ident'>sender</span>: <span class='ident'>A</span> <span class='op'>=</span> <span class='ident'>DataFrameSender</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>writer</span>);
+		<span class='kw'>let</span> <span class='ident'>receiver</span>: <span class='ident'>B</span> <span class='op'>=</span> <span class='ident'>DataFrameReceiver</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>reader</span>);
+		<span class='kw'>let</span> <span class='ident'>converter</span>: <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>DataFrameConverter</span>::<span class='ident'>new</span>();
 		<span class='prelude-val'>Ok</span>(<span class='ident'>WebSocketClient</span>::<span class='ident'>new</span>(<span class='ident'>sender</span>, <span class='ident'>receiver</span>, <span class='ident'>converter</span>))
 	}
 	
@@ -365,13 +363,13 @@
 	}
 	
 	<span class='doccomment'>/// Consume this response and return a WebSocketClient ready to transmit/receive data frames</span>
-	<span class='doccomment'>/// using the specified WebSocketDataFrameSender, WebSocketDataFrameReceiver and WebSocketDataFrameConverter.</span>
+	<span class='doccomment'>/// using the specified DataFrameSender, DataFrameReceiver and DataFrameConverter.</span>
 	<span class='doccomment'>///</span>
 	<span class='doccomment'>/// Does not check if the response was valid. Use ```validate()``` to ensure that the response constitutes a successful handshake.</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>begin_with</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>B</span>: <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>WebSocketDataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>C</span>, <span class='ident'>R</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;</span> {
-		<span class='kw'>let</span> <span class='ident'>sender</span>: <span class='ident'>A</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrameSender</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>writer</span>);
-		<span class='kw'>let</span> <span class='ident'>receiver</span>: <span class='ident'>B</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrameReceiver</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>reader</span>);
-		<span class='kw'>let</span> <span class='ident'>converter</span>: <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrameConverter</span>::<span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>::<span class='ident'>new</span>();
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>begin_with</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>B</span>: <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>R</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>C</span>, <span class='ident'>R</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;</span> {
+		<span class='kw'>let</span> <span class='ident'>sender</span>: <span class='ident'>A</span> <span class='op'>=</span> <span class='ident'>DataFrameSender</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>writer</span>);
+		<span class='kw'>let</span> <span class='ident'>receiver</span>: <span class='ident'>B</span> <span class='op'>=</span> <span class='ident'>DataFrameReceiver</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>reader</span>);
+		<span class='kw'>let</span> <span class='ident'>converter</span>: <span class='ident'>C</span> <span class='op'>=</span> <span class='ident'>DataFrameConverter</span>::<span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>::<span class='ident'>new</span>();
 		<span class='ident'>WebSocketClient</span>::<span class='ident'>new</span>(<span class='ident'>sender</span>, <span class='ident'>receiver</span>, <span class='ident'>converter</span>)
 	}
 	<span class='doccomment'>/// Consume this response and return a WebSocketClient ready to transmit/receive data frames</span>

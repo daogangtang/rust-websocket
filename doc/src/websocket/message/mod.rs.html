@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\message\mod.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\message\mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -148,9 +148,6 @@
 <span id='106'>106</span>
 <span id='107'>107</span>
 <span id='108'>108</span>
-<span id='109'>109</span>
-<span id='110'>110</span>
-<span id='111'>111</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Provides a way to deal with WebSocket messages</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
@@ -164,7 +161,6 @@
 <span class='doccomment'>/// A trait for WebSocket messages</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// Allows for conversion between WebSocketDataFrames and messages.</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>WebSocketMessaging</span>: <span class='ident'>Send</span> {
 	<span class='doccomment'>/// Create a new WebSocket message from an opcode and data</span>
 	<span class='kw'>fn</span> <span class='ident'>from_data</span>(<span class='ident'>opcode</span>: <span class='ident'>WebSocketOpcode</span>, <span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='ident'>Self</span><span class='op'>&gt;</span>;
@@ -174,7 +170,6 @@
 
 <span class='doccomment'>/// Represents a WebSocket message.</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Send</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>WebSocketMessage</span> {
 	<span class='doccomment'>/// A message containing UTF-8 text data</span>
 	<span class='ident'>Text</span>(<span class='ident'>String</span>),
@@ -235,7 +230,6 @@
 
 <span class='doccomment'>/// Represents data contained in a Close message</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>Show</span>)]</span>
-<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>CloseData</span> {
 	<span class='doccomment'>/// The status-code of the CloseData</span>
 	<span class='kw'>pub</span> <span class='ident'>status_code</span>: <span class='ident'>u16</span>,

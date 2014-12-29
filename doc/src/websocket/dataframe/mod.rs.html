@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\dataframe\mod.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\dataframe\mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -80,15 +80,14 @@
 <span id='38'>38</span>
 <span id='39'>39</span>
 <span id='40'>40</span>
-<span id='41'>41</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Structs for dealing with WebSocket data frames</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>opcode</span>::<span class='ident'>WebSocketOpcode</span>;
+<span class='attribute'>#[<span class='ident'>stable</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>opcode</span>::<span class='ident'>WebSocketOpcode</span>;
 
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>sender</span>::{<span class='ident'>WebSocketDataFrameSender</span>, <span class='ident'>WebSocketSender</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>receiver</span>::{<span class='ident'>WebSocketDataFrameReceiver</span>, <span class='ident'>WebSocketReceiver</span>};
-<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>converter</span>::{<span class='ident'>WebSocketDataFrameConverter</span>, <span class='ident'>WebSocketConverter</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>sender</span>::{<span class='ident'>DataFrameSender</span>, <span class='ident'>WebSocketSender</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>receiver</span>::{<span class='ident'>DataFrameReceiver</span>, <span class='ident'>WebSocketReceiver</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>converter</span>::{<span class='ident'>DataFrameConverter</span>, <span class='ident'>WebSocketConverter</span>};
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>mask</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>opcode</span>;
@@ -113,7 +112,6 @@
 
 <span class='kw'>impl</span> <span class='ident'>WebSocketDataFrame</span> {
 	<span class='doccomment'>/// Creates a new WebSocketDataFrame.</span>
-	<span class='attribute'>#[<span class='ident'>stable</span>]</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>finished</span>: <span class='ident'>bool</span>, <span class='ident'>opcode</span>: <span class='ident'>WebSocketOpcode</span>, <span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketDataFrame</span> {
 		<span class='ident'>WebSocketDataFrame</span> {
 			<span class='ident'>finished</span>: <span class='ident'>finished</span>,

@@ -44,7 +44,7 @@
 <h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>websocket</a>::<wbr><a href='../index.html'>dataframe</a>::<wbr><a href='index.html'>raw</a>::<wbr><a class='enum' href=''>DataFrameLength</a><wbr><a class='stability Stable' title=''>Stable</a></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-5239' href='../../../src/websocket/dataframe/raw.rs.html#163-170'>[src]</a></span></h1>
+        </span><a id='src-5040' href='../../../src/websocket/dataframe/raw.rs.html#164-171'>[src]</a></span></h1>
 <pre class='rust enum'>pub enum DataFrameLength {
     Tiny(<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>),
     Short(<a href='http://doc.rust-lang.org/nightly/std/primitive.u16.html'>u16</a>),
@@ -54,7 +54,7 @@
 <table><tr><td id='variant.Tiny'><a class='stability Unstable' title='Unstable'></a><code>Tiny</code></td><td><div class='docblock'><p>Data frame lengths less than 126</p>
 </div></td></tr><tr><td id='variant.Short'><a class='stability Unstable' title='Unstable'></a><code>Short</code></td><td><div class='docblock'><p>Data frame lengths between 126 and 65535</p>
 </div></td></tr><tr><td id='variant.Long'><a class='stability Unstable' title='Unstable'></a><code>Long</code></td><td><div class='docblock'><p>Data frame lengths above 65535</p>
-</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unstable' title='Unstable'></a><code>impl <a class='enum' href='../../../websocket/dataframe/raw/enum.DataFrameLength.html' title='websocket::dataframe::raw::DataFrameLength'>DataFrameLength</a></code></h3><div class='impl-items'><h4 id='method.unwrap' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.unwrap' class='fnname'>unwrap</a>(self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a></code></h4>
+</div></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Stable' title='Stable'></a><code>impl <a class='enum' href='../../../websocket/dataframe/raw/enum.DataFrameLength.html' title='websocket::dataframe::raw::DataFrameLength'>DataFrameLength</a></code></h3><div class='impl-items'><h4 id='method.unwrap' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.unwrap' class='fnname'>unwrap</a>(self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a></code></h4>
 <div class='docblock'><p>Retrieve the underlying length as a uint</p>
 </div><h4 id='method.new' class='method'><a class='stability Stable' title='Stable'></a><code>fn <a href='#method.new' class='fnname'>new</a>(length: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>) -&gt; <a class='enum' href='../../../websocket/dataframe/raw/enum.DataFrameLength.html' title='websocket::dataframe::raw::DataFrameLength'>DataFrameLength</a></code></h4>
 <div class='docblock'><p>Create a new DataFrameLength</p>

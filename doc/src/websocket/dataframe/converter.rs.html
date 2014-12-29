@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\dataframe\converter.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\dataframe\converter.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>converter.rs.html -- source</title>
@@ -120,8 +120,6 @@
 <span id='78'>78</span>
 <span id='79'>79</span>
 <span id='80'>80</span>
-<span id='81'>81</span>
-<span id='82'>82</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Traits and structs related to conversion of data frames into messages</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
@@ -133,8 +131,7 @@
 <span class='doccomment'>/// A trait which allows the conversion of a series of data frames into a series of messages.</span>
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// Three functions are required for functionality, and WebSocketConverter is the default implementation.</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>WebSocketDataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> : <span class='ident'>Send</span> {
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> : <span class='ident'>Send</span> {
 	<span class='doccomment'>/// Creates a new data frame converter.</span>
 	<span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>Self</span>;
 	<span class='doccomment'>/// Pushes a data frame on to this converter for processing.</span>
@@ -152,15 +149,14 @@
 
 <span class='doccomment'>/// Default implementation of a converter that takes WebSocketDataFrames and produces WebSocketMessages</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Send</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketConverter</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> {
 	<span class='ident'>opcode</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebSocketOpcode</span><span class='op'>&gt;</span>,
 	<span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
 	<span class='ident'>messages</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>WebSocketDataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> {
-	<span class='doccomment'>/// Creates a new WebSocketDataFrameConverter</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> {
+	<span class='doccomment'>/// Creates a new DataFrameConverter</span>
 	<span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='ident'>WebSocketConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketConverter</span> {
 			<span class='ident'>opcode</span>: <span class='prelude-val'>None</span>,

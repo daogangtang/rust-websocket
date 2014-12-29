@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket-rewrite\src\client\mod.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\Documents\GitHub\rust-websocket\src\client\mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -233,53 +233,32 @@
 <span id='191'>191</span>
 <span id='192'>192</span>
 <span id='193'>193</span>
-<span id='194'>194</span>
-<span id='195'>195</span>
-<span id='196'>196</span>
-<span id='197'>197</span>
-<span id='198'>198</span>
-<span id='199'>199</span>
-<span id='200'>200</span>
-<span id='201'>201</span>
-<span id='202'>202</span>
-<span id='203'>203</span>
-<span id='204'>204</span>
-<span id='205'>205</span>
-<span id='206'>206</span>
-<span id='207'>207</span>
-<span id='208'>208</span>
-<span id='209'>209</span>
-<span id='210'>210</span>
-<span id='211'>211</span>
-<span id='212'>212</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Structs for dealing with WebSocket clients</span>
-<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>stable</span>]</span>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
 
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>sender</span>::<span class='ident'>WebSocketDataFrameSender</span>;
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>receiver</span>::<span class='ident'>WebSocketDataFrameReceiver</span>;
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>converter</span>::<span class='ident'>WebSocketDataFrameConverter</span>;
-<span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>opcode</span>::<span class='ident'>WebSocketOpcode</span>;
+<span class='kw'>use</span> <span class='ident'>dataframe</span>::{<span class='ident'>DataFrameSender</span>, <span class='ident'>DataFrameReceiver</span>, <span class='ident'>DataFrameConverter</span>};
 <span class='kw'>use</span> <span class='ident'>dataframe</span>::<span class='ident'>WebSocketDataFrame</span>;
 <span class='kw'>use</span> <span class='ident'>message</span>::<span class='ident'>WebSocketMessaging</span>;
 <span class='kw'>use</span> <span class='ident'>common</span>::<span class='ident'>WebSocketResult</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>BytesContainer</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
 
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>incoming</span>::{<span class='ident'>IncomingDataFrames</span>, <span class='ident'>IncomingMessages</span>};
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>fragment</span>::{<span class='ident'>TextFragmentSender</span>, <span class='ident'>BinaryFragmentSender</span>};
 
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>incoming</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>fragment</span>;
 
 <span class='doccomment'>/// Represents a WebSocketClient which connects to a WebSocketServer. See the main library documentation for how to obtain a ```WebSocketClient```.</span>
 <span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Send</span>)]</span>
-<span class='attribute'>#[<span class='ident'>unstable</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>R</span>: <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>WebSocketDataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>E</span>: <span class='ident'>Reader</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>R</span>: <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>E</span>: <span class='ident'>Reader</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> {
 	<span class='ident'>sender</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span><span class='ident'>S</span><span class='op'>&gt;&gt;</span>,
 	<span class='ident'>receiver</span>: <span class='ident'>Arc</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span>(<span class='ident'>R</span>, <span class='ident'>C</span>)<span class='op'>&gt;&gt;</span>,
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>R</span>: <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>WebSocketDataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>E</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>R</span>, <span class='ident'>C</span>, <span class='ident'>E</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;</span> {
-	<span class='doccomment'>/// Create a WebSocketClient from the specified WebSocketDataFrameSender and WebSocketDataFrameReceiver.</span>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>R</span>: <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>E</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>R</span>, <span class='ident'>C</span>, <span class='ident'>E</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;</span> {
+	<span class='doccomment'>/// Create a WebSocketClient from the specified DataFrameSender and DataFrameReceiver.</span>
 	<span class='doccomment'>/// Not required for normal usage (used internally by ```WebSocketResponse```).</span>
 	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>sender</span>: <span class='ident'>S</span>, <span class='ident'>receiver</span>: <span class='ident'>R</span>, <span class='ident'>converter</span>: <span class='ident'>C</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>R</span>, <span class='ident'>C</span>, <span class='ident'>E</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;</span> {
 		<span class='ident'>WebSocketClient</span> {
@@ -336,65 +315,48 @@
 		<span class='ident'>IncomingMessages</span>::<span class='ident'>new</span>(<span class='self'>self</span>)
 	}
 	
-	<span class='doccomment'>/// Sends strings from an iterator immediately to the remote endpoint as a single (fragmented) message</span>
-	<span class='doccomment'>/// </span>
+	<span class='doccomment'>/// Sends a fragmented text message by returning a TextFragmentSender</span>
+	<span class='doccomment'>///</span>
 	<span class='doccomment'>/// ```no_run</span>
 	<span class='doccomment'>///# extern crate url;</span>
 	<span class='doccomment'>///# extern crate websocket;</span>
 	<span class='doccomment'>///# fn main() {</span>
 	<span class='doccomment'>///# use websocket::WebSocketRequest;</span>
 	<span class='doccomment'>///# use url::Url;</span>
-	<span class='doccomment'>///use websocket::client::fragment::string_fragmenter;</span>
-	<span class='doccomment'>///use std::thread::Thread;</span>
 	<span class='doccomment'>///# let url = Url::parse(&quot;ws://127.0.0.1:1234&quot;).unwrap();</span>
 	<span class='doccomment'>///# let request = WebSocketRequest::connect(url).unwrap();</span>
 	<span class='doccomment'>///# let response = request.send().unwrap();</span>
 	<span class='doccomment'>///# let mut client = response.begin();</span>
-	<span class='doccomment'>///let (mut writer, iterator) = string_fragmenter(); //Returns a writer and and iterator</span>
-	<span class='comment'>///// We write our data to the writer in another thread:</span>
-	<span class='doccomment'>///Thread::spawn(move || {</span>
-	<span class='doccomment'>///    writer.push(&quot;This &quot;);</span>
-	<span class='doccomment'>///    writer.push(&quot;is &quot;);</span>
-	<span class='doccomment'>///    writer.push(&quot;a &quot;);</span>
-	<span class='doccomment'>///    writer.push(&quot;fragmented &quot;);</span>
-	<span class='doccomment'>///    writer.push(&quot;message.&quot;);</span>
-	<span class='doccomment'>///    writer.finish();			</span>
-	<span class='doccomment'>///}).detach();</span>
-	<span class='comment'>///// Immediately starts sending the data</span>
-	<span class='doccomment'>///let _ = client.frag_send_text(iterator);</span>
+	<span class='doccomment'>///let mut fragment_sender = client.frag_send_text(&quot;This&quot;).unwrap();</span>
+	<span class='doccomment'>///let _ = fragment_sender.send(&quot;is &quot;);</span>
+	<span class='doccomment'>///let _ = fragment_sender.send(&quot;a &quot;);</span>
+	<span class='doccomment'>///let _ = fragment_sender.send(&quot;fragmented &quot;);</span>
+	<span class='doccomment'>///let _ = fragment_sender.finish(&quot;message.&quot;);</span>
 	<span class='doccomment'>///# }</span>
 	<span class='doccomment'>/// ```</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>frag_send_text</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>ToString</span>, <span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iterator</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>started</span> <span class='op'>=</span> <span class='boolval'>false</span>;
-		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iterator</span> <span class='op'>=</span> <span class='ident'>iterator</span>;
-		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>sender</span>.<span class='ident'>lock</span>();
-		<span class='kw'>for</span> <span class='ident'>string</span> <span class='kw'>in</span> <span class='ident'>iterator</span> {
-			<span class='kw'>let</span> <span class='ident'>dataframe</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrame</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>, <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>started</span> { <span class='ident'>WebSocketOpcode</span>::<span class='ident'>Text</span> } <span class='kw'>else</span> { <span class='ident'>WebSocketOpcode</span>::<span class='ident'>Continuation</span> }, <span class='ident'>string</span>.<span class='ident'>to_string</span>().<span class='ident'>into_bytes</span>());
-			<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>sender</span>.<span class='ident'>send_dataframe</span>(<span class='kw-2'>&amp;</span><span class='ident'>dataframe</span>));
-			<span class='ident'>started</span> <span class='op'>=</span> <span class='boolval'>true</span>;
-		}
-		<span class='kw'>if</span> <span class='ident'>started</span> {
-			<span class='kw'>let</span> <span class='ident'>dataframe</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrame</span>::<span class='ident'>new</span>(<span class='boolval'>true</span>, <span class='ident'>WebSocketOpcode</span>::<span class='ident'>Continuation</span>, <span class='ident'>Vec</span>::<span class='ident'>new</span>());
-			<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>sender</span>.<span class='ident'>send_dataframe</span>(<span class='kw-2'>&amp;</span><span class='ident'>dataframe</span>));
-		}
-		<span class='prelude-val'>Ok</span>(())
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>frag_send_text</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='ident'>ToString</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>text</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='ident'>TextFragmentSender</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span>, <span class='ident'>W</span><span class='op'>&gt;&gt;</span> {
+		<span class='ident'>TextFragmentSender</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>sender</span>.<span class='ident'>lock</span>(), <span class='ident'>text</span>)
 	}
 	
-	<span class='doccomment'>/// Sends binary data from an iterator immediately to the remote endpoint as a single (fragmented) message</span>
-	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>frag_send_bytes</span><span class='op'>&lt;</span><span class='ident'>I</span>: <span class='ident'>Iterator</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>iterator</span>: <span class='ident'>I</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
-		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>started</span> <span class='op'>=</span> <span class='boolval'>false</span>;
-		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iterator</span> <span class='op'>=</span> <span class='ident'>iterator</span>;
-		<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>sender</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>sender</span>.<span class='ident'>lock</span>();
-		<span class='kw'>for</span> <span class='ident'>data</span> <span class='kw'>in</span> <span class='ident'>iterator</span> {
-			<span class='kw'>let</span> <span class='ident'>dataframe</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrame</span>::<span class='ident'>new</span>(<span class='boolval'>false</span>, <span class='kw'>if</span> <span class='op'>!</span><span class='ident'>started</span> { <span class='ident'>WebSocketOpcode</span>::<span class='ident'>Text</span> } <span class='kw'>else</span> { <span class='ident'>WebSocketOpcode</span>::<span class='ident'>Continuation</span> }, <span class='ident'>data</span>);
-			<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>sender</span>.<span class='ident'>send_dataframe</span>(<span class='kw-2'>&amp;</span><span class='ident'>dataframe</span>));
-			<span class='ident'>started</span> <span class='op'>=</span> <span class='boolval'>true</span>;
-		}
-		<span class='kw'>if</span> <span class='ident'>started</span> {
-			<span class='kw'>let</span> <span class='ident'>dataframe</span> <span class='op'>=</span> <span class='ident'>WebSocketDataFrame</span>::<span class='ident'>new</span>(<span class='boolval'>true</span>, <span class='ident'>WebSocketOpcode</span>::<span class='ident'>Continuation</span>, <span class='ident'>Vec</span>::<span class='ident'>new</span>());
-			<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>sender</span>.<span class='ident'>send_dataframe</span>(<span class='kw-2'>&amp;</span><span class='ident'>dataframe</span>));
-		}
-		<span class='prelude-val'>Ok</span>(())
+	<span class='doccomment'>/// Sends a fragmented binary message by returning a BinaryFragmentSender</span>
+	<span class='doccomment'>///</span>
+	<span class='doccomment'>/// ```no_run</span>
+	<span class='doccomment'>///# extern crate url;</span>
+	<span class='doccomment'>///# extern crate websocket;</span>
+	<span class='doccomment'>///# fn main() {</span>
+	<span class='doccomment'>///# use websocket::WebSocketRequest;</span>
+	<span class='doccomment'>///# use url::Url;</span>
+	<span class='doccomment'>///# let url = Url::parse(&quot;ws://127.0.0.1:1234&quot;).unwrap();</span>
+	<span class='doccomment'>///# let request = WebSocketRequest::connect(url).unwrap();</span>
+	<span class='doccomment'>///# let response = request.send().unwrap();</span>
+	<span class='doccomment'>///# let mut client = response.begin();</span>
+	<span class='doccomment'>///let mut fragment_sender = client.frag_send_bytes(&quot;ascii_bytes&quot;).unwrap();</span>
+	<span class='doccomment'>///let _ = fragment_sender.send([100u8, ..4].as_slice());</span>
+	<span class='doccomment'>///let _ = fragment_sender.finish(vec![4u8, 2, 68, 24]);</span>
+	<span class='doccomment'>///# }</span>
+	<span class='doccomment'>/// ```</span>
+	<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>frag_send_bytes</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='ident'>BytesContainer</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>data</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>WebSocketResult</span><span class='op'>&lt;</span><span class='ident'>BinaryFragmentSender</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>S</span>, <span class='ident'>W</span><span class='op'>&gt;&gt;</span> {
+		<span class='ident'>BinaryFragmentSender</span>::<span class='ident'>new</span>(<span class='self'>self</span>.<span class='ident'>sender</span>.<span class='ident'>lock</span>(), <span class='ident'>data</span>)
 	}
 	
 	<span class='doccomment'>/// Sends a WebSocketMessage. Blocks the task until the message has been sent.</span>
@@ -451,7 +413,7 @@
 	}
 }
 
-<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>WebSocketDataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>R</span>: <span class='ident'>WebSocketDataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>WebSocketDataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>E</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>R</span>, <span class='ident'>C</span>, <span class='ident'>E</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;</span> {
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>S</span>: <span class='ident'>DataFrameSender</span><span class='op'>&lt;</span><span class='ident'>W</span><span class='op'>&gt;</span>, <span class='ident'>R</span>: <span class='ident'>DataFrameReceiver</span><span class='op'>&lt;</span><span class='ident'>E</span><span class='op'>&gt;</span>, <span class='ident'>C</span>: <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>, <span class='ident'>E</span>: <span class='ident'>Reader</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span> <span class='op'>+</span> <span class='ident'>Send</span>, <span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>Clone</span> <span class='kw'>for</span> <span class='ident'>WebSocketClient</span><span class='op'>&lt;</span><span class='ident'>S</span>, <span class='ident'>R</span>, <span class='ident'>C</span>, <span class='ident'>E</span>, <span class='ident'>W</span>, <span class='ident'>M</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Clone this WebSocketClient, allowing for concurrent operations on a single stream.</span>
 	<span class='doccomment'>/// </span>
 	<span class='doccomment'>/// All cloned clients refer to the same underlying stream. Simultaneous reads will not</span>
