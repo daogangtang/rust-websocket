@@ -148,6 +148,8 @@
 <span id='106'>106</span>
 <span id='107'>107</span>
 <span id='108'>108</span>
+<span id='109'>109</span>
+<span id='110'>110</span>
 </pre><pre class='rust '>
 <span class='doccomment'>//! Provides a way to deal with WebSocket messages</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
@@ -169,7 +171,7 @@
 }
 
 <span class='doccomment'>/// Represents a WebSocket message.</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>Show</span>, <span class='ident'>Send</span>)]</span>
+<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>, <span class='ident'>Show</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>WebSocketMessage</span> {
 	<span class='doccomment'>/// A message containing UTF-8 text data</span>
 	<span class='ident'>Text</span>(<span class='ident'>String</span>),
@@ -186,6 +188,8 @@
 	<span class='doccomment'>/// containing the same data as the received ping message.</span>
 	<span class='ident'>Pong</span>(<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>),
 }
+
+<span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>Send</span> <span class='kw'>for</span> <span class='ident'>WebSocketMessage</span> {}
 
 <span class='kw'>impl</span> <span class='ident'>WebSocketMessaging</span> <span class='kw'>for</span> <span class='ident'>WebSocketMessage</span> {
 	<span class='doccomment'>/// Create a new WebSocketMessage from the given opcode and data</span>

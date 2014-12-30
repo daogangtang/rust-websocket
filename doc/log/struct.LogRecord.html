@@ -44,11 +44,11 @@
 <h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>log</a>::<wbr><a class='struct' href=''>LogRecord</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]
             </a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-1514' href='../src/log/lib.rs.html#320-336'>[src]</a></span></h1>
+        </span><a id='src-1465' href='../src/log/lib.rs.html#320-336'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct LogRecord&lt;'a&gt; {
     pub module_path: &amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
     pub level: <a class='struct' href='../log/struct.LogLevel.html' title='log::LogLevel'>LogLevel</a>,
-    pub args: &amp;'a <a class='struct' href='http://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html' title='core::fmt::Arguments'>Arguments</a>&lt;'a&gt;,
+    pub args: <a class='struct' href='http://doc.rust-lang.org/nightly/core/fmt/struct.Arguments.html' title='core::fmt::Arguments'>Arguments</a>&lt;'a&gt;,
     pub file: &amp;'a <a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>,
     pub line: <a href='http://doc.rust-lang.org/nightly/std/primitive.uint.html'>uint</a>,
 }</pre><div class='docblock'><p>A LogRecord is created by the logging macros, and passed as the only

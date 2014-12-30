@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\.cargo\registry\src\github.com-1ecc6299db9ec823\url-0.2.8\src\parser.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\.cargo\registry\src\github.com-1ecc6299db9ec823\url-0.2.9\src\parser.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>parser.rs.html -- source</title>
@@ -967,7 +967,7 @@
         <span class='kw'>match</span> <span class='ident'>c</span> {
             <span class='string'>&#39;a&#39;</span>...<span class='string'>&#39;z&#39;</span> <span class='op'>|</span> <span class='string'>&#39;A&#39;</span>...<span class='string'>&#39;Z&#39;</span> <span class='op'>|</span> <span class='string'>&#39;0&#39;</span>...<span class='string'>&#39;9&#39;</span> <span class='op'>|</span> <span class='string'>&#39;+&#39;</span> <span class='op'>|</span> <span class='string'>&#39;-&#39;</span> <span class='op'>|</span> <span class='string'>&#39;.&#39;</span> <span class='op'>=&gt;</span> (),
             <span class='string'>&#39;:&#39;</span> <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>((
-                <span class='ident'>input</span>.<span class='ident'>slice_to</span>(<span class='ident'>i</span>).<span class='ident'>to_ascii_lower</span>(),
+                <span class='ident'>input</span>.<span class='ident'>slice_to</span>(<span class='ident'>i</span>).<span class='ident'>to_ascii_lowercase</span>(),
                 <span class='ident'>input</span>.<span class='ident'>slice_from</span>(<span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>),
             )),
             _ <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>None</span>,
@@ -975,7 +975,7 @@
     }
     <span class='comment'>// EOF before &#39;:&#39;</span>
     <span class='kw'>match</span> <span class='ident'>context</span> {
-        <span class='ident'>Context</span>::<span class='ident'>Setter</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>((<span class='ident'>input</span>.<span class='ident'>to_ascii_lower</span>(), <span class='string'>&quot;&quot;</span>)),
+        <span class='ident'>Context</span>::<span class='ident'>Setter</span> <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>((<span class='ident'>input</span>.<span class='ident'>to_ascii_lowercase</span>(), <span class='string'>&quot;&quot;</span>)),
         <span class='ident'>Context</span>::<span class='ident'>UrlParser</span> <span class='op'>=&gt;</span> <span class='prelude-val'>None</span>
     }
 }

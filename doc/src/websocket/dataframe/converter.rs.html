@@ -148,12 +148,12 @@
 }
 
 <span class='doccomment'>/// Default implementation of a converter that takes WebSocketDataFrames and produces WebSocketMessages</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Send</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketConverter</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> {
 	<span class='ident'>opcode</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>WebSocketOpcode</span><span class='op'>&gt;</span>,
 	<span class='ident'>data</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>,
 	<span class='ident'>messages</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span>,
 }
+<span class='kw'>unsafe</span> <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>Send</span> <span class='kw'>for</span> <span class='ident'>WebSocketConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> {}
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>M</span>: <span class='ident'>WebSocketMessaging</span><span class='op'>&gt;</span> <span class='ident'>DataFrameConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>WebSocketConverter</span><span class='op'>&lt;</span><span class='ident'>M</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// Creates a new DataFrameConverter</span>

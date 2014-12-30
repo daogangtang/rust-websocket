@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\.cargo\registry\src\github.com-1ecc6299db9ec823\hyper-0.0.17\src\lib.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\.cargo\registry\src\github.com-1ecc6299db9ec823\hyper-0.0.18\src\lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -320,7 +320,7 @@
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! ## Internal Design</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! Hyper is designed as a relatively low-level wrapped over raw HTTP. It should</span>
+<span class='doccomment'>//! Hyper is designed as a relatively low-level wrapper over raw HTTP. It should</span>
 <span class='doccomment'>//! allow the implementation of higher-level abstractions with as little pain as</span>
 <span class='doccomment'>//! possible, and should not irrevocably hide any information from its users.</span>
 <span class='doccomment'>//!</span>
@@ -461,7 +461,7 @@
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>todo</span>(
     ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>arg</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> (<span class='kw'>if</span> <span class='macro'>cfg</span><span class='macro'>!</span>(<span class='ident'>not</span>(<span class='ident'>ndebug</span>)) {
-        <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='op'>|</span><span class='ident'>args</span><span class='op'>|</span> <span class='macro'>log</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='string'>&quot;TODO: {}&quot;</span>, <span class='ident'>args</span>), $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>arg</span>)<span class='op'>*</span>)
+        <span class='macro'>log</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='string'>&quot;TODO: {}&quot;</span>, <span class='macro'>format_args</span><span class='macro'>!</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>arg</span>)<span class='op'>*</span>))
     })
 );
 
@@ -477,7 +477,7 @@
 
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>trace</span>(
     ($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>arg</span>:<span class='ident'>tt</span>)<span class='op'>*</span>) <span class='op'>=&gt;</span> (<span class='kw'>if</span> <span class='macro'>cfg</span><span class='macro'>!</span>(<span class='ident'>not</span>(<span class='ident'>ndebug</span>)) {
-        <span class='macro'>format_args</span><span class='macro'>!</span>(<span class='op'>|</span><span class='ident'>args</span><span class='op'>|</span> <span class='macro'>log</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='string'>&quot;{}\n{}&quot;</span>, <span class='ident'>args</span>, ::<span class='ident'>Trace</span>), $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>arg</span>)<span class='op'>*</span>)
+        <span class='macro'>log</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='string'>&quot;{}\n{}&quot;</span>, <span class='macro'>format_args</span><span class='macro'>!</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>arg</span>)<span class='op'>*</span>), ::<span class='ident'>Trace</span>)
     })
 );
 

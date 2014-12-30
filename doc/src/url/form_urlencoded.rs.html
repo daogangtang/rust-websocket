@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `C:\Users\Jason\.cargo\registry\src\github.com-1ecc6299db9ec823\url-0.2.8\src\form_urlencoded.rs`.">
+    <meta name="description" content="Source to the Rust file `C:\Users\Jason\.cargo\registry\src\github.com-1ecc6299db9ec823\url-0.2.9\src\form_urlencoded.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>form_urlencoded.rs.html -- source</title>
@@ -198,6 +198,7 @@
 <span id='156'>156</span>
 <span id='157'>157</span>
 <span id='158'>158</span>
+<span id='159'>159</span>
 </pre><pre class='rust '>
 <span class='comment'>// Copyright 2013-2014 Simon Sapin.</span>
 <span class='comment'>//</span>
@@ -214,6 +215,7 @@
 <span class='doccomment'>//! Converts between a string (such as an URL’s query string)</span>
 <span class='doccomment'>//! and a sequence of (name, value) pairs.</span>
 
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ascii</span>::<span class='ident'>AsciiExt</span>;
 <span class='kw'>use</span> <span class='ident'>encoding</span>::<span class='ident'>EncodingOverride</span>;
 <span class='kw'>use</span> <span class='ident'>percent_encoding</span>::{<span class='ident'>percent_encode_to</span>, <span class='ident'>percent_decode</span>, <span class='ident'>FORM_URLENCODED_ENCODE_SET</span>};
 

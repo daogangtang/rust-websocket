@@ -337,7 +337,6 @@
 <span id='295'>295</span>
 <span id='296'>296</span>
 <span id='297'>297</span>
-<span id='298'>298</span>
 </pre><pre class='rust '>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>unstable</span>]</span>
 <span class='doccomment'>//! Structs for WebSocket requests</span>
@@ -368,7 +367,6 @@
 <span class='doccomment'>/// </span>
 <span class='doccomment'>/// The headers field allows access to the HTTP headers in the request, but short-cut methods are</span>
 <span class='doccomment'>/// available for accessing common headers.</span>
-<span class='attribute'>#[<span class='ident'>deriving</span>(<span class='ident'>Send</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WebSocketRequest</span><span class='op'>&lt;</span><span class='ident'>R</span>: <span class='ident'>Reader</span>, <span class='ident'>W</span>: <span class='ident'>Writer</span>, <span class='ident'>B</span><span class='op'>&gt;</span> {
 	<span class='doccomment'>/// The target URI for this request.</span>
     <span class='kw'>pub</span> <span class='ident'>url</span>: <span class='ident'>RequestUri</span>,
